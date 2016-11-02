@@ -482,6 +482,9 @@ MonoBehaviour:
   model: {fileID: 23000013796346320}
   fpsController: {fileID: 114000014057350680}
   fpsCamera: {fileID: 20000011091536058}
+  sounds: []
+  effects:
+  - {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
 --- !u!114 &114000011237855002
 MonoBehaviour:
   m_ObjectHideFlags: 1

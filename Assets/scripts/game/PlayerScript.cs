@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using UnityStandardAssets.Characters.FirstPerson;
 using System;
+using System.Collections.Generic;
 
 public class PlayerScript : NetworkBehaviour
 {
@@ -12,6 +13,10 @@ public class PlayerScript : NetworkBehaviour
   public MeshRenderer model;
   public RigidbodyFirstPersonController fpsController;
   public Camera fpsCamera;
+
+  [Header("SFX")]
+  public List<AudioClip> sounds;
+  public List<GameObject> effects;
 
   [Header("Data")]
   [SyncVar]
@@ -190,6 +195,7 @@ public class PlayerScript : NetworkBehaviour
         if (number == booth.currentTicketNumber)
         {
           // Yeepee!
+          RpcPlayEffect("explosion", booth.transform.position);
           Debug.Log("Ticket used!");
 
           tickets.RemoveFor(booth.boothId);
@@ -198,12 +204,49 @@ public class PlayerScript : NetworkBehaviour
         }
         else
         {
+          RpcPlayEffect("explosion", booth.transform.position);
           Debug.Log("Wrong or missing ticket!");
         }
       }
       else
       {
+        RpcPlayEffect("explosion", booth.transform.position);
         Debug.Log("Booth is busy");
+      }
+    }
+  }
+
+  [ClientRpc]
+  public void RpcPlayEffect(string effectName, Vector3 effectPosition)
+  {
+    PlayEffect(effectName, effectPosition);
+  }
+
+  public void PlayEffect(string effectName, Vector3 effectPosition)
+  {
+    foreach (var e in effects)
+    {
+      if (e.name.Equals(effectName, StringComparison.InvariantCultureIgnoreCase))
+      {
+        Instantiate(e, effectPosition, Quaternion.identity);
+        break;
+      }
+    }
+  }
+
+  [ClientRpc]
+  public void RpcPlaySound(string sound, Vector3 position)
+  {
+    PlaySound(sound, position);
+  }
+
+  public void PlaySound(string sound, Vector3 position)
+  {
+    foreach (var s in sounds)
+    {
+      if (s.name.Equals(sound, StringComparison.InvariantCultureIgnoreCase))
+      {
+        AudioSource.PlayClipAtPoint(s, position);
       }
     }
   }
