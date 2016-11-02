@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -36,6 +37,9 @@ public class BoothScript : NetworkBehaviour
   [SyncVar]
   public float ticketWaitCooldown;
 
+  [SyncVar]
+  public bool busy;
+
   #endregion
 
   #region Timeline
@@ -61,12 +65,11 @@ public class BoothScript : NetworkBehaviour
 
     boothId = (int)(netId.Value * 100) + Random.Range(0, 99);
     boothName = ((char)('A' + Random.Range(0, 26))).ToString() + "-" + boothId.ToString("000");
-    boothNumberDisplay.text = boothName;
   }
 
   void Update()
   {
-    UpdateNumber();
+    UpdateDisplays();
 
     UpdateServer();
   }
@@ -74,11 +77,14 @@ public class BoothScript : NetworkBehaviour
   [ServerCallback]
   void UpdateServer()
   {
-    ticketWaitCooldown -= Time.deltaTime;
-    if (ticketWaitCooldown < 0)
+    if (busy == false)
     {
-      // Next ticket
-      NextTicket();
+      ticketWaitCooldown -= Time.deltaTime;
+      if (ticketWaitCooldown < 0)
+      {
+        // Next ticket
+        NextTicket();
+      }
     }
   }
 
@@ -86,14 +92,16 @@ public class BoothScript : NetworkBehaviour
 
   #region Methods
 
-  private void UpdateNumber()
+  private void UpdateDisplays()
   {
     ticketDisplay.text = currentTicketNumber.ToString("00");
+    boothNumberDisplay.text = boothName;
   }
 
   [Server]
   private void NextTicket()
   {
+    busy = false;
     ticketWaitCooldown = waitBetweenTickets;
 
     if (currentTicketNumber < lastTicketNumber)

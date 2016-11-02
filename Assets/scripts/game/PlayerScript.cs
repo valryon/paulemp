@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Linq;
 using UnityStandardAssets.Characters.FirstPerson;
+using System;
 
 public class PlayerScript : NetworkBehaviour
 {
@@ -165,6 +166,44 @@ public class PlayerScript : NetworkBehaviour
         {
           ticket.Destroy();
         }
+      }
+    }
+  }
+
+  [Client]
+  public void RequestCheckTicket(BoothScript booth)
+  {
+    CmdCheckTicket(booth.netId);
+  }
+
+  [Command]
+  private void CmdCheckTicket(NetworkInstanceId id)
+  {
+    GameObject b = NetworkServer.FindLocalObject(id);
+    if (b != null)
+    {
+      BoothScript booth = b.GetComponent<BoothScript>();
+
+      if (booth != null && booth.busy == false)
+      {
+        int number = tickets.GetFor(booth.boothId);
+        if (number == booth.currentTicketNumber)
+        {
+          // Yeepee!
+          Debug.Log("Ticket used!");
+
+          tickets.RemoveFor(booth.boothId);
+
+          booth.busy = true;
+        }
+        else
+        {
+          Debug.Log("Wrong or missing ticket!");
+        }
+      }
+      else
+      {
+        Debug.Log("Booth is busy");
       }
     }
   }

@@ -99,7 +99,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 56555709}
   - 65: {fileID: 56555708}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 175301691}
   - 65: {fileID: 175301690}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   - 33: {fileID: 326731975}
   - 65: {fileID: 326731974}
   - 23: {fileID: 326731973}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -984,7 +984,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1629240345}
   - 65: {fileID: 1629240344}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1098,7 +1098,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2057390519}
   - 65: {fileID: 2057390518}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -25,6 +25,30 @@ public class TicketList : SyncListStruct<TicketData>
 
     return t;
   }
+
+  public int GetFor(int boothId)
+  {
+    foreach (var ticket in this)
+    {
+      if (ticket.booth == boothId)
+      {
+        return ticket.number;
+      }
+    }
+    return -1;
+  }
+
+  public void RemoveFor(int boothId)
+  {
+    foreach (var ticket in this)
+    {
+      if (ticket.booth == boothId)
+      {
+        Remove(ticket);
+        break;
+      }
+    }
+  }
 }
 
 public class TicketScript : NetworkBehaviour
