@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 using System.Linq;
 using UnityStandardAssets.Characters.FirstPerson;
 
@@ -8,9 +7,14 @@ public class PlayerScript : NetworkBehaviour
 {
   #region Members
 
+  [Header("Bindings")]
   public MeshRenderer model;
   public FirstPersonController fpsController;
   public Camera fpsCamera;
+
+  [Header("Data")]
+  [SyncVar]
+  public TicketList tickets = new TicketList();
 
   #endregion
 
@@ -121,7 +125,36 @@ public class PlayerScript : NetworkBehaviour
       var ticket = t.GetComponent<TicketScript>();
       if (ticket != null)
       {
-        ticket.Destroy();
+        // Add ticket to inventory
+
+        // -- Make sure we only have one ticket for a given booth
+        bool recycle = false;
+        TicketData recycleData = new TicketData();
+
+        foreach(var it in tickets)
+        {
+          if(it.booth == ticket.data.booth)
+          {
+            recycle = true;
+            recycleData = it;
+
+            tickets.Remove(it);
+            break;
+          }
+        }
+
+        // Add current ticket data
+        tickets.Add(ticket.data);
+
+        // Recycle old ticket?
+        if (recycle)
+        {
+          ticket.Recycle(recycleData, transform.position + (transform.forward), transform.forward);
+        }
+        else
+        {
+          ticket.Destroy();
+        }
       }
     }
   }

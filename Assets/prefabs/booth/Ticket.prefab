@@ -161,7 +161,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 4, z: 1}
+  m_Size: {x: 1, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114000010896561666
 MonoBehaviour:
@@ -329,9 +329,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3f7489c71ff71489bebae67bffdb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booth: 0
-  number: 0
   numberText: {fileID: 114000010896561666}
+  data:
+    booth: 0
+    number: 0
+  picked: 0
 --- !u!135 &135000012068450872
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -342,7 +344,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!222 &222000011192039708
 CanvasRenderer:

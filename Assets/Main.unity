@@ -423,6 +423,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013761903566, guid: 6a82804ae4e26e94ba90b1fd6acd2075,
+        type: 2}
+      propertyPath: waitBetweenTickets
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a82804ae4e26e94ba90b1fd6acd2075, type: 2}
   m_IsPrefabParent: 0

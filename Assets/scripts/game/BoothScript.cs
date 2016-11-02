@@ -102,8 +102,8 @@ public class BoothScript : NetworkBehaviour
     var ticket = Instantiate(ticketPrefab, ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
 
     TicketScript tscript = ticket.GetComponent<TicketScript>();
-    tscript.booth = boothId;
-    tscript.number = lastTicketNumber;
+    tscript.data.booth = boothId;
+    tscript.data.number = lastTicketNumber;
 
     Rigidbody rbody = ticket.GetComponent<Rigidbody>();
     rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
