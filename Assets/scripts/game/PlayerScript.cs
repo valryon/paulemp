@@ -9,7 +9,7 @@ public class PlayerScript : NetworkBehaviour
 
   [Header("Bindings")]
   public MeshRenderer model;
-  public FirstPersonController fpsController;
+  public RigidbodyFirstPersonController fpsController;
   public Camera fpsCamera;
 
   [Header("Data")]
@@ -94,7 +94,6 @@ public class PlayerScript : NetworkBehaviour
       }
     }
   }
-
   #endregion
 
   #region RPC
