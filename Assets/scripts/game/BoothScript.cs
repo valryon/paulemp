@@ -97,7 +97,7 @@ public class BoothScript : NetworkBehaviour
   [Server]
   public void PrintTicket()
   {
-    lastTicketNumber += Random.Range(3, 10);
+    lastTicketNumber += Random.Range(1, 3);
 
     var ticket = Instantiate(ticketPrefab, ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
 
