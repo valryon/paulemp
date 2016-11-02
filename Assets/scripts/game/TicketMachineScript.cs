@@ -17,7 +17,7 @@ public class TicketMachineScript : MonoBehaviour
 
   void Interact(PlayerScript p)
   {
-    booth.RequestTicket();
+    p.RequestTicket(booth);
   }
 
   #endregion

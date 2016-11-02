@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Linq;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class PlayerScript : NetworkBehaviour
@@ -32,9 +33,18 @@ public class PlayerScript : NetworkBehaviour
 
   void Update()
   {
-    if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+    UpdateClient();
+  }
+
+  [ClientCallback]
+  void UpdateClient()
+  {
+    if (isLocalPlayer)
     {
-      Interact();
+      if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+      {
+        Interact();
+      }
     }
   }
 
@@ -65,6 +75,31 @@ public class PlayerScript : NetworkBehaviour
           hit.collider.gameObject.SendMessage("Interact", this, SendMessageOptions.DontRequireReceiver);
         }
       }
+    }
+  }
+
+  #endregion
+
+  #region RPC
+
+  [Client]
+  public void RequestTicket(BoothScript booth)
+  {
+    // Player requested a ticket
+    // Send a command to the server
+    // Needs to be done HERE as a Command can only be called for local authority / player
+    CmdPrintTicket(booth.boothId);
+  }
+
+  [Command]
+  private void CmdPrintTicket(int boothId)
+  {
+    var booths = FindObjectsOfType<BoothScript>();
+    var booth = booths.Where(b => b.boothId == boothId).FirstOrDefault();
+
+    if (booth != null)
+    {
+      booth.PrintTicket();
     }
   }
 

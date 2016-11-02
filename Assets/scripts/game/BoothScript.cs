@@ -34,7 +34,7 @@ public class BoothScript : NetworkBehaviour
 
   #region Timeline
 
-  [Server]
+  [ServerCallback]
   void Start()
   {
     // Create PNJ
@@ -63,7 +63,7 @@ public class BoothScript : NetworkBehaviour
     UpdateServer();
   }
 
-  [Server]
+  [ServerCallback]
   void UpdateServer()
   {
     ticketWaitCooldown -= Time.deltaTime;
@@ -83,7 +83,7 @@ public class BoothScript : NetworkBehaviour
     ticketDisplay.text = currentTicketNumber.ToString("00");
   }
 
-  [ServerCallback]
+  [Server]
   private void NextTicket()
   {
     ticketWaitCooldown = waitBetweenTickets;
@@ -94,21 +94,7 @@ public class BoothScript : NetworkBehaviour
     }
   }
 
-  [Client]
-  public void RequestTicket()
-  {
-    // Player requested a ticket
-    // Send a command to the server
-    CmdPrintTicket();
-  }
-
-  [Command]
-  private void CmdPrintTicket()
-  {
-    PrintTicket();
-  }
-
-  [ServerCallback]
+  [Server]
   public void PrintTicket()
   {
     lastTicketNumber += Random.Range(3, 10);
