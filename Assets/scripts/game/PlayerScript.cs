@@ -73,6 +73,8 @@ public class PlayerScript : NetworkBehaviour
         {
           Debug.Log("INTERACT " + hit.collider.gameObject);
           hit.collider.gameObject.SendMessage("Interact", this, SendMessageOptions.DontRequireReceiver);
+
+          break;
         }
       }
     }
@@ -100,6 +102,27 @@ public class PlayerScript : NetworkBehaviour
     if (booth != null)
     {
       booth.PrintTicket();
+    }
+  }
+
+  [Client]
+  public void RequestPickTicket(TicketScript t)
+  {
+    CmdPickTicket(t.netId.Value);
+  }
+
+  [Command]
+  private void CmdPickTicket(uint ticketId)
+  {
+    var t = NetworkServer.FindLocalObject(new NetworkInstanceId(ticketId));
+
+    if (t != null)
+    {
+      var ticket = t.GetComponent<TicketScript>();
+      if (ticket != null)
+      {
+        ticket.Destroy();
+      }
     }
   }
 
