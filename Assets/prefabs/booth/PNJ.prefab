@@ -24,6 +24,7 @@ GameObject:
   - 23: {fileID: 23000012316408916}
   - 54: {fileID: 54000014123000440}
   - 114: {fileID: 114000013938281384}
+  - 114: {fileID: 114000011899299960}
   m_Layer: 0
   m_Name: PNJ
   m_TagString: Untagged
@@ -365,8 +366,20 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!114 &114000011899299960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011313921152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af4d05db125992140b5fc84b594fb5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booth: {fileID: 0}
 --- !u!114 &114000013938281384
 MonoBehaviour:
   m_ObjectHideFlags: 1
