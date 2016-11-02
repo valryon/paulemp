@@ -38,8 +38,6 @@ public class PlayerScript : NetworkBehaviour
       // Remote player = remove FPS Controller, keep model
       Destroy(fpsCamera.gameObject);
       Destroy(fpsController);
-
-      Destroy(ui.gameObject);
     }
   }
 
