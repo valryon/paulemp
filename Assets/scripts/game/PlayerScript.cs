@@ -26,6 +26,8 @@ public class PlayerScript : NetworkBehaviour
   {
     ui = PlayerUIScript.Instance;
 
+    this.name = "Player #" + netId.Value.ToString();
+
     if (isLocalPlayer)
     {
       // Local player = remove model / FPS view
@@ -33,6 +35,8 @@ public class PlayerScript : NetworkBehaviour
 
       ui.player = this;
       ui.gameObject.SetActive(true);
+
+      this.name += " (Local)";
     }
     else
     {
