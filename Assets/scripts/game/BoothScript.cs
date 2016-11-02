@@ -74,7 +74,15 @@ public class BoothScript : NetworkBehaviour
   [ServerCallback]
   public void PrintTicket()
   {
-    var ticket = Instantiate(ticketPrefab, ticketMachine.transform.position + new Vector3(0, 15, 0), Quaternion.identity) as GameObject;
+    var ticket = Instantiate(ticketPrefab, ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
+
+    TicketScript tscript = ticket.GetComponent<TicketScript>();
+    tscript.booth = boothId;
+    tscript.number = currentNumber;
+
+    Rigidbody rbody = ticket.GetComponent<Rigidbody>();
+    rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
+
     NetworkServer.Spawn(ticket);
 
     currentNumber++;

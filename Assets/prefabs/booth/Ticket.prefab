@@ -54,11 +54,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013285377026}
   - 33: {fileID: 33000010220406918}
-  - 65: {fileID: 65000014285391358}
   - 23: {fileID: 23000011229087764}
   - 54: {fileID: 54000011289519606}
   - 114: {fileID: 114000012349376056}
   - 114: {fileID: 114000013400519420}
+  - 114: {fileID: 114000012376055016}
+  - 65: {fileID: 65000012101167256}
   m_Layer: 0
   m_Name: Ticket
   m_TagString: Untagged
@@ -149,7 +150,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65000014285391358
+--- !u!65 &65000012101167256
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -159,7 +160,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114000010896561666
 MonoBehaviour:
@@ -259,6 +260,26 @@ MonoBehaviour:
     i15: 228
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114000012376055016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013153964044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.11111111
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114000013133178610
 MonoBehaviour:
   m_ObjectHideFlags: 1
