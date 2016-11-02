@@ -14,6 +14,9 @@ public class BoothScript : NetworkBehaviour
   public Text ticketDisplay;
   public Text boothNumberDisplay;
 
+  [Header("QTE List")]
+  public QTEScript qteList;
+
   [Header("Gameplay")]
   public float waitBetweenTickets = 10f;
 
@@ -42,6 +45,8 @@ public class BoothScript : NetworkBehaviour
   {
     // Create PNJ
     var pnj = Instantiate(pnjPrefab, pnjLocation.position, pnjLocation.rotation) as GameObject;
+    AgentScript agent = pnj.GetComponent<AgentScript>();
+    agent.booth = this.gameObject;
     NetworkServer.Spawn(pnj);
 
     // Link ticket machine to booth
