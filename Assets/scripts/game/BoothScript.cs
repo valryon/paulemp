@@ -14,12 +14,21 @@ public class BoothScript : NetworkBehaviour
   public Text ticketDisplay;
   public Text boothNumberDisplay;
 
+  [Header("Gameplay")]
+  public float waitBetweenTickets = 10f;
+
   [Header("Data")]
   [SyncVar]
-  public int currentNumber;
+  public int lastTicketNumber;
+
+  [SyncVar]
+  public int currentTicketNumber;
 
   [SyncVar]
   public int boothId;
+
+  [SyncVar]
+  public float ticketWaitCooldown;
 
   #endregion
 
@@ -36,7 +45,11 @@ public class BoothScript : NetworkBehaviour
     ticketMachine.booth = this;
 
     // Set random ticket number
-    currentNumber = Random.Range(0, 99);
+    lastTicketNumber = Random.Range(10, 99);
+
+    // Agent always makes player wait
+    currentTicketNumber = lastTicketNumber - Random.Range(1, 10);
+    ticketWaitCooldown = waitBetweenTickets;
 
     // Set booth ID
     boothId = (int)netId.Value;
@@ -46,15 +59,39 @@ public class BoothScript : NetworkBehaviour
   void Update()
   {
     UpdateNumber();
+
+    UpdateServer();
+  }
+
+  [Server]
+  void UpdateServer()
+  {
+    ticketWaitCooldown -= Time.deltaTime;
+    if(ticketWaitCooldown < 0)
+    {
+      // Next ticket
+      NextTicket();
+    }
   }
 
   #endregion
 
   #region Methods
-
+  
   private void UpdateNumber()
   {
-    ticketDisplay.text = currentNumber.ToString("00");
+    ticketDisplay.text = currentTicketNumber.ToString("00");
+  }
+
+  [ServerCallback]
+  private void NextTicket()
+  {
+    ticketWaitCooldown = waitBetweenTickets;
+
+    if(currentTicketNumber < lastTicketNumber)
+    {
+      currentTicketNumber++;
+    }
   }
 
   [Client]
@@ -74,19 +111,18 @@ public class BoothScript : NetworkBehaviour
   [ServerCallback]
   public void PrintTicket()
   {
+    lastTicketNumber += Random.Range(3, 10);
+
     var ticket = Instantiate(ticketPrefab, ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
 
     TicketScript tscript = ticket.GetComponent<TicketScript>();
     tscript.booth = boothId;
-    tscript.number = currentNumber;
+    tscript.number = lastTicketNumber;
 
     Rigidbody rbody = ticket.GetComponent<Rigidbody>();
     rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
 
-    NetworkServer.Spawn(ticket);
-
-    currentNumber++;
-    
+    NetworkServer.Spawn(ticket);    
   }
 
   #endregion
