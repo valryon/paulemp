@@ -570,7 +570,7 @@ PlayerSettings:
   XboxOne::VR::enabledDevices: []
   iOS::VR::enabledDevices: []
   tvOS::VR::enabledDevices: []
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: dcec9c69-8de6-497c-aea2-86194cee6c80
+  projectName: Paulemp Simulator
+  organizationId: pixelnest
   cloudEnabled: 0
