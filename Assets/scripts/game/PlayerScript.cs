@@ -24,7 +24,7 @@ public class PlayerScript : NetworkBehaviour
 
   void Start()
   {
-    ui = FindObjectOfType<PlayerUIScript>();
+    ui = PlayerUIScript.Instance;
 
     if (isLocalPlayer)
     {
@@ -32,6 +32,7 @@ public class PlayerScript : NetworkBehaviour
       Destroy(model.gameObject);
 
       ui.player = this;
+      ui.gameObject.SetActive(true);
     }
     else
     {
@@ -53,7 +54,7 @@ public class PlayerScript : NetworkBehaviour
     {
       if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
       {
-        Interact();
+        DoInteract();
       }
     }
   }
@@ -64,7 +65,7 @@ public class PlayerScript : NetworkBehaviour
 
   private Ray raycast;
 
-  private void Interact()
+  private void DoInteract()
   {
     // Raycast from view
     raycast = new Ray(fpsCamera.transform.position, fpsCamera.transform.forward);
