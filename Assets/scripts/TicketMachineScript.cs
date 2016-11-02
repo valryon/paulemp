@@ -15,9 +15,10 @@ public class TicketMachineScript : MonoBehaviour
 
   #region Timeline
 
-  #endregion
-
-  #region Timeline
+  void Interact(PlayerScript p)
+  {
+    booth.RequestTicket();
+  }
 
   #endregion
 }
