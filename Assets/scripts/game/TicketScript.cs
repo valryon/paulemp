@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public struct TicketData
 {
+  public string name;
   public int booth;
   public int number;
   public System.DateTime printDate;
@@ -13,7 +14,17 @@ public struct TicketData
 
 public class TicketList : SyncListStruct<TicketData>
 {
+  public string ToReadableString()
+  {
+    string t = string.Empty;
 
+    foreach (var ticket in this)
+    {
+      t += ticket.name + " " + ticket.number + "\n";
+    }
+
+    return t;
+  }
 }
 
 public class TicketScript : NetworkBehaviour
@@ -22,6 +33,7 @@ public class TicketScript : NetworkBehaviour
 
   [Header("Bindings")]
   public Text numberText;
+  public Text boothText;
 
   [Header("Data")]
   [SyncVar]
@@ -41,7 +53,8 @@ public class TicketScript : NetworkBehaviour
   void Update()
   {
     ttl -= Time.deltaTime;
-    numberText.text = data.booth + "-" + data.number;
+    numberText.text = data.number.ToString();
+    boothText.text = data.name;
 
     if (ttl < 0f)
     {

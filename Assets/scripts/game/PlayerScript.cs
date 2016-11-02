@@ -16,22 +16,30 @@ public class PlayerScript : NetworkBehaviour
   [SyncVar]
   public TicketList tickets = new TicketList();
 
+  private PlayerUIScript ui;
+
   #endregion
 
   #region Timeline
 
   void Start()
   {
+    ui = FindObjectOfType<PlayerUIScript>();
+
     if (isLocalPlayer)
     {
       // Local player = remove model / FPS view
       Destroy(model.gameObject);
+
+      ui.player = this;
     }
     else
     {
       // Remote player = remove FPS Controller, keep model
       Destroy(fpsCamera.gameObject);
       Destroy(fpsController);
+
+      Destroy(ui.gameObject);
     }
   }
 
@@ -131,9 +139,9 @@ public class PlayerScript : NetworkBehaviour
         bool recycle = false;
         TicketData recycleData = new TicketData();
 
-        foreach(var it in tickets)
+        foreach (var it in tickets)
         {
-          if(it.booth == ticket.data.booth)
+          if (it.booth == ticket.data.booth)
           {
             recycle = true;
             recycleData = it;

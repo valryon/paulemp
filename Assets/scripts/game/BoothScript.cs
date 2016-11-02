@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class BoothScript : NetworkBehaviour
 {
   #region Members
-  
+
   [Header("Bindings")]
   public Transform pnjLocation;
   public GameObject pnjPrefab;
@@ -26,6 +26,9 @@ public class BoothScript : NetworkBehaviour
 
   [SyncVar]
   public int boothId;
+
+  [SyncVar]
+  public string boothName;
 
   [SyncVar]
   public float ticketWaitCooldown;
@@ -51,9 +54,9 @@ public class BoothScript : NetworkBehaviour
     currentTicketNumber = lastTicketNumber - Random.Range(1, 10);
     ticketWaitCooldown = waitBetweenTickets;
 
-    // Set booth ID
-    boothId = (int)netId.Value;
-    boothNumberDisplay.text = "E-" + boothId.ToString("00");
+    boothId = (int)(netId.Value * 100) + Random.Range(0, 99);
+    boothName = ((char)('A' + Random.Range(0, 26))).ToString() + "-" + boothId.ToString("000");
+    boothNumberDisplay.text = boothName;
   }
 
   void Update()
@@ -67,7 +70,7 @@ public class BoothScript : NetworkBehaviour
   void UpdateServer()
   {
     ticketWaitCooldown -= Time.deltaTime;
-    if(ticketWaitCooldown < 0)
+    if (ticketWaitCooldown < 0)
     {
       // Next ticket
       NextTicket();
@@ -77,7 +80,7 @@ public class BoothScript : NetworkBehaviour
   #endregion
 
   #region Methods
-  
+
   private void UpdateNumber()
   {
     ticketDisplay.text = currentTicketNumber.ToString("00");
@@ -88,7 +91,7 @@ public class BoothScript : NetworkBehaviour
   {
     ticketWaitCooldown = waitBetweenTickets;
 
-    if(currentTicketNumber < lastTicketNumber)
+    if (currentTicketNumber < lastTicketNumber)
     {
       currentTicketNumber++;
     }
@@ -103,12 +106,13 @@ public class BoothScript : NetworkBehaviour
 
     TicketScript tscript = ticket.GetComponent<TicketScript>();
     tscript.data.booth = boothId;
+    tscript.data.name = boothName;
     tscript.data.number = lastTicketNumber;
 
     Rigidbody rbody = ticket.GetComponent<Rigidbody>();
     rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
 
-    NetworkServer.Spawn(ticket);    
+    NetworkServer.Spawn(ticket);
   }
 
   #endregion
