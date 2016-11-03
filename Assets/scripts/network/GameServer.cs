@@ -11,6 +11,13 @@ public class GameServer : NetworkBehaviour
   [ServerCallback]
   void Start()
   {
+    
+    
+
+
+
+
+
     // TODO : Génération procédurale du niveau ? Ce serait à faire ici !
 
     booths = FindObjectsOfType<BoothScript>().ToList();
