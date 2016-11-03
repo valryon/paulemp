@@ -488,6 +488,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ee45906928e96f043bca6f1e159d6b46, type: 3}
   - {fileID: 8300000, guid: 8c9bddeee0435ed4eb497f0c9d40836d, type: 3}
   - {fileID: 8300000, guid: 8a5e3df4ea7e10c4295fb44a1ac154ee, type: 3}
+  - {fileID: 8300000, guid: c6eaa0ea3ed9f2844819c29ed9fe0c3b, type: 3}
+  - {fileID: 8300000, guid: 286359dca00764242b1e4c4fc002eb1c, type: 3}
   effects:
   - {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
 --- !u!114 &114000011237855002
