@@ -36,7 +36,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010940236792}
   - 114: {fileID: 114000011789672348}
-  - 114: {fileID: 114000010566140148}
   m_Layer: 0
   m_Name: Network
   m_TagString: Untagged
@@ -221,21 +220,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000010940236792}
   m_RootOrder: 5
---- !u!114 &114000010566140148
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011020592312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 227461547, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  showGUI: 1
-  offsetX: 0
-  offsetY: 750
 --- !u!114 &114000010679570408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -293,7 +277,7 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: Main
+  m_OfflineScene: Menu
   m_OnlineScene: Main
   m_SpawnPrefabs:
   - {fileID: 1000011313921152, guid: 18b2a4e3a5e52f94995e1b8587eda842, type: 2}
