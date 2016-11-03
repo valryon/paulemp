@@ -23,6 +23,8 @@ public class PlayerScript : NetworkBehaviour
   public TicketList tickets = new TicketList();
 
   private PlayerUIScript ui;
+  private Ray raycast;
+  private GameObject target;
 
   #endregion
 
@@ -62,10 +64,38 @@ public class PlayerScript : NetworkBehaviour
   {
     if (isLocalPlayer)
     {
-      if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+      // Raycast from view
+      //--------------------------------------------------------------------------------
+      raycast = new Ray(fpsCamera.transform.position, fpsCamera.transform.forward);
+      ui.SetCrosshairColor(Color.white);
+
+      foreach (var hit in Physics.RaycastAll(raycast))
       {
-        DoInteract();
+        var go = hit.collider.gameObject;
+
+        Vector3 a = go.transform.position;
+        a.y = 0;
+
+        Vector3 b = this.transform.position;
+        b.y = 0;
+
+        if (Vector3.Distance(a, b) < 5f)
+        {
+          if (go != this.gameObject && go.tag == "Interactable")
+          {
+            ui.SetCrosshairColor(Color.green);
+
+            if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+            {
+              Debug.Log("INTERACT " + go);
+              go.SendMessage("Interact", this, SendMessageOptions.DontRequireReceiver);
+            }
+            break;
+          }
+
+        }
       }
+      //--------------------------------------------------------------------------------
     }
   }
 
@@ -73,33 +103,6 @@ public class PlayerScript : NetworkBehaviour
 
   #region Methods
 
-  private Ray raycast;
-
-  private void DoInteract()
-  {
-    // Raycast from view
-    raycast = new Ray(fpsCamera.transform.position, fpsCamera.transform.forward);
-
-    foreach (var hit in Physics.RaycastAll(raycast))
-    {
-      Vector3 a = hit.collider.transform.position;
-      a.y = 0;
-
-      Vector3 b = this.transform.position;
-      b.y = 0;
-
-      if (Vector3.Distance(a, b) < 5f)
-      {
-        if (hit.collider.gameObject != this.gameObject)
-        {
-          Debug.Log("INTERACT " + hit.collider.gameObject);
-          hit.collider.gameObject.SendMessage("Interact", this, SendMessageOptions.DontRequireReceiver);
-
-          break;
-        }
-      }
-    }
-  }
   #endregion
 
   #region RPC

@@ -435,7 +435,7 @@ GameObject:
   - 114: {fileID: 114000012380803722}
   m_Layer: 0
   m_Name: Ticket Machine
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1787,8 +1787,14 @@ MonoBehaviour:
   ticketMachine: {fileID: 114000012380803722}
   ticketDisplay: {fileID: 114000010581270632}
   boothNumberDisplay: {fileID: 114000012871037478}
-  currentNumber: 0
+  qteList: {fileID: 0}
+  waitBetweenTickets: 10
+  lastTicketNumber: 0
+  currentTicketNumber: 0
   boothId: 0
+  boothName: 
+  ticketWaitCooldown: 0
+  busy: 0
 --- !u!222 &222000010009409396
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -8,9 +8,10 @@ public class PlayerUIScript : MonoBehaviour
 
   public Text objectives;
   public Text tickets;
+  public Image crosshair;
 
   public PlayerScript player;
-  
+
   void Awake()
   {
     Instance = this;
@@ -26,5 +27,10 @@ public class PlayerUIScript : MonoBehaviour
     objectives.text = "TODO";
 
     tickets.text = player.tickets.ToReadableString();
+  }
+
+  public void SetCrosshairColor(Color c)
+  {
+    crosshair.color = c;
   }
 }
