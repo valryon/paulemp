@@ -2,8 +2,8 @@
 using UnityEngine.Networking;
 using System.Linq;
 using UnityStandardAssets.Characters.FirstPerson;
-using System;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerScript : NetworkBehaviour
 {
@@ -129,10 +129,28 @@ public class PlayerScript : NetworkBehaviour
     var booths = FindObjectsOfType<BoothScript>();
     var booth = booths.Where(b => b.boothId == boothId).FirstOrDefault();
 
+    StartCoroutine(PrintTickets(booth));
+  }
+
+  private IEnumerator PrintTickets(BoothScript booth)
+  {
     if (booth != null)
     {
-      booth.PrintTicket();
-      RpcPlaySound("ticket_print", this.transform.position);
+      int count = 1;
+
+      if (Random.Range(0, 10) > 8)
+      {
+        count = Random.Range(3, 11);
+      }
+
+      for (int i = 0; i < count; i++)
+      {
+        booth.PrintTicket();
+        RpcPlaySound("ticket_print", this.transform.position);
+
+        yield return new WaitForSeconds(Random.Range(0.1f, 0.25f));
+      }
+
     }
   }
 
@@ -239,7 +257,7 @@ public class PlayerScript : NetworkBehaviour
   {
     foreach (var e in effects)
     {
-      if (e.name.Equals(effectName, StringComparison.InvariantCultureIgnoreCase))
+      if (e.name.Equals(effectName, System.StringComparison.InvariantCultureIgnoreCase))
       {
         Instantiate(e, effectPosition, Quaternion.identity);
         break;
@@ -257,7 +275,7 @@ public class PlayerScript : NetworkBehaviour
   {
     foreach (var s in sounds)
     {
-      if (s.name.Equals(sound, StringComparison.InvariantCultureIgnoreCase))
+      if (s.name.Equals(sound, System.StringComparison.InvariantCultureIgnoreCase))
       {
         AudioSource.PlayClipAtPoint(s, position);
       }
@@ -267,7 +285,7 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcPlayQTE(uint playerNetId, QTEEnum qte)
   {
-    if (netId.Value == playerNetId)
+    if (netId.Value == playerNetId && isPlayingQTE == false)
     {
       var qteScript = FindObjectsOfType<QTEScript>().Where(q => q.Type == qte).FirstOrDefault();
 
@@ -293,6 +311,9 @@ public class PlayerScript : NetworkBehaviour
   {
     isPlayingQTE = false;
     fpsController.enabled = true;
+
+    Debug.Log("QTE ended " + result);
+
     CmdEndQTE(result);
   }
 
