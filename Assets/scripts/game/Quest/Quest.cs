@@ -131,8 +131,6 @@ public class QuestList : SyncListStruct<Quest>
         {
           Reveal(q.boothIDDependency, false);
         }
-
-        break;
       }
     }
   }

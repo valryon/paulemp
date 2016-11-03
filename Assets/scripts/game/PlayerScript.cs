@@ -72,7 +72,7 @@ public class PlayerScript : NetworkBehaviour
     var questsList = new List<Quest>();
 
     // First
-    var q = new Quest(first, booths[0], true, false, booths.Count + 2);
+    var q = new Quest(first, booths[0], true, false, booths.Count + 1);
     q.revealed = true;
     questsList.Add(q);
 
@@ -86,8 +86,8 @@ public class PlayerScript : NetworkBehaviour
     questsList.Add(new Quest(booths[booths.Count - 1], null, false, false, 0));
 
     // Last
-    q = new Quest(last, first, false, true, booths.Count + 1);
-    q.revealed = false;
+    q = new Quest(last, first, false, true, booths.Count + 2);
+    q.revealed = true;
     questsList.Add(q);
 
     questsList = questsList.OrderBy(qu => qu.order).ToList();
@@ -279,6 +279,7 @@ public class PlayerScript : NetworkBehaviour
           }
           else
           {
+            Debug.Log("Reveal required quest");
             quests.Reveal((int)booth.netId.Value);
           }
         }
@@ -385,8 +386,6 @@ public class PlayerScript : NetworkBehaviour
       }
       quests[i] = q;
     }
-
-    quests.Reveal((int)qteBoothId);
   }
 
   [Command]
