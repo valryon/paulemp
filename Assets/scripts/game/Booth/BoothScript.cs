@@ -117,10 +117,7 @@ public class BoothScript : NetworkBehaviour
     {
       currentTicketNumber++;
 
-      foreach (var p in FindObjectsOfType<PlayerScript>())
-      {
-        p.RpcPlaySound("agent_number_changed", this.transform.position);
-      }
+      GameServer.PlaySound("agent_number_changed", this.transform.position);
     }
   }
 

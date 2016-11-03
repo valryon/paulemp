@@ -24,4 +24,20 @@ public class GameServer : NetworkBehaviour
       booths[i].EnableBooth(i, qtes[Random.Range(0, qtes.Length)].Type);
     }
   }
+
+  public static void PlayEffect(string effect, Vector3 position)
+  {
+    foreach (var p in FindObjectsOfType<PlayerScript>())
+    {
+      p.RpcPlayEffect(effect, position);
+    }
+  }
+
+  public static void PlaySound(string sound, Vector3 position)
+  {
+    foreach (var p in FindObjectsOfType<PlayerScript>())
+    {
+      p.RpcPlaySound(sound, position);
+    }
+  }
 }

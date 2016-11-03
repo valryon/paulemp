@@ -299,7 +299,10 @@ public class PlayerScript : NetworkBehaviour
   [Command]
   private void CmdEndQTE(QTEResult result)
   {
-
+    // Tell players result
+    if (result == QTEResult.NotCompleted) GameServer.PlaySound("qte_notcompleted", this.transform.position);
+    else if (result == QTEResult.Failure) GameServer.PlaySound("qte_failure", this.transform.position);
+    else if (result == QTEResult.Success) GameServer.PlaySound("qte_success", this.transform.position);
   }
 
   #endregion
