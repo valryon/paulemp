@@ -11,6 +11,7 @@ public class PlayerScript : NetworkBehaviour
 
   [Header("Bindings")]
   public MeshRenderer model;
+  public GameObject sprites;
   public RigidbodyFirstPersonController fpsController;
   public Camera fpsCamera;
 
@@ -44,6 +45,7 @@ public class PlayerScript : NetworkBehaviour
     {
       // Local player = remove model / FPS view
       Destroy(model.gameObject);
+      Destroy(sprites);
 
       ui.player = this;
       ui.gameObject.SetActive(true);
