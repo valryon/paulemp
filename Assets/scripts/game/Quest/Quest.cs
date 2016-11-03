@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Linq;
 using UnityEngine.Networking;
 
 [System.Serializable]
@@ -10,8 +10,9 @@ public struct Quest
   public int boothIDDependency;
   public bool revealed;
   public bool completed;
+  public int order;
 
-  public Quest(BoothScript booth, BoothScript dependency, bool first, bool last)
+  public Quest(BoothScript booth, BoothScript dependency, bool first, bool last, int priority)
   {
     boothID = (int)booth.netId.Value;
     boothIDDependency = -1;
@@ -23,6 +24,8 @@ public struct Quest
     revealed = false;
     completed = false;
     description = string.Empty;
+    order = priority;
+
     description = GetDescription(booth, first, last);
   }
 
@@ -70,12 +73,67 @@ public class QuestList : SyncListStruct<Quest>
     for (int i = 0; i < Count; i++)
     {
       var q = this[i];
-      //if (q.revealed && q.completed == false)
+      if (q.revealed && q.completed == false)
       {
-        s += q.description + "\n";
+        s += "- " + q.description + "\n";
       }
     }
 
     return s;
+  }
+
+  public bool CanBeCompleted(BoothScript booth)
+  {
+    bool weNeedToGoDeeper = true;
+    int startId = (int)booth.netId.Value;
+    int id = startId;
+    bool allow = true;
+
+    while (weNeedToGoDeeper)
+    {
+      // Get dependency
+      Quest quest = this.Where(q => q.boothID == id).FirstOrDefault();
+
+      if (id != startId)
+      {
+        allow &= quest.completed;
+        if (!allow) weNeedToGoDeeper = false;
+      }
+
+      if (quest.boothIDDependency < 0)
+      {
+        weNeedToGoDeeper = false;
+      }
+      else
+      {
+        id = quest.boothIDDependency;
+      }
+    }
+
+    return allow;
+  }
+
+  public void Reveal(int id, bool recursive = true)
+  {
+    if (id < 0) return;
+
+    for (int i = 0; i < Count; i++)
+    {
+      var q = this[i];
+
+      if (q.boothID == id)
+      {
+        q.revealed = true;
+
+        this[i] = q;
+
+        if (recursive)
+        {
+          Reveal(q.boothIDDependency, false);
+        }
+
+        break;
+      }
+    }
   }
 }

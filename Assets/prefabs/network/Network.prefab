@@ -235,7 +235,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   showGUI: 1
   offsetX: 0
-  offsetY: 0
+  offsetY: 750
 --- !u!114 &114000010679570408
 MonoBehaviour:
   m_ObjectHideFlags: 1

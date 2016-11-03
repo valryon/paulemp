@@ -28,6 +28,7 @@ public class PlayerScript : NetworkBehaviour
   private PlayerUIScript ui;
   private Ray raycast;
   private bool isPlayingQTE;
+  private uint qteBoothId;
 
   #endregion
 
@@ -62,22 +63,34 @@ public class PlayerScript : NetworkBehaviour
   public void SetBoothOrder()
   {
     var booths = FindObjectsOfType<BoothScript>().OrderBy(b => Random.Range(0, 100)).ToList();
-
+    
     var first = booths.Where(b => b.data.isFirst).First();
     booths.Remove(first);
     var last = booths.Where(b => b.data.isLast).First();
     booths.Remove(last);
 
     var questsList = new List<Quest>();
-    questsList.Add(new Quest(first, booths[0], true, false));
 
+    // First
+    var q = new Quest(first, booths[0], true, false, booths.Count + 2);
+    q.revealed = true;
+    questsList.Add(q);
+
+    // Between: random booth visit
     for (int i = 0; i < booths.Count - 1; i++)
     {
-      questsList.Add(new Quest(booths[i], booths[i + 1], false, false));
+      q = new Quest(booths[i], booths[i + 1], false, false, booths.Count - i);
+      questsList.Add(q);
     }
 
-    questsList.Add(new Quest(booths[booths.Count - 1], null, false, false));
-    questsList.Add(new Quest(last, null, false, true));
+    questsList.Add(new Quest(booths[booths.Count - 1], null, false, false, 0));
+
+    // Last
+    q = new Quest(last, first, false, true, booths.Count + 1);
+    q.revealed = false;
+    questsList.Add(q);
+
+    questsList = questsList.OrderBy(qu => qu.order).ToList();
 
     CmdSetBoothOrder(questsList);
   }
@@ -259,7 +272,15 @@ public class PlayerScript : NetworkBehaviour
 
           tickets.RemoveFor(booth.data.boothId);
 
-          booth.Accept(this);
+          // Quest dependencies satisfied?
+          if (quests.CanBeCompleted(booth))
+          {
+            booth.Accept(this);
+          }
+          else
+          {
+            quests.Reveal((int)booth.netId.Value);
+          }
         }
         else
         {
@@ -311,7 +332,7 @@ public class PlayerScript : NetworkBehaviour
   }
 
   [ClientRpc]
-  public void RpcPlayQTE(uint playerNetId, QTEEnum qte)
+  public void RpcPlayQTE(uint boothId, uint playerNetId, QTEEnum qte)
   {
     if (netId.Value == playerNetId && isPlayingQTE == false)
     {
@@ -322,6 +343,7 @@ public class PlayerScript : NetworkBehaviour
         // Start QTE
         isPlayingQTE = true;
         fpsController.enabled = false;
+        qteBoothId = boothId;
 
         Debug.Log("QTE starting " + qteScript);
 
@@ -352,6 +374,19 @@ public class PlayerScript : NetworkBehaviour
     if (result == QTEResult.NotCompleted) GameServer.PlaySound("qte_notcompleted", this.transform.position);
     else if (result == QTEResult.Failure) GameServer.PlaySound("qte_failure", this.transform.position);
     else if (result == QTEResult.Success) GameServer.PlaySound("qte_success", this.transform.position);
+
+    // Update quests!
+    for (int i = 0; i < quests.Count; i++)
+    {
+      var q = quests[i];
+      if (q.boothID == qteBoothId)
+      {
+        q.completed = true;
+      }
+      quests[i] = q;
+    }
+
+    quests.Reveal((int)qteBoothId);
   }
 
   [Command]

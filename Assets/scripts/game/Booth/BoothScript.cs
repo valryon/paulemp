@@ -158,7 +158,7 @@ public class BoothScript : NetworkBehaviour
   {
     busy = true;
 
-    playerScript.RpcPlayQTE(playerScript.netId.Value, qte);
+    playerScript.RpcPlayQTE(netId.Value, playerScript.netId.Value, qte);
   }
 
   #endregion
