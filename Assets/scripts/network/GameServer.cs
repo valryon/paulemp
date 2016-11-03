@@ -21,7 +21,7 @@ public class GameServer : NetworkBehaviour
       // Random y rotation
       booths[i].transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
-      booths[i].EnableBooth(i, qtes[Random.Range(0, qtes.Length)].Type);
+      booths[i].EnableBooth(i, i == 0, i == booths.Count - 1, qtes[Random.Range(0, qtes.Length)].Type);
     }
   }
 

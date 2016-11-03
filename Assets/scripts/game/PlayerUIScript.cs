@@ -24,7 +24,7 @@ public class PlayerUIScript : MonoBehaviour
 
   void Update()
   {
-    objectives.text = "TODO";
+    objectives.text = player.quests.ToReadableString();
 
     tickets.text = player.tickets.ToReadableString();
   }

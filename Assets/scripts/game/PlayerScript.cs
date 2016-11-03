@@ -22,6 +22,9 @@ public class PlayerScript : NetworkBehaviour
   [SyncVar]
   public TicketList tickets = new TicketList();
 
+  [SyncVar]
+  public QuestList quests = new QuestList();
+
   private PlayerUIScript ui;
   private Ray raycast;
   private bool isPlayingQTE;
@@ -45,6 +48,8 @@ public class PlayerScript : NetworkBehaviour
       ui.gameObject.SetActive(true);
 
       this.name += " (Local)";
+
+      SetBoothOrder();
     }
     else
     {
@@ -52,6 +57,29 @@ public class PlayerScript : NetworkBehaviour
       Destroy(fpsCamera.gameObject);
       Destroy(fpsController);
     }
+  }
+
+  public void SetBoothOrder()
+  {
+    var booths = FindObjectsOfType<BoothScript>().OrderBy(b => Random.Range(0, 100)).ToList();
+
+    var first = booths.Where(b => b.data.isFirst).First();
+    booths.Remove(first);
+    var last = booths.Where(b => b.data.isLast).First();
+    booths.Remove(last);
+
+    var questsList = new List<Quest>();
+    questsList.Add(new Quest(first, booths[0], true, false));
+
+    for (int i = 0; i < booths.Count - 1; i++)
+    {
+      questsList.Add(new Quest(booths[i], booths[i + 1], false, false));
+    }
+
+    questsList.Add(new Quest(booths[booths.Count - 1], null, false, false));
+    questsList.Add(new Quest(last, null, false, true));
+
+    CmdSetBoothOrder(questsList);
   }
 
   void Update()
@@ -120,14 +148,14 @@ public class PlayerScript : NetworkBehaviour
     // Player requested a ticket
     // Send a command to the server
     // Needs to be done HERE as a Command can only be called for local authority / player
-    CmdPrintTicket(booth.boothId);
+    CmdPrintTicket(booth.data.boothId);
   }
 
   [Command]
   private void CmdPrintTicket(int boothId)
   {
     var booths = FindObjectsOfType<BoothScript>();
-    var booth = booths.Where(b => b.boothId == boothId).FirstOrDefault();
+    var booth = booths.Where(b => b.data.boothId == boothId).FirstOrDefault();
 
     StartCoroutine(PrintTickets(booth));
   }
@@ -222,14 +250,14 @@ public class PlayerScript : NetworkBehaviour
 
       if (booth != null && booth.busy == false)
       {
-        int number = tickets.GetFor(booth.boothId);
+        int number = tickets.GetFor(booth.data.boothId);
         if (number == booth.currentTicketNumber)
         {
           // Yeepee!
           RpcPlaySound("agent_ticket_ok", this.transform.position);
           Debug.Log("Ticket used!");
 
-          tickets.RemoveFor(booth.boothId);
+          tickets.RemoveFor(booth.data.boothId);
 
           booth.Accept(this);
         }
@@ -324,6 +352,16 @@ public class PlayerScript : NetworkBehaviour
     if (result == QTEResult.NotCompleted) GameServer.PlaySound("qte_notcompleted", this.transform.position);
     else if (result == QTEResult.Failure) GameServer.PlaySound("qte_failure", this.transform.position);
     else if (result == QTEResult.Success) GameServer.PlaySound("qte_success", this.transform.position);
+  }
+
+  [Command]
+  private void CmdSetBoothOrder(List<Quest> q)
+  {
+    this.quests.Clear();
+    for (int i = 0; i < q.Count; i++)
+    {
+      this.quests.Add(q[i]); ;
+    }
   }
 
   #endregion

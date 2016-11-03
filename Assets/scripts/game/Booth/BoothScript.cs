@@ -2,6 +2,15 @@
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct BoothData
+{
+  public int boothId;
+  public string boothName;
+  public bool isFirst;
+  public bool isLast;
+}
+
 public class BoothScript : NetworkBehaviour
 {
   #region Members
@@ -28,10 +37,7 @@ public class BoothScript : NetworkBehaviour
   public int currentTicketNumber;
 
   [SyncVar]
-  public int boothId;
-
-  [SyncVar]
-  public string boothName;
+  public BoothData data;
 
   [SyncVar]
   public float ticketWaitCooldown;
@@ -54,18 +60,26 @@ public class BoothScript : NetworkBehaviour
   }
 
   [Server]
-  public void EnableBooth(int id, QTEEnum qte)
+  public void EnableBooth(int id, bool first, bool last, QTEEnum qte)
   {
     this.qte = qte;
 
     // Set booth id and name from GameServer
-    boothId = (int)(id * 100) + Random.Range(0, 99);
-    boothName = ((char)('A' + Random.Range(0, 26))).ToString() + "-" + boothId.ToString("000");
+    data.boothId = (int)(id * 1000) + Random.Range(0, 999);
+
+    var a = ((char)('A' + Random.Range(0, 26))).ToString();
+    var b = ((char)('A' + Random.Range(0, 26))).ToString();
+    var c = ((char)('A' + Random.Range(0, 26))).ToString();
+
+    data.boothName = a + b + c + "-" + data.boothId.ToString("000");
+    data.isFirst = first;
+    data.isLast = last;
 
     // Create PNJ
     var pnj = Instantiate(pnjPrefab, pnjLocation.position, pnjLocation.rotation) as GameObject;
     AgentScript agent = pnj.GetComponent<AgentScript>();
     agent.booth = this.gameObject;
+    pnj.transform.parent = this.transform.parent;
     NetworkServer.Spawn(pnj);
 
     // Set random ticket number
@@ -104,7 +118,7 @@ public class BoothScript : NetworkBehaviour
   private void UpdateDisplays()
   {
     ticketDisplay.text = currentTicketNumber.ToString("00");
-    boothNumberDisplay.text = boothName;
+    boothNumberDisplay.text = data.boothName;
   }
 
   [Server]
@@ -129,8 +143,8 @@ public class BoothScript : NetworkBehaviour
     var ticket = Instantiate(ticketPrefab, ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
 
     TicketScript tscript = ticket.GetComponent<TicketScript>();
-    tscript.data.booth = boothId;
-    tscript.data.name = boothName;
+    tscript.data.booth = data.boothId;
+    tscript.data.name = data.boothName;
     tscript.data.number = lastTicketNumber;
 
     Rigidbody rbody = ticket.GetComponent<Rigidbody>();
