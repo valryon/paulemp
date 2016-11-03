@@ -92,9 +92,9 @@ public class PlayerScript : NetworkBehaviour
     q.revealed = true;
     questsList.Add(q);
 
-    questsList = questsList.OrderBy(qu => qu.order).ToList();
+    var questsToSync = questsList.OrderBy(qu => qu.order).ToArray();
 
-    CmdSetBoothOrder(questsList);
+    CmdSetBoothOrder(questsToSync);
   }
 
   void Update()
@@ -337,7 +337,7 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcPlayQTE(uint boothId, uint playerNetId, QTEEnum qte)
   {
-    if (netId.Value == playerNetId && isPlayingQTE == false)
+    if (isLocalPlayer && netId.Value == playerNetId && isPlayingQTE == false)
     {
       var qteScript = FindObjectsOfType<QTEScript>().Where(q => q.Type == qte).FirstOrDefault();
 
@@ -391,10 +391,10 @@ public class PlayerScript : NetworkBehaviour
   }
 
   [Command]
-  private void CmdSetBoothOrder(List<Quest> q)
+  private void CmdSetBoothOrder(Quest[] q)
   {
     this.quests.Clear();
-    for (int i = 0; i < q.Count; i++)
+    for (int i = 0; i < q.Length; i++)
     {
       this.quests.Add(q[i]); ;
     }
