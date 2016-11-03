@@ -73,7 +73,7 @@ public class BoothScript : NetworkBehaviour
 
     // Agent always makes player wait
     currentTicketNumber = lastTicketNumber - Random.Range(1, 10);
-    ticketWaitCooldown = waitBetweenTickets;
+    ticketWaitCooldown = Random.Range(0, 3f * waitBetweenTickets);
   }
 
   void Update()
