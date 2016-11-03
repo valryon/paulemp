@@ -107,6 +107,11 @@ public class BoothScript : NetworkBehaviour
     if (currentTicketNumber < lastTicketNumber)
     {
       currentTicketNumber++;
+
+      foreach (var p in FindObjectsOfType<PlayerScript>())
+      {
+        p.RpcPlaySound("agent_number_changed", this.transform.position);
+      }
     }
   }
 

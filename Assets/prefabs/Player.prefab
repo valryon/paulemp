@@ -482,7 +482,12 @@ MonoBehaviour:
   model: {fileID: 23000013796346320}
   fpsController: {fileID: 114000014057350680}
   fpsCamera: {fileID: 20000011091536058}
-  sounds: []
+  sounds:
+  - {fileID: 8300000, guid: 90821751fcbe8584b8d6d65b9adbc049, type: 3}
+  - {fileID: 8300000, guid: b39c2483b792eea4bb1ae01d012a701b, type: 3}
+  - {fileID: 8300000, guid: ee45906928e96f043bca6f1e159d6b46, type: 3}
+  - {fileID: 8300000, guid: 8c9bddeee0435ed4eb497f0c9d40836d, type: 3}
+  - {fileID: 8300000, guid: 8a5e3df4ea7e10c4295fb44a1ac154ee, type: 3}
   effects:
   - {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
 --- !u!114 &114000011237855002

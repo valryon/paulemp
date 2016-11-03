@@ -125,6 +125,7 @@ public class PlayerScript : NetworkBehaviour
     if (booth != null)
     {
       booth.PrintTicket();
+      RpcPlaySound("ticket_print", this.transform.position);
     }
   }
 
@@ -174,6 +175,8 @@ public class PlayerScript : NetworkBehaviour
         {
           ticket.Destroy();
         }
+
+        RpcPlaySound("ticket_picked", this.transform.position);
       }
     }
   }
@@ -198,7 +201,7 @@ public class PlayerScript : NetworkBehaviour
         if (number == booth.currentTicketNumber)
         {
           // Yeepee!
-          RpcPlayEffect("explosion", booth.transform.position);
+          RpcPlaySound("agent_ticket_ok", this.transform.position);
           Debug.Log("Ticket used!");
 
           tickets.RemoveFor(booth.boothId);
@@ -207,13 +210,13 @@ public class PlayerScript : NetworkBehaviour
         }
         else
         {
-          RpcPlayEffect("explosion", booth.transform.position);
+          RpcPlaySound("agent_nope", this.transform.position);
           Debug.Log("Wrong or missing ticket!");
         }
       }
       else
       {
-        RpcPlayEffect("explosion", booth.transform.position);
+        RpcPlaySound("agent_nope", this.transform.position);
         Debug.Log("Booth is busy");
       }
     }
