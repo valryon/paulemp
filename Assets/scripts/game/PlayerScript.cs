@@ -24,7 +24,7 @@ public class PlayerScript : NetworkBehaviour
 
   private PlayerUIScript ui;
   private Ray raycast;
-  private GameObject target;
+  private bool isPlayingQTE;
 
   #endregion
 
@@ -64,35 +64,42 @@ public class PlayerScript : NetworkBehaviour
   {
     if (isLocalPlayer)
     {
-      // Raycast from view
-      //--------------------------------------------------------------------------------
-      raycast = new Ray(fpsCamera.transform.position, fpsCamera.transform.forward);
-      ui.SetCrosshairColor(Color.white);
-
-      foreach (var hit in Physics.RaycastAll(raycast))
+      if (isPlayingQTE)
       {
-        var go = hit.collider.gameObject;
+        ui.SetCrosshairColor(Color.white * 0f);
+      }
+      else
+      {
+        // Raycast from view
+        //--------------------------------------------------------------------------------
+        raycast = new Ray(fpsCamera.transform.position, fpsCamera.transform.forward);
+        ui.SetCrosshairColor(Color.white);
 
-        Vector3 a = go.transform.position;
-        a.y = 0;
-
-        Vector3 b = this.transform.position;
-        b.y = 0;
-
-        if (Vector3.Distance(a, b) < 5f)
+        foreach (var hit in Physics.RaycastAll(raycast))
         {
-          if (go != this.gameObject && go.tag == "Interactable")
+          var go = hit.collider.gameObject;
+
+          Vector3 a = go.transform.position;
+          a.y = 0;
+
+          Vector3 b = this.transform.position;
+          b.y = 0;
+
+          if (Vector3.Distance(a, b) < 5f)
           {
-            ui.SetCrosshairColor(Color.green);
-
-            if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+            if (go != this.gameObject && go.tag == "Interactable")
             {
-              Debug.Log("INTERACT " + go);
-              go.SendMessage("Interact", this, SendMessageOptions.DontRequireReceiver);
-            }
-            break;
-          }
+              ui.SetCrosshairColor(Color.green);
 
+              if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.E))
+              {
+                Debug.Log("INTERACT " + go);
+                go.SendMessage("Interact", this, SendMessageOptions.DontRequireReceiver);
+              }
+              break;
+            }
+
+          }
         }
       }
       //--------------------------------------------------------------------------------
@@ -206,7 +213,7 @@ public class PlayerScript : NetworkBehaviour
 
           tickets.RemoveFor(booth.boothId);
 
-          booth.busy = true;
+          booth.Accept(this);
         }
         else
         {
@@ -255,6 +262,44 @@ public class PlayerScript : NetworkBehaviour
         AudioSource.PlayClipAtPoint(s, position);
       }
     }
+  }
+
+  [ClientRpc]
+  public void RpcPlayQTE(uint playerNetId, QTEEnum qte)
+  {
+    if (netId.Value == playerNetId)
+    {
+      var qteScript = FindObjectsOfType<QTEScript>().Where(q => q.Type == qte).FirstOrDefault();
+
+      if (qteScript != null)
+      {
+        // Start QTE
+        isPlayingQTE = true;
+        fpsController.enabled = false;
+
+        Debug.Log("QTE starting " + qteScript);
+
+        qteScript.Launch(this, EndQTE);
+      }
+      else
+      {
+        Debug.LogError("Unknow QTE " + qte);
+      }
+    }
+  }
+
+  [Client]
+  private void EndQTE(QTEResult result)
+  {
+    isPlayingQTE = false;
+    fpsController.enabled = true;
+    CmdEndQTE(result);
+  }
+
+  [Command]
+  private void CmdEndQTE(QTEResult result)
+  {
+
   }
 
   #endregion

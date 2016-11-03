@@ -1,22 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public enum QTEResult
-{
-  NotCompleted,
-  Success,
-  Failure,
-}
-
 public abstract class QTEScript : MonoBehaviour
 {
-  public abstract void Launch();
-
-  public abstract QTEResult Result
+  public abstract QTEEnum Type
   {
     get;
-    set;
   }
+
+  public abstract void Launch(PlayerScript playerScript, System.Action<QTEResult> endQTE);
 }

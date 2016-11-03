@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -40,6 +39,9 @@ public class BoothScript : NetworkBehaviour
   [SyncVar]
   public bool busy;
 
+  [SyncVar]
+  public QTEEnum qte;
+
   #endregion
 
   #region Timeline
@@ -47,14 +49,24 @@ public class BoothScript : NetworkBehaviour
   [ServerCallback]
   void Start()
   {
+    // Link ticket machine to booth
+    ticketMachine.booth = this;
+  }
+
+  [Server]
+  public void EnableBooth(int id, QTEEnum qte)
+  {
+    this.qte = qte;
+
+    // Set booth id and name from GameServer
+    boothId = (int)(id * 100) + Random.Range(0, 99);
+    boothName = ((char)('A' + Random.Range(0, 26))).ToString() + "-" + boothId.ToString("000");
+
     // Create PNJ
     var pnj = Instantiate(pnjPrefab, pnjLocation.position, pnjLocation.rotation) as GameObject;
     AgentScript agent = pnj.GetComponent<AgentScript>();
     agent.booth = this.gameObject;
     NetworkServer.Spawn(pnj);
-
-    // Link ticket machine to booth
-    ticketMachine.booth = this;
 
     // Set random ticket number
     lastTicketNumber = Random.Range(10, 99);
@@ -62,9 +74,6 @@ public class BoothScript : NetworkBehaviour
     // Agent always makes player wait
     currentTicketNumber = lastTicketNumber - Random.Range(1, 10);
     ticketWaitCooldown = waitBetweenTickets;
-
-    boothId = (int)(netId.Value * 100) + Random.Range(0, 99);
-    boothName = ((char)('A' + Random.Range(0, 26))).ToString() + "-" + boothId.ToString("000");
   }
 
   void Update()
@@ -131,6 +140,14 @@ public class BoothScript : NetworkBehaviour
     rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
 
     NetworkServer.Spawn(ticket);
+  }
+
+  [Server]
+  public void Accept(PlayerScript playerScript)
+  {
+    busy = true;
+
+    playerScript.RpcPlayQTE(playerScript.netId.Value, qte);
   }
 
   #endregion
