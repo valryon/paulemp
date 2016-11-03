@@ -4,6 +4,9 @@ using UnityEngine.Networking;
 
 public class GameNetworkManager : NetworkManager
 {
+  [HideInInspector]
+  public bool launchedFromMenu;
+
   public override void OnClientConnect(NetworkConnection conn)
   {
     base.OnClientConnect(conn);

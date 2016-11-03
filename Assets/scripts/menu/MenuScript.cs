@@ -36,6 +36,8 @@ public class MenuScript : MonoBehaviour
   void Start()
   {
     network = FindObjectOfType<GameNetworkManager>();
+    network.launchedFromMenu = true;
+
     status.gameObject.SetActive(false);
 
     lastServerPort = 7777;

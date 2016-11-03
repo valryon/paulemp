@@ -1474,8 +1474,7 @@ MonoBehaviour:
   clientPanel: {fileID: 1929830424}
   clientIP: {fileID: 1548633167}
   clientPort: {fileID: 2136684791}
-  network: {fileID: 1203367442}
-  status: {fileID: 1729757304}
+  status: {fileID: 2021266293}
 --- !u!4 &1151383172
 Transform:
   m_ObjectHideFlags: 0
@@ -1531,12 +1530,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf958b7ad81accf4caf2c47df28bee0b, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1203367442 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000011789672348, guid: bf958b7ad81accf4caf2c47df28bee0b,
-    type: 2}
-  m_PrefabInternal: {fileID: 1203367441}
-  m_Script: {fileID: 11500000, guid: a5b4d1acd70d24541838dd0b9d912e5e, type: 3}
 --- !u!1 &1208677609
 GameObject:
   m_ObjectHideFlags: 0
