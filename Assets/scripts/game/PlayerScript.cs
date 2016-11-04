@@ -31,6 +31,8 @@ public class PlayerScript : NetworkBehaviour
   private bool isPlayingQTE;
   private uint qteBoothId;
 
+  private bool wasJumping;
+
   #endregion
 
   #region Timeline
@@ -107,6 +109,12 @@ public class PlayerScript : NetworkBehaviour
   {
     if (isLocalPlayer)
     {
+      if (wasJumping == false && fpsController.Jumping)
+      {
+        CmdPlaySound("jump", transform.position);
+      }
+      wasJumping = fpsController.Jumping;
+
       if (isPlayingQTE)
       {
         ui.SetCrosshairColor(Color.white * 0f);
@@ -285,35 +293,38 @@ public class PlayerScript : NetworkBehaviour
           // Quest dependencies satisfied?
           if (quests.CanBeCompleted(booth))
           {
+            RpcPlaySound("agent_hello", this.transform.position);            
             booth.Accept(this);
           }
           else
           {
             Debug.Log("Reveal required quest");
+            RpcPlaySound("agent_miss_document", this.transform.position);            
             quests.Reveal((int)booth.netId.Value);
           }
         }
         else
         {
-          RpcPlaySound("agent_nope", this.transform.position);
+          RpcPlaySound("agent_ticket", this.transform.position);
           Debug.Log("Wrong or missing ticket!");
         }
       }
       else
       {
-        RpcPlaySound("agent_nope", this.transform.position);
+        RpcPlaySound("agent_busy", this.transform.position);
         Debug.Log("Booth is busy");
       }
     }
   }
 
-  [ClientRpc]
-  public void RpcPlayEffect(string effectName, Vector3 effectPosition)
+  [Command]
+  public void CmdPlayEffect(string effectName, Vector3 effectPosition)
   {
-    PlayEffect(effectName, effectPosition);
+    RpcPlayEffect(effectName, effectPosition);
   }
 
-  public void PlayEffect(string effectName, Vector3 effectPosition)
+  [ClientRpc]
+  public void RpcPlayEffect(string effectName, Vector3 effectPosition)
   {
     foreach (var e in effects)
     {
@@ -325,17 +336,18 @@ public class PlayerScript : NetworkBehaviour
     }
   }
 
+  [Command]
+  public void CmdPlaySound(string sound, Vector3 position)
+  {
+    RpcPlaySound(sound, position);
+  }
+
   [ClientRpc]
   public void RpcPlaySound(string sound, Vector3 position)
   {
-    PlaySound(sound, position);
-  }
-
-  public void PlaySound(string sound, Vector3 position)
-  {
     foreach (var s in sounds)
     {
-      if (s.name.Equals(sound, System.StringComparison.InvariantCultureIgnoreCase))
+      if (s != null && s.name.Equals(sound, System.StringComparison.InvariantCultureIgnoreCase))
       {
         AudioSource.PlayClipAtPoint(s, position);
       }
@@ -382,9 +394,14 @@ public class PlayerScript : NetworkBehaviour
   private void CmdEndQTE(QTEResult result)
   {
     // Tell players result
-    if (result == QTEResult.NotCompleted) GameServer.PlaySound("qte_notcompleted", this.transform.position);
-    else if (result == QTEResult.Failure) GameServer.PlaySound("qte_failure", this.transform.position);
-    else if (result == QTEResult.Success) GameServer.PlaySound("qte_success", this.transform.position);
+    if (result == QTEResult.NotCompleted) RpcPlaySound("qte_notcompleted", this.transform.position);
+    else if (result == QTEResult.Failure) RpcPlaySound("qte_failure", this.transform.position);
+    else if (result == QTEResult.Success)
+    {
+      RpcPlaySound("qte_success", this.transform.position);
+
+      RpcPlaySound("agent_ok", this.transform.position);
+    }
 
     // Update quests!
     for (int i = 0; i < quests.Count; i++)

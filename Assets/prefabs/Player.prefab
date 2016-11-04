@@ -43,7 +43,6 @@ GameObject:
   - 114: {fileID: 114000014057350680}
   - 114: {fileID: 114000014004105760}
   - 114: {fileID: 114000011237855002}
-  - 143: {fileID: 143000011166166516}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -574,16 +573,21 @@ MonoBehaviour:
   fpsController: {fileID: 114000014057350680}
   fpsCamera: {fileID: 20000011091536058}
   sounds:
-  - {fileID: 8300000, guid: 90821751fcbe8584b8d6d65b9adbc049, type: 3}
+  - {fileID: 0}
   - {fileID: 8300000, guid: 018e15f157b831d42987e38bb1ec9ec2, type: 3}
   - {fileID: 8300000, guid: b39c2483b792eea4bb1ae01d012a701b, type: 3}
   - {fileID: 8300000, guid: 8a5e3df4ea7e10c4295fb44a1ac154ee, type: 3}
-  - {fileID: 8300000, guid: ee45906928e96f043bca6f1e159d6b46, type: 3}
+  - {fileID: 8300000, guid: b69540cf41cee5c46acbf9d90a22216b, type: 3}
   - {fileID: 8300000, guid: c3bfaf8a23178ba43bd0e891222a33e5, type: 3}
   - {fileID: 8300000, guid: c6eaa0ea3ed9f2844819c29ed9fe0c3b, type: 3}
   - {fileID: 8300000, guid: 286359dca00764242b1e4c4fc002eb1c, type: 3}
   - {fileID: 8300000, guid: dc8f09ddf563aca48b91f04af69c06c6, type: 3}
   - {fileID: 8300000, guid: 8c9bddeee0435ed4eb497f0c9d40836d, type: 3}
+  - {fileID: 8300000, guid: 142d1d27c2ac4ca4ebab906fb54e4700, type: 3}
+  - {fileID: 8300000, guid: a1134719cd6e5c644ae2af94a96e9551, type: 3}
+  - {fileID: 8300000, guid: 515064aed0aa4ad43a1312c54a58d00f, type: 3}
+  - {fileID: 8300000, guid: 7de189befe953b54882919a57f3021e8, type: 3}
+  - {fileID: 8300000, guid: 2f8a104fa867b594ca5240c2cc64a38f, type: 3}
   effects:
   - {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
 --- !u!114 &114000011237855002
@@ -759,23 +763,6 @@ CapsuleCollider:
   m_Radius: 0.8
   m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!143 &143000011166166516
-CharacterController:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011124321524}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212000010878838828
 SpriteRenderer:
