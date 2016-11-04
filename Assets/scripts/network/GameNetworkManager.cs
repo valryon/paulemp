@@ -9,7 +9,10 @@ public class GameNetworkManager : NetworkManager
 
   public override void OnClientConnect(NetworkConnection conn)
   {
-    //base.OnClientConnect(conn);
+    if(NetworkServer.active)
+    {
+      base.OnClientConnect(conn);
+    }
 
     GameServer.PlaySound("player_connect", this.transform.position);
   }

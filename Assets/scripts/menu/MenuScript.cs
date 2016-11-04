@@ -96,9 +96,6 @@ public class MenuScript : MonoBehaviour
 
   public void LaunchClient()
   {
-    serverPanel.SetActive(false);
-    clientPanel.SetActive(false);
-
     int p = 0;
     if (int.TryParse(clientPort.text, out p))
     {

@@ -67,9 +67,13 @@ public class PlayerScript : NetworkBehaviour
   public void SetBoothOrder()
   {
     var booths = FindObjectsOfType<BoothScript>().OrderBy(b => Random.Range(0, 100)).ToList();
-    if(booths.Count == 0)
+    if (booths.Count == 0)
     {
       Debug.LogError("No booth found... wth, network issue?");
+    }
+    if (booths.Count == 1)
+    {
+      Debug.LogError("Only one booth found?! wth, network issue?");
     }
 
     var first = booths.Where(b => b.data.isFirst).First();
