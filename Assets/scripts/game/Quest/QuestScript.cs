@@ -89,7 +89,7 @@ public class QuestList : SyncListStruct<Quest>
     int id = startId;
     bool allow = true;
 
-    while (weNeedToGoDeeper)
+    while (weNeedToGoDeeper && allow)
     {
       // Get dependency
       Quest quest = this.Where(q => q.boothID == id).FirstOrDefault();
@@ -97,7 +97,12 @@ public class QuestList : SyncListStruct<Quest>
       if (id != startId)
       {
         allow &= quest.completed;
-        if (!allow) weNeedToGoDeeper = false;
+      }
+      else
+      {
+        // First quest
+        // Cannot be completed if not revealed
+        allow &= quest.revealed;
       }
 
       if (quest.boothIDDependency < 0)
