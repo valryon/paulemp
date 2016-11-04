@@ -55,6 +55,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013605679298}
   - 212: {fileID: 212000012793024232}
+  - 114: {fileID: 114000012021518264}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -130,6 +131,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   booth: {fileID: 0}
+--- !u!114 &114000012021518264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011688723482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94bd63f9453ffea48bf09165c12aa294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugMode: 0
+  defaultAnimation: {fileID: 11400000, guid: e39c4400689ebd3419d639b9c216ba42, type: 2}
+  clips:
+  - {fileID: 11400000, guid: e39c4400689ebd3419d639b9c216ba42, type: 2}
+  - {fileID: 11400000, guid: 73342c34fed690e458b9c8019b014bb2, type: 2}
+  destroyGameObjectWhenFinished: 0
+  speed: 1
 --- !u!114 &114000013938281384
 MonoBehaviour:
   m_ObjectHideFlags: 1

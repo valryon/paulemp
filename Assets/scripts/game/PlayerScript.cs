@@ -65,7 +65,7 @@ public class PlayerScript : NetworkBehaviour
   public void SetBoothOrder()
   {
     var booths = FindObjectsOfType<BoothScript>().OrderBy(b => Random.Range(0, 100)).ToList();
-    
+
     var first = booths.Where(b => b.data.isFirst).First();
     booths.Remove(first);
     var last = booths.Where(b => b.data.isLast).First();
@@ -269,6 +269,10 @@ public class PlayerScript : NetworkBehaviour
         booth.agent.transform.LookAt(this.transform);
         booth.agent.transform.rotation = Quaternion.Euler(0, booth.agent.transform.eulerAngles.y, 0);
 
+        // Make agent talk
+        NetworkIdentity agentNet = booth.agent.GetComponent<NetworkIdentity>();
+        RpcPlayAnimation("talk", agentNet.netId);
+
         int number = tickets.GetFor(booth.data.boothId);
         if (number == booth.currentTicketNumber)
         {
@@ -401,6 +405,20 @@ public class PlayerScript : NetworkBehaviour
     for (int i = 0; i < q.Length; i++)
     {
       this.quests.Add(q[i]); ;
+    }
+  }
+
+  [ClientRpc]
+  public void RpcPlayAnimation(string animName, NetworkInstanceId id)
+  {
+    GameObject b = NetworkServer.FindLocalObject(id);
+    if (b != null)
+    {
+      SimpleAnimator anim = b.GetComponentInChildren<SimpleAnimator>();
+      if (anim != null)
+      {
+        anim.Play(animName);
+      }
     }
   }
 

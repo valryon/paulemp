@@ -12,9 +12,9 @@ public class AgentScript : NetworkBehaviour
 
   void Interact(PlayerScript p)
   {
-    if(boothScript == null)
+    if (boothScript == null)
     {
-      if(booth != null)
+      if (booth != null)
       {
         boothScript = booth.GetComponent<BoothScript>();
       }
