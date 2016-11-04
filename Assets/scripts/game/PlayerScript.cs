@@ -293,13 +293,13 @@ public class PlayerScript : NetworkBehaviour
           // Quest dependencies satisfied?
           if (quests.CanBeCompleted(booth))
           {
-            RpcPlaySound("agent_hello", this.transform.position);            
+            RpcPlaySound("agent_hello", this.transform.position);
             booth.Accept(this);
           }
           else
           {
             Debug.Log("Reveal required quest");
-            RpcPlaySound("agent_miss_document", this.transform.position);            
+            RpcPlaySound("agent_miss_document", this.transform.position);
             quests.Reveal((int)booth.netId.Value);
           }
         }
@@ -431,8 +431,7 @@ public class PlayerScript : NetworkBehaviour
     GameObject b = NetworkServer.FindLocalObject(id);
     if (b != null)
     {
-      SimpleAnimator anim = b.GetComponentInChildren<SimpleAnimator>();
-      if (anim != null)
+      foreach (SimpleAnimator anim in b.GetComponentsInChildren<SimpleAnimator>())
       {
         anim.Play(animName);
       }
