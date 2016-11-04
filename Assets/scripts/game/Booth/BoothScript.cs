@@ -40,6 +40,9 @@ public class BoothScript : NetworkBehaviour
   public BoothData data;
 
   [SyncVar]
+  public GameObject agent;
+
+  [SyncVar]
   public float ticketWaitCooldown;
 
   [SyncVar]
@@ -76,11 +79,13 @@ public class BoothScript : NetworkBehaviour
     data.isLast = last;
 
     // Create PNJ
-    var pnj = Instantiate(pnjPrefab, pnjLocation.position, pnjLocation.rotation) as GameObject;
-    AgentScript agent = pnj.GetComponent<AgentScript>();
-    agent.booth = this.gameObject;
-    pnj.transform.parent = this.transform.parent;
-    NetworkServer.Spawn(pnj);
+    var agentGameObject = Instantiate(pnjPrefab, pnjLocation.position, pnjLocation.rotation) as GameObject;
+    var agentScript = agentGameObject.GetComponent<AgentScript>();
+    agentScript.booth = this.gameObject;
+    agentGameObject.transform.parent = this.transform.parent;
+    NetworkServer.Spawn(agentGameObject);
+
+    agent = agentGameObject;
 
     // Set random ticket number
     lastTicketNumber = Random.Range(10, 99);

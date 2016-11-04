@@ -265,6 +265,10 @@ public class PlayerScript : NetworkBehaviour
 
       if (booth != null && booth.busy == false)
       {
+        // Make the agent look at player
+        booth.agent.transform.LookAt(this.transform);
+        booth.agent.transform.rotation = Quaternion.Euler(0, booth.agent.transform.eulerAngles.y, 0);
+
         int number = tickets.GetFor(booth.data.boothId);
         if (number == booth.currentTicketNumber)
         {
