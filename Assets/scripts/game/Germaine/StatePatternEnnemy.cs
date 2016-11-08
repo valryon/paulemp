@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class StatePatternEnnemy : MonoBehaviour {
-
-
+public class StatePatternEnnemy : NetworkBehaviour {
+  
 	public float searchingTurnSpeed = 120f;
 	public float searchingDuration = 4f;
 	public float sightRange = 20f;
@@ -19,7 +19,8 @@ public class StatePatternEnnemy : MonoBehaviour {
 	[HideInInspector] public PatrolState patrolState;
 	[HideInInspector] public NavMeshAgent navMeshAgent;
 
-	private void Awake()
+  [ServerCallback]
+  private void Awake()
 	{
 		chaseState = new ChaseState(this);
 		alertState = new AlertState(this);
@@ -28,20 +29,21 @@ public class StatePatternEnnemy : MonoBehaviour {
 		navMeshAgent = GetComponent<NavMeshAgent>();
 	}
 
-	// Use this for initialization
-	void Start () {
+  [ServerCallback]
+  void Start () {
 
 		currentState = patrolState;
 	
 	}
 	
-	// Update is called once per frame
+	[ServerCallback]
 	void Update () {
 	
 		currentState.UpdateState ();
 	}
 
-	private void OnTriggerEnter (Collider other){
+  [ServerCallback]
+  private void OnTriggerEnter (Collider other){
 	
 		currentState.OnTriggerEnter (other);
 	}
