@@ -6,7 +6,7 @@
 
 public enum QTEResult
 {
-  NotCompleted,
+  TimeOut,
   Success,
   Failure,
 }
