@@ -594,6 +594,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0ba8a2e9df2e47d4cabdd93e5f923e68, type: 3}
   - {fileID: 8300000, guid: c822ce2a33485704482449d5e10299f8, type: 3}
   - {fileID: 8300000, guid: a158b16fafc46e244a9940db8d628a74, type: 3}
+  - {fileID: 8300000, guid: 7c768e974393c2647bd6438993c06d5f, type: 3}
+  - {fileID: 8300000, guid: 26328afa7e8917746823fdbd36b67020, type: 3}
+  - {fileID: 8300000, guid: f76e190f96bfe33458f059edfe8423f6, type: 3}
   effects:
   - {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
   elapsedTime: 0
