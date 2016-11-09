@@ -39,7 +39,7 @@ public class StatePatternEnnemy : NetworkBehaviour {
 	[ServerCallback]
 	void Update () {
 	
-		currentState.UpdateState ();
+		//currentState.UpdateState ();
 	}
 
   [ServerCallback]

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Assets.scripts.network;
 
 public class GameServer : NetworkBehaviour
 {
   private List<BoothScript> booths = new List<BoothScript>();
 
+
   [ServerCallback]
   void Start()
   {
-    
-    
 
-
+    
 
 
 
