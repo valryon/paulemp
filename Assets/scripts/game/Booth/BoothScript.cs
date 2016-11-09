@@ -22,10 +22,7 @@ public class BoothScript : NetworkBehaviour
   public TicketMachineScript ticketMachine;
   public Text ticketDisplay;
   public Text boothNumberDisplay;
-
-  [Header("QTE List")]
-  public QTEScript qteList;
-
+  
   [Header("Gameplay")]
   public float waitBetweenTickets = 10f;
 
