@@ -35,7 +35,7 @@ public class PlayerScript : NetworkBehaviour
   private uint qteBoothId;
 
   private bool wasJumping;
-
+  private bool isGameOver;
 
   #endregion
 
@@ -53,8 +53,8 @@ public class PlayerScript : NetworkBehaviour
       Destroy(model.gameObject);
       Destroy(sprites);
 
-      ui.player = this;
-      ui.gameObject.SetActive(true);
+      ui.Player = this;
+      ui.ShowHUD();
 
       this.name += " (Local)";
 
@@ -120,6 +120,8 @@ public class PlayerScript : NetworkBehaviour
   [ClientCallback]
   void UpdateClient()
   {
+    if (isGameOver) return;
+
     if (isLocalPlayer)
     {
       if (wasJumping == false && fpsController.Jumping)
@@ -167,6 +169,21 @@ public class PlayerScript : NetworkBehaviour
         }
       }
       //--------------------------------------------------------------------------------
+
+
+      // Quests all completed?
+      bool gameOver = quests.Count > 0;
+      for (int i = 0; i < quests.Count; i++)
+      {
+        gameOver &= quests[i].completed;
+      }
+
+      if (gameOver)
+      {
+        isGameOver = true;
+        fpsController.enabled = false;
+        ui.ShowGameOver(elapsedTime);
+      }
     }
   }
 
