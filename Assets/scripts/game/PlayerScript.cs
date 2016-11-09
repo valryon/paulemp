@@ -26,12 +26,16 @@ public class PlayerScript : NetworkBehaviour
   [SyncVar]
   public QuestList quests = new QuestList();
 
+  [SyncVar]
+  public float elapsedTime;
+
   private PlayerUIScript ui;
   private Ray raycast;
   private bool isPlayingQTE;
   private uint qteBoothId;
 
   private bool wasJumping;
+
 
   #endregion
 
@@ -110,6 +114,7 @@ public class PlayerScript : NetworkBehaviour
   void Update()
   {
     UpdateClient();
+    UpdateServer();
   }
 
   [ClientCallback]
@@ -163,6 +168,12 @@ public class PlayerScript : NetworkBehaviour
       }
       //--------------------------------------------------------------------------------
     }
+  }
+
+  [ServerCallback]
+  void UpdateServer()
+  {
+    elapsedTime += Time.deltaTime;
   }
 
   #endregion

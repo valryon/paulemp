@@ -9,6 +9,7 @@ public class PlayerUIScript : MonoBehaviour
   public Text objectives;
   public Text tickets;
   public Image crosshair;
+  public Text elapsedTime;
 
   public PlayerScript player;
 
@@ -24,9 +25,18 @@ public class PlayerUIScript : MonoBehaviour
 
   void Update()
   {
+    if (player == null) return;
+
     objectives.text = player.quests.ToReadableString();
 
     tickets.text = player.tickets.ToReadableString();
+
+    var t = System.TimeSpan.FromSeconds(player.elapsedTime);
+    string time = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
+                    t.Hours,
+                    t.Minutes,
+                    t.Seconds);
+    elapsedTime.text = time;
   }
 
   public void SetCrosshairColor(Color c)
