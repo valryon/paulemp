@@ -32,6 +32,7 @@ public class PlayerScript : NetworkBehaviour
   private PlayerUIScript ui;
   private Ray raycast;
   private bool isPlayingQTE;
+
   private uint qteBoothId;
 
   private bool wasJumping;
@@ -381,12 +382,20 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcPlaySound(string sound, Vector3 position)
   {
+    // Find all clips starting with the given name
+    List<AudioClip> clips = new List<AudioClip>();
     foreach (var s in sounds)
     {
-      if (s != null && s.name.Equals(sound, System.StringComparison.InvariantCultureIgnoreCase))
+      if (s != null && s.name.ToLower().StartsWith(sound.ToLower()))
       {
-        AudioSource.PlayClipAtPoint(s, position);
+        clips.Add(s);
       }
+    }
+
+    // Play a random clip among the ones found
+    if (clips.Count > 0)
+    {
+      AudioSource.PlayClipAtPoint(clips[Random.Range(0, clips.Count)], position);
     }
   }
 
@@ -429,13 +438,32 @@ public class PlayerScript : NetworkBehaviour
   [Command]
   private void CmdEndQTE(QTEResult result)
   {
+    // Get booth and make agent talk
+    var o = NetworkServer.FindLocalObject(new NetworkInstanceId(qteBoothId));
+    if (o != null)
+    {
+      BoothScript b = o.GetComponent<BoothScript>();
+      if (b != null)
+      {
+        NetworkIdentity agentNet = b.agent.GetComponent<NetworkIdentity>();
+        RpcPlayAnimation("talk", agentNet.netId);
+      }
+    }
+
     // Tell players result
-    if (result == QTEResult.NotCompleted) RpcPlaySound("qte_notcompleted", this.transform.position);
-    else if (result == QTEResult.Failure) RpcPlaySound("qte_failure", this.transform.position);
+    if (result == QTEResult.TimeOut)
+    {
+      RpcPlaySound("qte_notcompleted", this.transform.position);
+      RpcPlaySound("agent_timeout", this.transform.position);
+    }
+    else if (result == QTEResult.Failure)
+    {
+      RpcPlaySound("qte_failure", this.transform.position);
+      RpcPlaySound("agent_error", this.transform.position);
+    }
     else if (result == QTEResult.Success)
     {
       RpcPlaySound("qte_success", this.transform.position);
-
       RpcPlaySound("agent_ok", this.transform.position);
     }
 
