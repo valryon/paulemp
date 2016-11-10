@@ -3,7 +3,8 @@
   None,
   PhoneNumber,
   Luck,
-  Speed
+  Speed,
+  Nda
 }
 
 public enum QTEResult
