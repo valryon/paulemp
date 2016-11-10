@@ -2,7 +2,8 @@
 {
   None,
   PhoneNumber,
-  Luck
+  Luck,
+  Speed
 }
 
 public enum QTEResult

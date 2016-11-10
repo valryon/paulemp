@@ -142,7 +142,7 @@ GameObject:
   - 4: {fileID: 4000012790172116}
   - 114: {fileID: 114000010791300774}
   m_Layer: 0
-  m_Name: ColorMatching
+  m_Name: LuckTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
