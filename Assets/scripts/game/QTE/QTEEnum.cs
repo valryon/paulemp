@@ -1,7 +1,8 @@
 ﻿public enum QTEEnum
 {
   None,
-  PhoneNumber
+  PhoneNumber,
+  Luck
 }
 
 public enum QTEResult
