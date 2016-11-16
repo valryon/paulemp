@@ -1,7 +1,10 @@
 ﻿public enum QTEEnum
 {
   None,
-  PhoneNumber
+  PhoneNumber,
+  Luck,
+  Speed,
+  Nda
 }
 
 public enum QTEResult
