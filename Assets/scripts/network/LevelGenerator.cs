@@ -13,6 +13,9 @@ namespace Assets.scripts.network
     {
 
 
+        [Header("Floor")]
+        public GameObject floorInst;
+
         [Header("Stairs")]
         public GameObject stairCaseFirst;
         public GameObject stairCase;
@@ -22,7 +25,11 @@ namespace Assets.scripts.network
         public GameObject[] rooms;
 
         [Header("Params")]
-        public int floors;
+        public int seed = 42;
+
+        public int floorsMin = 1;
+        public int floorsMax = 1;
+
         public int nbMinStair = 1;
         public int nbMaxStair = 1;
         public int size = 5;
@@ -37,12 +44,12 @@ namespace Assets.scripts.network
             return UnityEngine.Random.value * (max - min) + min;
         }
 
-        private bool isFree(ref int[][] grid, int x, int y, int offX, int offY)
+        private bool isFree(ref int[][] grid, int x, int y, int sizeX, int sizeY, int marginLeft, int marginTop, int marginRigth, int marginBottom)
         {
-            for (var j = y; j < y + offY; ++j)
+            for (var j = y - marginTop; j < y + sizeY + marginBottom; ++j)
             {
                 if (j >= grid.Length) return false;
-                for (var i = x; i < x + offX; ++i)
+                for (var i = x + marginLeft; i < x + sizeX + marginRigth; ++i)
                 {
                     if (i >= grid[y].Length) return false;
                     if (grid[j][i] != 0) return false;
@@ -52,15 +59,39 @@ namespace Assets.scripts.network
         }
 
 
-        private void fillGrid(ref int[][] grid, int x, int y, int offX, int offY, int type)
+        private void fillGrid(ref int[][] grid, int x, int y, int offX, int offY, int marginLeft, int marginTop, int marginRigth, int marginBottom, int type)
         {
             int p = 0;
-            for (var j = 0; j < offY; ++j)
+            for (var j = 0 - marginTop; j < offY + marginBottom; ++j)
             {
-                for (var i = 0; i < offX; ++i)
-                {
-                    grid[j+ y][i + y] = type + p;
+                for (var i = 0- marginLeft; i < offX + marginRigth; ++i)
+                {              
+                    if(j < 0 || j >= offY || i < 0 || i >= offX)
+                    {
+                        grid[j + y][i + x] = 2; // it s a margin
+                    } 
+                    else
+                    {
+                        grid[j + y][i + x] = type + p;
+                    }
                     if (i == 0 && j == 0) p = 1; //upper left corner parent, others are child => lower bit set to 1
+                }
+            }
+
+        }
+
+
+
+        private void setRooms(ref int[][] grid)
+        {
+            for (var y = 0; y < levelSizeY; ++y)
+            {
+                for (var x = 0; x < levelSizeX; ++x)
+                {
+                    var p = getRandom(0, 100);
+                    if (p >80) continue;
+                    if (!isFree(ref grid, x, y, 2, 2, 0, 0, 0, 1)) continue;
+                    fillGrid(ref grid, x, y, 2, 2, 0, 0, 0, 1, 20);
                 }
             }
         }
@@ -68,37 +99,55 @@ namespace Assets.scripts.network
 
         private void initGrid(ref int[][] grid, int sizeX, int sizeY, ref Vector2[] stairs) 
         {
-            grid = new int[sizeY][];
+            if (grid == null) grid = new int[sizeY][];
             for (var y = 0; y < sizeY; ++y) 
             {
-                grid[y] = new int[sizeX];
+                if (grid[y] == null) grid[y] = new int[sizeX];
                 for (var x = 0; x < sizeX; ++x)
                 {
                     grid[y][x] = 0;
                     if (stairs != null)
                     {
-                        if (stairs.Contains(new Vector2(x,y)))
+                        if (stairs.Contains(new Vector2(x, y)))
                         {
-                            fillGrid(ref grid, x, y, 2, 2, 10);
+
+                            fillGrid(ref grid, x, y, 2, 2, 1, 1, 1, 1, 10);
+                        }
+                    }
+                }
+            }
+            // for stairs
+            if (stairs != null)
+            {
+                for (var y = 0; y < sizeY; ++y)
+                {
+                    for (var x = 0; x < sizeX; ++x)
+                    {
+                        if (stairs.Contains(new Vector2(x, y)))
+                        {
+                            fillGrid(ref grid, x, y, 2, 2, 1, 1, 1, 1, 10);
                         }
                     }
                 }
             }
         }
 
+
         private void buildLevel(ref int[][] grid, int floor, int nbFloors)
         {
+ 
            for (var y = 0; y < levelSizeY; ++y) {
                 for (var x = 0; x < levelSizeX; ++x) 
                 {
-                    Vector3 v = new Vector3(x * blockSize.x, y * blockSize.y, floor * blockSize.z);
+                    Vector3 v = new Vector3(y * blockSize.x, floor * blockSize.y + 1, x * blockSize.z);
                     if (grid[y][x] == 10) // stairCase
                     {
+                        Debug.Log("Instantiate stairs at " + v);
                         if (floor == 0)
                         {
                             Instantiate(stairCaseFirst, v, Quaternion.identity);
                         } 
-                        else if (floor == nbFloors) 
+                        else if (floor == nbFloors - 1) 
                         {
                             Instantiate(stairCaseLast, v, Quaternion.identity);
                         }
@@ -107,19 +156,44 @@ namespace Assets.scripts.network
                             Instantiate(stairCase, v, Quaternion.identity);
                         }
                     }
+                    else if (grid[y][x] == 20) //rooms
+                    {
+                        
+                        var r = (int)getRandom(0, rooms.Length);
+                        Instantiate(rooms[r], v, Quaternion.identity);
+                    }
+                    else if (grid[y][x] < 10 && grid[y][x] % 2 == 0 )
+                    {
+                        Instantiate(floorInst, v, Quaternion.identity);
+                    }
                 }
             }
         }
 
-
+        private void dumpFloor(ref int[][] grid, int floor)
+        {
+            Debug.Log("======= Dump floor " + floor + "====================================");
+            for (var y = 0; y < levelSizeY; ++y)
+            {
+                var str = String.Format("y {0,4}: ", y.ToString("D2")); 
+                for (var x = 0; x < levelSizeX; ++x)
+                {
+                    str += String.Format("{0,-4}", grid[y][x].ToString("D2"));
+                }
+                Debug.Log(str);
+            }
+             Debug.Log("====================================================================");
+        }
 
         public void Start()
         {
             Debug.Log("Start procedural level generation");
-            levelSizeX = 10;
-            levelSizeY = 5;
+            UnityEngine.Random.InitState(seed);
+            levelSizeX = 30;
+            levelSizeY = 10;
             int[][] grid = null;
             Vector2[] stairsPosition = null;
+            // Warmup
             initGrid(ref grid, levelSizeX, levelSizeY, ref stairsPosition);
             var nbStairs = (int)getRandom(nbMinStair, nbMaxStair);
             stairsPosition = new Vector2[nbStairs];
@@ -129,20 +203,26 @@ namespace Assets.scripts.network
                 do
                 {
                     var x = (int)getRandom(0, levelSizeX);
-                    var y = (int)getRandom(0, levelSizeY);
-                    if (isFree(ref grid, x, y, 2, 2))
+                    var y = (int)getRandom(0, levelSizeY/2) * 2;
+                    if (isFree(ref grid, x, y, 2, 2, 1, 1, 1, 1))
                     {
                         added = true;
-                        fillGrid(ref grid, x, y, 2, 2, 10);
+                        fillGrid(ref grid, x, y, 2, 2, 1, 1, 1, 1, 10);
                         stairsPosition[s] = new Vector2(x, y);
                     }
                 } while (!added);
 
             }
-
-            //last step, build level floor
-            buildLevel(ref grid, 0, 10);
-
+            //  Warmup done
+            var nbFloors = (int)getRandom(floorsMin, floorsMax);
+            for(var f = 0; f < nbFloors; ++f)
+            {
+                initGrid(ref grid, levelSizeX, levelSizeY, ref stairsPosition);
+                setRooms(ref grid);
+                //last step, build level floor
+                buildLevel(ref grid, f, nbFloors);
+                dumpFloor(ref grid, f);
+            }
         }
 
 
