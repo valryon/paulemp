@@ -178,6 +178,14 @@ public class PlayerScript : NetworkBehaviour
           }
         }
       }
+
+#if !UNITY_EDITOR
+      if(Input.GetKeyDown(KeyCode.Escape))
+      {
+        NetworkManager.singleton.StopClient();
+        Application.Quit();
+      }
+#endif
       //--------------------------------------------------------------------------------
 
 
@@ -203,13 +211,13 @@ public class PlayerScript : NetworkBehaviour
     elapsedTime += Time.deltaTime;
   }
 
-  #endregion
+#endregion
 
-  #region Methods
+#region Methods
 
-  #endregion
+#endregion
 
-  #region RPC
+#region RPC
 
   [ClientRpc]
   public void RpcGenerateLevel(int seed)
@@ -527,14 +535,14 @@ public class PlayerScript : NetworkBehaviour
     }
   }
 
-  #endregion
+#endregion
 
-  #region Debug
+#region Debug
 
   void OnDrawGizmos()
   {
     Gizmos.DrawRay(raycast);
   }
 
-  #endregion
+#endregion
 }

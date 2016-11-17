@@ -10,7 +10,7 @@ public class GameNetworkManager : NetworkManager
   public override void OnClientConnect(NetworkConnection conn)
   {
     base.OnClientConnect(conn);
-    Debug.Log("CLIENT connected from " + conn.address);
+    Debug.Log("CLIENT connected to " + conn.address);
 
     GameServer.PlaySound("player_connect", this.transform.position);
   }
@@ -19,8 +19,6 @@ public class GameNetworkManager : NetworkManager
   {
     base.OnClientDisconnect(conn);
     Debug.Log("CLIENT disconnected from " + conn.address);
-
-    GameServer.PlaySound("player_disconnect", this.transform.position);
   }
 
   public override void OnServerReady(NetworkConnection conn)
@@ -47,5 +45,27 @@ public class GameNetworkManager : NetworkManager
 
     var gameServer = FindObjectOfType<GameServer>();
     gameServer.RequestLevelCreation();
+  }
+
+  public override void OnServerConnect(NetworkConnection conn)
+  {
+    base.OnServerConnect(conn);
+
+    Debug.Log("SERVER connection from " + conn.address);
+
+    GameServer.PlaySound("player_connect", this.transform.position);
+  }
+
+  public override void OnServerDisconnect(NetworkConnection conn)
+  {
+    base.OnServerDisconnect(conn);
+    Debug.Log("SERVER disconnected from " + conn.address);
+
+    GameServer.PlaySound("player_disconnect", this.transform.position);
+
+    if(conn.playerControllers.Count > 0)
+    {
+      NetworkServer.Destroy(conn.playerControllers[0].gameObject);
+    }
   }
 }
