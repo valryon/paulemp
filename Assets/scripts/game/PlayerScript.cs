@@ -76,8 +76,10 @@ public class PlayerScript : NetworkBehaviour
 
   public void SetBoothOrder()
   {
+    System.Random r = new System.Random();
+
     var agents = FindObjectsOfType<AgentScript>()
-      .OrderBy(b => Random.Range(0, 100))
+      .OrderBy(b => r.NextDouble())
       .ToList();
 
     if (agents.Count == 0)
@@ -357,8 +359,7 @@ public class PlayerScript : NetworkBehaviour
       if (agent != null && agent.busy == false)
       {
         // Make the agent look at player
-        agent.transform.LookAt(this.transform);
-        agent.transform.rotation = Quaternion.Euler(0, agent.transform.eulerAngles.y, 0);
+        agent.LookAt(this.transform);
 
         // Make agent talk
         NetworkIdentity agentNet = agent.GetComponent<NetworkIdentity>();

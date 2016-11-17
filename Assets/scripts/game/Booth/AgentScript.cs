@@ -37,7 +37,6 @@ public class AgentScript : NetworkBehaviour
   // NON-NETWORKED reference to a CLIENT obejct
   private BoothBaseScript localBoothRef;
   private Rigidbody rbody;
-  private Collider collider;
 
   #endregion
 
@@ -47,7 +46,6 @@ public class AgentScript : NetworkBehaviour
   void Start()
   {
     rbody = GetComponent<Rigidbody>();
-    collider = GetComponent<Collider>();
 
     Link();
   }
@@ -92,7 +90,6 @@ public class AgentScript : NetworkBehaviour
   {
     rbody.isKinematic = PlayerScript.HasGeneratedLevel;
     rbody.useGravity = PlayerScript.HasGeneratedLevel;
-    collider.enabled = PlayerScript.HasGeneratedLevel;
 
     if (PlayerScript.HasGeneratedLevel)
     {
@@ -138,6 +135,27 @@ public class AgentScript : NetworkBehaviour
         break;
       }
     }
+  }
+
+  /// <summary>
+  /// Look at something rotating Z axis only
+  /// </summary>
+  [Server]
+  public void LookAt(Transform t)
+  {
+    transform.LookAt(t);
+    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+  }
+
+  /// <summary>
+  /// Look at something rotating Z axis only
+  /// </summary>
+  [Server]
+  public void LookAtTicketMachine()
+  {
+    Link();
+
+    LookAt(Booth.ticketMachine.transform);
   }
 
   [Server]

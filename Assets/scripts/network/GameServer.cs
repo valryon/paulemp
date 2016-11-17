@@ -41,9 +41,12 @@ public class GameServer : NetworkBehaviour
     {
       boothCreated = true;
 
+      System.Random r = new System.Random();
+
       // Find all booth created by level generator
       var qtes = FindObjectsOfType<QTEScript>();
-      var booths = FindObjectsOfType<BoothBaseScript>();
+      var booths = FindObjectsOfType<BoothBaseScript>().OrderBy(b => r.NextDouble()).ToArray();
+
       int i = 0;
       foreach (var b in booths)
       {
@@ -56,6 +59,8 @@ public class GameServer : NetworkBehaviour
         agent.boothGeneratedID = b.GeneratedID;
         agent.EnableBooth(i, i == 0, i == booths.Length - 1, qtes[Random.Range(0, qtes.Length)].Type, b.Floor);
         i++;
+        
+        agent.LookAtTicketMachine();
       }
     }
   }
