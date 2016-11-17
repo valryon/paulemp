@@ -36,6 +36,8 @@ public class AgentScript : NetworkBehaviour
 
   // NON-NETWORKED reference to a CLIENT obejct
   private BoothBaseScript localBoothRef;
+  private Rigidbody rbody;
+  private Collider collider;
 
   #endregion
 
@@ -44,6 +46,9 @@ public class AgentScript : NetworkBehaviour
   [ClientCallback]
   void Start()
   {
+    rbody = GetComponent<Rigidbody>();
+    collider = GetComponent<Collider>();
+
     Link();
   }
 
@@ -85,6 +90,10 @@ public class AgentScript : NetworkBehaviour
   [ClientCallback]
   private void UpdateClient()
   {
+    rbody.isKinematic = PlayerScript.HasGeneratedLevel;
+    rbody.useGravity = PlayerScript.HasGeneratedLevel;
+    collider.enabled = PlayerScript.HasGeneratedLevel;
+
     if (PlayerScript.HasGeneratedLevel)
     {
       Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
