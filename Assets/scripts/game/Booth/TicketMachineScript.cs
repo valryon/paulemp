@@ -9,7 +9,7 @@ public class TicketMachineScript : MonoBehaviour
   #region Members
 
   [Header("Bindings")]
-  public BoothScript booth;
+  public AgentScript agent;
 
   #endregion
 
@@ -17,7 +17,7 @@ public class TicketMachineScript : MonoBehaviour
 
   void Interact(PlayerScript p)
   {
-    p.RequestTicket(booth);
+    p.RequestTicket(agent);
   }
 
   #endregion

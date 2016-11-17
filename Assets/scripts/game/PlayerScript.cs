@@ -30,6 +30,9 @@ public class PlayerScript : NetworkBehaviour
   public float elapsedTime;
 
   private PlayerUIScript ui;
+
+  private bool hasGeneratedLevel;
+
   private Ray raycast;
   private bool isPlayingQTE;
 
@@ -71,39 +74,39 @@ public class PlayerScript : NetworkBehaviour
 
   public void SetBoothOrder()
   {
-    var booths = FindObjectsOfType<BoothScript>().OrderBy(b => Random.Range(0, 100)).ToList();
-    if (booths.Count == 0)
+    var agents = FindObjectsOfType<AgentScript>().OrderBy(b => Random.Range(0, 100)).ToList();
+    if (agents.Count == 0)
     {
       Debug.LogError("No booth found... wth, network issue?");
     }
-    if (booths.Count == 1)
+    if (agents.Count == 1)
     {
       Debug.LogError("Only one booth found?! wth, network issue?");
     }
 
-    var first = booths.Where(b => b.data.isFirst).First();
-    booths.Remove(first);
-    var last = booths.Where(b => b.data.isLast).First();
-    booths.Remove(last);
+    var first = agents.Where(b => b.data.isFirst).First();
+    agents.Remove(first);
+    var last = agents.Where(b => b.data.isLast).First();
+    agents.Remove(last);
 
     var questsList = new List<Quest>();
 
     // First
-    var q = new Quest(first, booths[0], true, false, booths.Count + 1);
+    var q = new Quest(first, agents[0], true, false, agents.Count + 1);
     q.revealed = true;
     questsList.Add(q);
 
     // Between: random booth visit
-    for (int i = 0; i < booths.Count - 1; i++)
+    for (int i = 0; i < agents.Count - 1; i++)
     {
-      q = new Quest(booths[i], booths[i + 1], false, false, booths.Count - i);
+      q = new Quest(agents[i], agents[i + 1], false, false, agents.Count - i);
       questsList.Add(q);
     }
 
-    questsList.Add(new Quest(booths[booths.Count - 1], null, false, false, 0));
+    questsList.Add(new Quest(agents[agents.Count - 1], null, false, false, 0));
 
     // Last
-    q = new Quest(last, first, false, true, booths.Count + 2);
+    q = new Quest(last, first, false, true, agents.Count + 2);
     q.revealed = true;
     questsList.Add(q);
 
@@ -202,27 +205,38 @@ public class PlayerScript : NetworkBehaviour
 
   #region RPC
 
+  [ClientRpc]
+  public void RpcGenerateLevel(int seed)
+  {
+    if (hasGeneratedLevel == false)
+    {
+      LevelGenerator l = FindObjectOfType<LevelGenerator>();
+      l.Generate(seed);
+      hasGeneratedLevel = true;
+    }
+  }
+
   [Client]
-  public void RequestTicket(BoothScript booth)
+  public void RequestTicket(AgentScript agent)
   {
     // Player requested a ticket
     // Send a command to the server
     // Needs to be done HERE as a Command can only be called for local authority / player
-    CmdPrintTicket(booth.data.boothId);
+    CmdPrintTicket(agent.data.boothId);
   }
 
   [Command]
   private void CmdPrintTicket(int boothId)
   {
-    var booths = FindObjectsOfType<BoothScript>();
-    var booth = booths.Where(b => b.data.boothId == boothId).FirstOrDefault();
+    var agents = FindObjectsOfType<AgentScript>();
+    var agent = agents.Where(b => b.data.boothId == boothId).FirstOrDefault();
 
-    StartCoroutine(PrintTickets(booth));
+    StartCoroutine(PrintTickets(agent));
   }
 
-  private IEnumerator PrintTickets(BoothScript booth)
+  private IEnumerator PrintTickets(AgentScript agent)
   {
-    if (booth != null)
+    if (agent != null)
     {
       int count = 1;
 
@@ -233,7 +247,7 @@ public class PlayerScript : NetworkBehaviour
 
       for (int i = 0; i < count; i++)
       {
-        booth.PrintTicket();
+        agent.PrintTicket();
         RpcPlaySound("ticket_print", this.transform.position);
 
         yield return new WaitForSeconds(Random.Range(0.1f, 0.25f));
@@ -295,9 +309,9 @@ public class PlayerScript : NetworkBehaviour
   }
 
   [Client]
-  public void RequestCheckTicket(BoothScript booth)
+  public void RequestCheckTicket(AgentScript agent)
   {
-    CmdCheckTicket(booth.netId);
+    CmdCheckTicket(agent.netId);
   }
 
   [Command]
@@ -306,38 +320,38 @@ public class PlayerScript : NetworkBehaviour
     GameObject b = NetworkServer.FindLocalObject(id);
     if (b != null)
     {
-      BoothScript booth = b.GetComponent<BoothScript>();
+      AgentScript agent = b.GetComponent<AgentScript>();
 
-      if (booth != null && booth.busy == false)
+      if (agent != null && agent.busy == false)
       {
         // Make the agent look at player
-        booth.agent.transform.LookAt(this.transform);
-        booth.agent.transform.rotation = Quaternion.Euler(0, booth.agent.transform.eulerAngles.y, 0);
+        agent.transform.LookAt(this.transform);
+        agent.transform.rotation = Quaternion.Euler(0, agent.transform.eulerAngles.y, 0);
 
         // Make agent talk
-        NetworkIdentity agentNet = booth.agent.GetComponent<NetworkIdentity>();
+        NetworkIdentity agentNet = agent.GetComponent<NetworkIdentity>();
         RpcPlayAnimation("talk", agentNet.netId);
 
-        int number = tickets.GetFor(booth.data.boothId);
-        if (number == booth.currentTicketNumber)
+        int number = tickets.GetFor(agent.data.boothId);
+        if (number == agent.currentTicketNumber)
         {
           // Yeepee!
           RpcPlaySound("agent_ticket_ok", this.transform.position);
           Debug.Log("Ticket used!");
 
-          tickets.RemoveFor(booth.data.boothId);
+          tickets.RemoveFor(agent.data.boothId);
 
           // Quest dependencies satisfied?
-          if (quests.CanBeCompleted(booth))
+          if (quests.CanBeCompleted(agent))
           {
             RpcPlaySound("agent_hello", this.transform.position);
-            booth.Accept(this);
+            agent.Accept(this);
           }
           else
           {
             Debug.Log("Reveal required quest");
             RpcPlaySound("agent_miss_document", this.transform.position);
-            quests.Reveal((int)booth.netId.Value);
+            quests.Reveal((int)agent.netId.Value);
           }
         }
         else
@@ -442,14 +456,13 @@ public class PlayerScript : NetworkBehaviour
     var o = NetworkServer.FindLocalObject(new NetworkInstanceId(qteBoothId));
     if (o != null)
     {
-      BoothScript b = o.GetComponent<BoothScript>();
-      if (b != null)
+      AgentScript agent = o.GetComponent<AgentScript>();
+      if (agent != null)
       {
-        NetworkIdentity agentNet = b.agent.GetComponent<NetworkIdentity>();
-        RpcPlayAnimation("talk", agentNet.netId);
+        RpcPlayAnimation("talk", agent.netId);
       }
     }
-
+        
     // Tell players result
     if (result == QTEResult.TimeOut)
     {
@@ -471,7 +484,7 @@ public class PlayerScript : NetworkBehaviour
     for (int i = 0; i < quests.Count; i++)
     {
       var q = quests[i];
-      if (q.boothID == qteBoothId)
+      if (q.agentID == qteBoothId)
       {
         q.completed = true;
       }

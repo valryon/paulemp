@@ -6,19 +6,19 @@ using UnityEngine.Networking;
 public struct Quest
 {
   public string description;
-  public int boothID;
-  public int boothIDDependency;
+  public int agentID;
+  public int agentIDDependency;
   public bool revealed;
   public bool completed;
   public int order;
 
-  public Quest(BoothScript booth, BoothScript dependency, bool first, bool last, int priority)
+  public Quest(AgentScript agent, AgentScript dependency, bool first, bool last, int priority)
   {
-    boothID = (int)booth.netId.Value;
-    boothIDDependency = -1;
+    agentID = (int)agent.netId.Value;
+    agentIDDependency = -1;
     if (dependency != null)
     {
-      boothIDDependency = (int)dependency.netId.Value;
+      agentIDDependency = (int)dependency.netId.Value;
     }
 
     revealed = false;
@@ -26,7 +26,7 @@ public struct Quest
     description = string.Empty;
     order = priority;
 
-    description = GetDescription(booth, first, last);
+    description = GetDescription(agent, first, last);
   }
 
   private static string[] FirstActions = {
@@ -47,7 +47,7 @@ public struct Quest
     "Déposer le dossier au bureau {0}",
   };
 
-  private string GetDescription(BoothScript booth, bool first, bool last)
+  private string GetDescription(AgentScript agent, bool first, bool last)
   {
     var list = Actions;
     if (first) { list = FirstActions; }
@@ -55,7 +55,7 @@ public struct Quest
 
     var s = list[Random.Range(0, list.Length)];
 
-    return string.Format(s, booth.data.boothName);
+    return string.Format(s, agent.data.boothName);
   }
 
   public override string ToString()
@@ -82,17 +82,17 @@ public class QuestList : SyncListStruct<Quest>
     return s;
   }
 
-  public bool CanBeCompleted(BoothScript booth)
+  public bool CanBeCompleted(AgentScript agent)
   {
     bool weNeedToGoDeeper = true;
-    int startId = (int)booth.netId.Value;
+    int startId = (int)agent.netId.Value;
     int id = startId;
     bool allow = true;
 
     while (weNeedToGoDeeper && allow)
     {
       // Get dependency
-      Quest quest = this.Where(q => q.boothID == id).FirstOrDefault();
+      Quest quest = this.Where(q => q.agentID == id).FirstOrDefault();
 
       if (id != startId)
       {
@@ -105,13 +105,13 @@ public class QuestList : SyncListStruct<Quest>
         allow &= quest.revealed;
       }
 
-      if (quest.boothIDDependency < 0)
+      if (quest.agentIDDependency < 0)
       {
         weNeedToGoDeeper = false;
       }
       else
       {
-        id = quest.boothIDDependency;
+        id = quest.agentIDDependency;
       }
     }
 
@@ -126,7 +126,7 @@ public class QuestList : SyncListStruct<Quest>
     {
       var q = this[i];
 
-      if (q.boothID == id)
+      if (q.agentID == id)
       {
         q.revealed = true;
 
@@ -134,7 +134,7 @@ public class QuestList : SyncListStruct<Quest>
 
         if (recursive)
         {
-          Reveal(q.boothIDDependency, false);
+          Reveal(q.agentIDDependency, false);
         }
       }
     }

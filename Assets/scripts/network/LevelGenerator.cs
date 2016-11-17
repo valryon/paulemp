@@ -21,10 +21,7 @@ using UnityEngine.UI;
 
         [Header("Rooms")]
         public GameObject[] rooms;
-
-        [Header("Params")]
-        public int seed = 42;
-
+  
         public int floorsMin = 1;
         public int floorsMax = 1;
 
@@ -188,7 +185,7 @@ using UnityEngine.UI;
              Debug.Log("====================================================================");
         }
 
-        public void Generate()
+        public void Generate(int seed)
         {
             Debug.Log("Start procedural level generation");
             UnityEngine.Random.InitState(seed);

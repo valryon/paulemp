@@ -3,32 +3,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using Assets.scripts.network;
 
 public class GameServer : NetworkBehaviour
 {
-  private List<BoothScript> booths = new List<BoothScript>();
+  [Header("Settings")]
+  public int seed = 1;
 
+  [Header("Prefabs")]
+  public GameObject pnjPrefab;
+  public GameObject ticketMachinePrefab;
+  public GameObject ticketDisplayPrefab;
+  public GameObject displayPrefab;
+
+  private bool boothCreated = false;
+
+  void Awake()
+  {
+    // seed = Random.Range(0, 600000);
+    seed = 42;
+  }
 
   [ServerCallback]
   void Start()
   {
 
-    
+  }
 
+  [Server]
+  public void CreateLevelAndStuff()
+  {
+    // Create level
+    LevelGenerator l = FindObjectOfType<LevelGenerator>();
+    l.Generate(seed);
 
-
-    // TODO : Génération procédurale du niveau ? Ce serait à faire ici !
-
-    booths = FindObjectsOfType<BoothScript>().ToList();
-    var qtes = FindObjectsOfType<QTEScript>();
-
-    for (int i = 0; i < booths.Count; i++)
+    // Initialize booth, agents, tickets machines, etc.
+    // Do it server-side!
+    if (boothCreated == false)
     {
-      // Random y rotation
-      // booths[i].transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+      boothCreated = true;
 
-      booths[i].EnableBooth(i, i == 0, i == booths.Count - 1, qtes[Random.Range(0, qtes.Length)].Type);
+      // Find all booth created by level generator
+      var qtes = FindObjectsOfType<QTEScript>();
+      var booths = FindObjectsOfType<BoothBaseScript>();
+      int i = 0;
+      foreach (var b in booths)
+      {
+        // Create PNJ
+        var pnjGo = Instantiate(pnjPrefab, b.pnjLocation.position, b.pnjLocation.rotation) as GameObject;
+        var agent = pnjGo.GetComponent<AgentScript>();
+        NetworkServer.Spawn(pnjGo);
+
+        //// Create ticket machine
+        //var ticketMachineGo = Instantiate(ticketMachinePrefab, b.ticketMachineLocation.position, b.ticketMachineLocation.rotation) as GameObject;
+        //NetworkServer.Spawn(ticketMachineGo);
+
+        //// Create displays
+        //var ticketDisplay = Instantiate(ticketDisplayPrefab, b.ticketDisplayLocation.position, b.ticketDisplayLocation.rotation) as GameObject;
+        //NetworkServer.Spawn(ticketDisplay);
+
+        //var display = Instantiate(displayPrefab, b.displayLocation.position, b.displayLocation.rotation) as GameObject;
+        //NetworkServer.Spawn(display);
+
+        // Init agents
+        agent.EnableBooth(i, i == 0, i == booths.Length - 1, qtes[Random.Range(0, qtes.Length)].Type);
+        i++;
+      }
+    }
+  }
+
+  [Server]
+  public void RequestLevelCreation()
+  {
+    // Ask OTHERS players to create the level (do it for each new connection)
+    foreach (var p in FindObjectsOfType<PlayerScript>())
+    {
+      if (p.isLocalPlayer == false)
+      {
+        p.RpcGenerateLevel(seed);
+      }
     }
   }
 
