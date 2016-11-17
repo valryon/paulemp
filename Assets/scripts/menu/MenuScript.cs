@@ -100,8 +100,8 @@ public class MenuScript : MonoBehaviour
     if (int.TryParse(clientPort.text, out p))
     {
       var ip = clientIP.text;
-     // if (ADDRESS.IsMatch(ip))
-     // {
+      if (ADDRESS.IsMatch(ip))
+      {
         network.networkPort = p;
         network.networkAddress = ip;
 
@@ -113,11 +113,11 @@ public class MenuScript : MonoBehaviour
         status.gameObject.SetActive(true);
 
         network.StartClient();
-      //}
-      //else
-      //{
-      //  ip = "127.0.0.1";
-      //}
+      }
+      else
+      {
+        ip = "127.0.0.1";
+      }
     }
     else
     {
