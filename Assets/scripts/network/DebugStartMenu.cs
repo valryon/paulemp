@@ -2,7 +2,7 @@
 
 public class DebugStartMenu : MonoBehaviour
 {
-  private const int DEFAULT_PORT = 6666;
+  private const int DEFAULT_PORT = 7777;
   private const string DEFAULT_ADRESS = "127.0.0.1";
 
   private GameNetworkManager networkManager;

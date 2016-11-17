@@ -83,8 +83,11 @@ public class AgentScript : NetworkBehaviour
   [ClientCallback]
   private void UpdateClient()
   {
-    Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
-    Booth.display.text = data.boothName;
+    if (PlayerScript.HasGeneratedLevel)
+    {
+      Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
+      Booth.display.text = data.boothName;
+    }
   }
 
   [ServerCallback]

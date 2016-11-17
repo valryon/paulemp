@@ -11,7 +11,6 @@ public class GameNetworkManager : NetworkManager
 
   void Awake()
   {
-    gameServer = FindObjectOfType<GameServer>();
   }
 
   public override void OnClientConnect(NetworkConnection conn)
@@ -35,13 +34,15 @@ public class GameNetworkManager : NetworkManager
   {
     base.OnServerReady(conn);
 
+    var gameServer = FindObjectOfType<GameServer>();
     gameServer.CreateLevelAndStuff();
   }
 
   public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
   {
     base.OnServerAddPlayer(conn, playerControllerId);
-
+    
+    var gameServer = FindObjectOfType<GameServer>();
     gameServer.RequestLevelCreation();
   }
 }

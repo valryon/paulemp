@@ -11,9 +11,6 @@ public class GameServer : NetworkBehaviour
 
   [Header("Prefabs")]
   public GameObject pnjPrefab;
-  public GameObject ticketMachinePrefab;
-  public GameObject ticketDisplayPrefab;
-  public GameObject displayPrefab;
 
   private bool boothCreated = false;
 
@@ -64,13 +61,10 @@ public class GameServer : NetworkBehaviour
   [Server]
   public void RequestLevelCreation()
   {
-    // Ask OTHERS players to create the level (do it for each new connection)
+    // Ask ALL players to create the level (do it for each new connection)
     foreach (var p in FindObjectsOfType<PlayerScript>())
     {
-      if (p.isLocalPlayer == false)
-      {
-        p.RpcGenerateLevel(seed);
-      }
+      p.RpcGenerateLevel(seed);
     }
   }
 

@@ -7,6 +7,8 @@ using System.Collections;
 
 public class PlayerScript : NetworkBehaviour
 {
+  public static bool HasGeneratedLevel;
+
   #region Members
 
   public const int QUESTS_COUNT = 4;
@@ -32,9 +34,7 @@ public class PlayerScript : NetworkBehaviour
   public float elapsedTime;
 
   private PlayerUIScript ui;
-
-  private bool hasGeneratedLevel;
-
+  
   private Ray raycast;
   private bool isPlayingQTE;
 
@@ -214,11 +214,19 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcGenerateLevel(int seed)
   {
-    if (hasGeneratedLevel == false)
+    if (HasGeneratedLevel == false)
     {
-      LevelGenerator l = FindObjectOfType<LevelGenerator>();
-      l.Generate(seed);
-      hasGeneratedLevel = true;
+      if (NetworkServer.active)
+      {
+        // Host has a different generation
+        HasGeneratedLevel = true;
+      }
+      else if(isLocalPlayer)
+      {
+        LevelGenerator l = FindObjectOfType<LevelGenerator>();
+        l.Generate(seed);
+        HasGeneratedLevel = true;
+      }
     }
   }
 
