@@ -55,7 +55,7 @@ public class GameServer : NetworkBehaviour
 
         // Init agents
         agent.boothGeneratedID = b.GeneratedID;
-        agent.EnableBooth(i, i == 0, i == booths.Length - 1, qtes[Random.Range(0, qtes.Length)].Type);
+        agent.EnableBooth(i, i == 0, i == booths.Length - 1, qtes[Random.Range(0, qtes.Length)].Type, b.Floor);
         i++;
       }
     }

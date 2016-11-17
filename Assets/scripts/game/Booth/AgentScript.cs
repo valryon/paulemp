@@ -6,7 +6,7 @@ public class AgentScript : NetworkBehaviour
 {
 
   #region Members
-  
+
   public const float WAIT_BETWEEN_TICKETS = 2f;
 
   [Header("Prefabs")]
@@ -48,7 +48,7 @@ public class AgentScript : NetworkBehaviour
   }
 
   [Server]
-  public void EnableBooth(int id, bool first, bool last, QTEEnum qte)
+  public void EnableBooth(int id, bool first, bool last, QTEEnum qte, int floor)
   {
     this.qte = qte;
 
@@ -59,7 +59,7 @@ public class AgentScript : NetworkBehaviour
     var b = ((char)('A' + Random.Range(0, 26))).ToString();
     var c = ((char)('A' + Random.Range(0, 26))).ToString();
 
-    data.boothName = a + b + c + "-" + data.boothId.ToString("000");
+    data.boothName = floor.ToString("00") + "-" + a + b + c + "-" + data.boothId.ToString("000");
     data.isFirst = first;
     data.isLast = last;
 
@@ -109,7 +109,7 @@ public class AgentScript : NetworkBehaviour
   #endregion
 
   #region Methods
-  
+
   private void Link()
   {
     foreach (var b in FindObjectsOfType<BoothBaseScript>())
