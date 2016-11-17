@@ -9,6 +9,8 @@ public class PlayerScript : NetworkBehaviour
 {
   #region Members
 
+  public const int QUESTS_COUNT = 4;
+
   [Header("Bindings")]
   public MeshRenderer model;
   public GameObject sprites;
@@ -74,7 +76,10 @@ public class PlayerScript : NetworkBehaviour
 
   public void SetBoothOrder()
   {
-    var agents = FindObjectsOfType<AgentScript>().OrderBy(b => Random.Range(0, 100)).ToList();
+    var agents = FindObjectsOfType<AgentScript>()
+      .OrderBy(b => Random.Range(0, 100))
+      .ToList();
+
     if (agents.Count == 0)
     {
       Debug.LogError("No booth found... wth, network issue?");
@@ -88,25 +93,26 @@ public class PlayerScript : NetworkBehaviour
     agents.Remove(first);
     var last = agents.Where(b => b.data.isLast).First();
     agents.Remove(last);
+    var availableAgents = agents.Take(QUESTS_COUNT).ToList();
 
     var questsList = new List<Quest>();
 
     // First
-    var q = new Quest(first, agents[0], true, false, agents.Count + 1);
+    var q = new Quest(first, availableAgents[0], true, false, availableAgents.Count + 1);
     q.revealed = true;
     questsList.Add(q);
 
     // Between: random booth visit
-    for (int i = 0; i < agents.Count - 1; i++)
+    for (int i = 0; i < availableAgents.Count - 1; i++)
     {
-      q = new Quest(agents[i], agents[i + 1], false, false, agents.Count - i);
+      q = new Quest(availableAgents[i], availableAgents[i + 1], false, false, availableAgents.Count - i);
       questsList.Add(q);
     }
 
-    questsList.Add(new Quest(agents[agents.Count - 1], null, false, false, 0));
+    questsList.Add(new Quest(availableAgents[availableAgents.Count - 1], null, false, false, 0));
 
     // Last
-    q = new Quest(last, first, false, true, agents.Count + 2);
+    q = new Quest(last, first, false, true, availableAgents.Count + 2);
     q.revealed = true;
     questsList.Add(q);
 

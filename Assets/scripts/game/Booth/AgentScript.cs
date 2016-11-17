@@ -6,9 +6,8 @@ public class AgentScript : NetworkBehaviour
 {
 
   #region Members
-
-  [Header("Gameplay")]
-  public float waitBetweenTickets = 10f;
+  
+  public const float WAIT_BETWEEN_TICKETS = 2f;
 
   [Header("Prefabs")]
   public GameObject ticketPrefab;
@@ -71,7 +70,7 @@ public class AgentScript : NetworkBehaviour
 
     // Agent always makes player wait
     currentTicketNumber = lastTicketNumber - Random.Range(1, 10);
-    ticketWaitCooldown = Random.Range(0, 3f * waitBetweenTickets);
+    ticketWaitCooldown = Random.Range(0, 3f * WAIT_BETWEEN_TICKETS);
   }
 
   void Update()
@@ -131,7 +130,7 @@ public class AgentScript : NetworkBehaviour
   private void NextTicket()
   {
     busy = false;
-    ticketWaitCooldown = waitBetweenTickets;
+    ticketWaitCooldown = WAIT_BETWEEN_TICKETS;
 
     if (currentTicketNumber < lastTicketNumber)
     {

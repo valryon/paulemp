@@ -131,7 +131,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4d05db125992140b5fc84b594fb5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booth: {fileID: 0}
+  ticketPrefab: {fileID: 1000013153964044, guid: ce2c9ce27d197c44abbc2b9bbac2fbe4,
+    type: 2}
+  lastTicketNumber: 0
+  currentTicketNumber: 0
+  data:
+    boothId: 0
+    boothName: 
+    isFirst: 0
+    isLast: 0
+  boothGeneratedID: 0
+  ticketWaitCooldown: 0
+  busy: 0
+  qte: 0
 --- !u!114 &114000012021518264
 MonoBehaviour:
   m_ObjectHideFlags: 1
