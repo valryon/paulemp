@@ -78,6 +78,7 @@ public class GameServer : NetworkBehaviour
 
           // Go!
           var propObject = Instantiate(propPrefab, t.position, t.rotation) as GameObject;
+          propObject.transform.parent = b.transform;
           NetworkServer.Spawn(propObject);
         }
       }
