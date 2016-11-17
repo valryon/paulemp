@@ -533,7 +533,7 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcPlayAnimation(string animName, NetworkInstanceId id)
   {
-    GameObject b = NetworkServer.FindLocalObject(id);
+    GameObject b = ClientScene.FindLocalObject(id);
     if (b != null)
     {
       foreach (SimpleAnimator anim in b.GetComponentsInChildren<SimpleAnimator>())
