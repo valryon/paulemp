@@ -88,8 +88,8 @@ public class AgentScript : NetworkBehaviour
   [ClientCallback]
   private void UpdateClient()
   {
-    rbody.isKinematic = PlayerScript.HasGeneratedLevel;
-    rbody.useGravity = PlayerScript.HasGeneratedLevel;
+    rbody.isKinematic = !(PlayerScript.HasGeneratedLevel || NetworkServer.active);
+    rbody.useGravity = PlayerScript.HasGeneratedLevel || NetworkServer.active;
 
     if (PlayerScript.HasGeneratedLevel)
     {
