@@ -6,17 +6,17 @@ public class GameNetworkManager : NetworkManager
 {
   [HideInInspector]
   public bool launchedFromMenu;
-  
-  //public override void OnClientConnect(NetworkConnection conn)
-  //{
-  //  Debug.Log("CLIENT connected from " + conn.address);
-  //  if (NetworkServer.active)
-  //  {
-  //    base.OnClientConnect(conn);
-  //  }
 
-  //  GameServer.PlaySound("player_connect", this.transform.position);
-  //}
+  public override void OnClientConnect(NetworkConnection conn)
+  {
+    Debug.Log("CLIENT connected from " + conn.address);
+    if (NetworkServer.active)
+    {
+      base.OnClientConnect(conn);
+    }
+
+    GameServer.PlaySound("player_connect", this.transform.position);
+  }
 
   //public override void OnClientDisconnect(NetworkConnection conn)
   //{
@@ -37,16 +37,18 @@ public class GameNetworkManager : NetworkManager
     PlayerScript.HasGeneratedLevel = true;
   }
 
-  //public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
-  //{
-  //  Debug.Log("SERVER creating player");
+  public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+  {
+    base.OnServerAddPlayer(conn, playerControllerId);
 
-  //  GameObject playerObj = GameObject.Instantiate(playerPrefab);
-  //  playerObj.transform.position = GetStartPosition().position;
-  //  NetworkServer.Spawn(playerObj);
-  //  NetworkServer.AddPlayerForConnection(conn, playerObj, 0);
+    Debug.Log("SERVER creating player");
 
-  //  var gameServer = FindObjectOfType<GameServer>();
-  //  gameServer.RequestLevelCreation();
-  //}
+    //GameObject playerObj = GameObject.Instantiate(playerPrefab);
+    //playerObj.transform.position = GetStartPosition().position;
+    //NetworkServer.Spawn(playerObj);
+    //NetworkServer.AddPlayerForConnection(conn, playerObj, 0);
+
+    var gameServer = FindObjectOfType<GameServer>();
+    gameServer.RequestLevelCreation();
+  }
 }
