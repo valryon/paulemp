@@ -29,6 +29,8 @@ public class GameServer : NetworkBehaviour
   [Server]
   public void CreateLevelAndStuff()
   {
+    Debug.Log("Server : create level and agents");
+
     // Create level
     LevelGenerator l = FindObjectOfType<LevelGenerator>();
     l.Generate(seed);

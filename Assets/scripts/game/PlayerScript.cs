@@ -34,7 +34,7 @@ public class PlayerScript : NetworkBehaviour
   public float elapsedTime;
 
   private PlayerUIScript ui;
-  
+
   private Ray raycast;
   private bool isPlayingQTE;
 
@@ -221,8 +221,10 @@ public class PlayerScript : NetworkBehaviour
         // Host has a different generation
         HasGeneratedLevel = true;
       }
-      else if(isLocalPlayer)
+      else if (isLocalPlayer)
       {
+        Debug.Log("Player : generate level");
+
         LevelGenerator l = FindObjectOfType<LevelGenerator>();
         l.Generate(seed);
         HasGeneratedLevel = true;
@@ -476,7 +478,7 @@ public class PlayerScript : NetworkBehaviour
         RpcPlayAnimation("talk", agent.netId);
       }
     }
-        
+
     // Tell players result
     if (result == QTEResult.TimeOut)
     {
