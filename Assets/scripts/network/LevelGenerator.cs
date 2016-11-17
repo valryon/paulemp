@@ -34,9 +34,7 @@ namespace Assets.scripts.network
         public int nbMaxStair = 1;
         public int size = 5;
         public Vector3 blockSize = Vector3.one;
-
-        private GameObject parent;
-
+    
         private int levelSizeX;
         private int levelSizeY;
 
@@ -171,7 +169,7 @@ namespace Assets.scripts.network
 
                     if(go != null)
                     {
-                      go.transform.parent = parent.transform;
+                      go.transform.parent = this.transform;
                     }
                 }
             }
@@ -200,8 +198,6 @@ namespace Assets.scripts.network
             levelSizeY = 10;
             int[][] grid = null;
             Vector2[] stairsPosition = null;
-            
-            parent = new GameObject("Geometry");
 
             // Warmup
             initGrid(ref grid, levelSizeX, levelSizeY, ref stairsPosition);
