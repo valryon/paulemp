@@ -71,6 +71,8 @@ public class AgentScript : NetworkBehaviour
     // Agent always makes player wait
     currentTicketNumber = lastTicketNumber - Random.Range(1, 10);
     ticketWaitCooldown = Random.Range(0, 3f * WAIT_BETWEEN_TICKETS);
+
+    Link();
   }
 
   void Update()

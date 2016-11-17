@@ -223,7 +223,7 @@ public class PlayerScript : NetworkBehaviour
       }
       else if (isLocalPlayer)
       {
-        Debug.Log("Player : generate level");
+        Debug.Log("CLIENT generate level");
 
         LevelGenerator l = FindObjectOfType<LevelGenerator>();
         l.Generate(seed);
@@ -353,7 +353,6 @@ public class PlayerScript : NetworkBehaviour
         {
           // Yeepee!
           RpcPlaySound("agent_ticket_ok", this.transform.position);
-          Debug.Log("Ticket used!");
 
           tickets.RemoveFor(agent.data.boothId);
 
@@ -365,7 +364,6 @@ public class PlayerScript : NetworkBehaviour
           }
           else
           {
-            Debug.Log("Reveal required quest");
             RpcPlaySound("agent_miss_document", this.transform.position);
             quests.Reveal((int)agent.netId.Value);
           }
@@ -373,13 +371,11 @@ public class PlayerScript : NetworkBehaviour
         else
         {
           RpcPlaySound("agent_ticket", this.transform.position);
-          Debug.Log("Wrong or missing ticket!");
         }
       }
       else
       {
         RpcPlaySound("agent_busy", this.transform.position);
-        Debug.Log("Booth is busy");
       }
     }
   }
@@ -443,13 +439,13 @@ public class PlayerScript : NetworkBehaviour
         fpsController.enabled = false;
         qteBoothId = boothId;
 
-        Debug.Log("QTE starting " + qteScript);
+        Debug.Log("CLIENT QTE starting " + qteScript);
 
         qteScript.Launch(this, EndQTE);
       }
       else
       {
-        Debug.LogError("Unknow QTE " + qte);
+        Debug.LogError("CLIENT Unknow QTE " + qte);
       }
     }
   }
@@ -460,7 +456,7 @@ public class PlayerScript : NetworkBehaviour
     isPlayingQTE = false;
     fpsController.enabled = true;
 
-    Debug.Log("QTE ended " + result);
+    Debug.Log("CLIENT QTE ended " + result);
 
     CmdEndQTE(result);
   }

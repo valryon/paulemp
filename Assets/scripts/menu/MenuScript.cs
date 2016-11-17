@@ -82,7 +82,7 @@ public class MenuScript : MonoBehaviour
       serverPanel.SetActive(false);
       clientPanel.SetActive(false);
 
-      Debug.Log("Starting Server on localhost:" + p);
+      Debug.Log("SERVER starting on localhost:" + p);
       status.text = "Server : démarrage sur localhost:" + p;
       status.gameObject.SetActive(true);
 
@@ -108,7 +108,7 @@ public class MenuScript : MonoBehaviour
         serverPanel.SetActive(false);
         clientPanel.SetActive(false);
 
-        Debug.Log("Starting client " + ip + ":" + p);
+        Debug.Log("CLIENT starting " + ip + ":" + p);
         status.text = "Client : connexion à " + ip + ":" + p;
         status.gameObject.SetActive(true);
 
