@@ -211,13 +211,21 @@ public class PlayerScript : NetworkBehaviour
     elapsedTime += Time.deltaTime;
   }
 
-#endregion
+  void OnDestroy()
+  {
+    if (NetworkServer.active == false)
+    {
+      NetworkManager.singleton.StopClient();
+    }
+  }
 
-#region Methods
+  #endregion
 
-#endregion
+  #region Methods
 
-#region RPC
+  #endregion
+
+  #region RPC
 
   [ClientRpc]
   public void RpcGenerateLevel(int seed)
@@ -535,14 +543,14 @@ public class PlayerScript : NetworkBehaviour
     }
   }
 
-#endregion
+  #endregion
 
-#region Debug
+  #region Debug
 
   void OnDrawGizmos()
   {
     Gizmos.DrawRay(raycast);
   }
 
-#endregion
+  #endregion
 }

@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 
 public class GameNetworkManager : NetworkManager
 {
   [HideInInspector]
   public bool launchedFromMenu;
+  
+  public override void OnStartServer()
+  {
+    base.OnStartServer();
+    NetworkServer.RegisterHandler(MsgType.Error, OnError);
+  }
 
   public override void OnClientConnect(NetworkConnection conn)
   {
@@ -21,12 +28,19 @@ public class GameNetworkManager : NetworkManager
     Debug.Log("CLIENT disconnected from " + conn.address);
   }
 
+  public override void OnClientError(NetworkConnection conn, int errorCode)
+  {
+    base.OnClientError(conn, errorCode);
+    Debug.LogError("CLIENT error " + errorCode);
+    conn.Disconnect();
+  }
+
   public override void OnServerReady(NetworkConnection conn)
   {
     base.OnServerReady(conn);
 
     // This shit is called every time a client connects
-    if(PlayerScript.HasGeneratedLevel == false)
+    if (PlayerScript.HasGeneratedLevel == false)
     {
       Debug.Log("SERVER started!");
 
@@ -63,9 +77,24 @@ public class GameNetworkManager : NetworkManager
 
     GameServer.PlaySound("player_disconnect", this.transform.position);
 
-    if(conn.playerControllers.Count > 0)
+    DeletePlayerProperly(conn);
+  }
+
+  public void OnError(NetworkMessage msg)
+  {
+    var e = msg.ReadMessage<ErrorMessage>();
+    Debug.LogError("SERVER error from " + msg.conn.address + ": " + e.ToString());
+
+    DeletePlayerProperly(msg.conn);
+  }
+
+  private void DeletePlayerProperly(NetworkConnection conn)
+  {
+    if (conn.playerControllers.Count > 0)
     {
       NetworkServer.Destroy(conn.playerControllers[0].gameObject);
     }
   }
+
+
 }
