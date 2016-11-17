@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace Assets.scripts.network
-{
 
     class LevelGenerator: MonoBehaviour
     {
@@ -237,4 +235,3 @@ namespace Assets.scripts.network
 
 
     }
-}
