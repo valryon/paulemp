@@ -190,7 +190,7 @@ namespace Assets.scripts.network
              Debug.Log("====================================================================");
         }
 
-        public void Start()
+        public void Generate()
         {
             Debug.Log("Start procedural level generation");
             UnityEngine.Random.InitState(seed);
