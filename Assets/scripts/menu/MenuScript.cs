@@ -72,6 +72,12 @@ public class MenuScript : MonoBehaviour
     Network.Connect("http://www.google.com");
   }
 
+  void OnEnable()
+  {
+    Cursor.visible = true;
+    Cursor.lockState = CursorLockMode.None;
+  }
+
   void Update()
   {
     serverIP.text = Network.player.ipAddress;
