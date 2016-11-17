@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using UnityEngine.Networking;
 
 public class MenuScript : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class MenuScript : MonoBehaviour
   public GameObject serverPanel;
   public InputField serverPort;
   public Text serverIP;
+  public Text serverInternetIP;
 
   [Header("Bindings Client")]
   public GameObject clientPanel;
@@ -66,6 +68,18 @@ public class MenuScript : MonoBehaviour
         lastClientPort = p;
       }
     }));
+
+    Network.Connect("http://www.google.com");
+  }
+
+  void Update()
+  {
+    serverIP.text = Network.player.ipAddress;
+    serverInternetIP.text = Network.player.externalIP;
+    if (!Network.player.externalIP.Contains("UNASSIGNED"))
+    {
+      Network.Disconnect();
+    }
   }
 
   #endregion
@@ -103,7 +117,7 @@ public class MenuScript : MonoBehaviour
       if (ADDRESS.IsMatch(ip))
       {
         network.networkPort = p;
-        network.networkAddress = ip;
+        network.networkAddress = "::ffff:" + ip;
 
         serverPanel.SetActive(false);
         clientPanel.SetActive(false);
