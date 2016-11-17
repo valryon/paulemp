@@ -17,6 +17,7 @@ public class BoothBaseScript : MonoBehaviour
 
   [Header("Network spawns position")]
   public Transform pnjLocation;
+  public Transform[] propsSpawnLocations;
 
   [Header("Bindings")]
   public TicketMachineScript ticketMachine;
