@@ -6,10 +6,10 @@ public class AgentScript : NetworkBehaviour
 {
 
   #region Members
-  
+
   [Header("Gameplay")]
   public float waitBetweenTickets = 10f;
-  
+
   [Header("Prefabs")]
   public GameObject ticketPrefab;
 
@@ -24,6 +24,9 @@ public class AgentScript : NetworkBehaviour
   public BoothData data;
 
   [SyncVar]
+  public int boothGeneratedID;
+
+  [SyncVar]
   public float ticketWaitCooldown;
 
   [SyncVar]
@@ -32,13 +35,17 @@ public class AgentScript : NetworkBehaviour
   [SyncVar]
   public QTEEnum qte;
 
+  // NON-NETWORKED reference to a CLIENT obejct
+  private BoothBaseScript localBoothRef;
+
   #endregion
 
   #region Timeline
 
-  [ServerCallback]
+  [ClientCallback]
   void Start()
   {
+    Link();
   }
 
   [Server]
@@ -69,9 +76,16 @@ public class AgentScript : NetworkBehaviour
 
   void Update()
   {
-    UpdateDisplays();
+    UpdateClient();
 
     UpdateServer();
+  }
+
+  [ClientCallback]
+  private void UpdateClient()
+  {
+    Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
+    Booth.display.text = data.boothName;
   }
 
   [ServerCallback]
@@ -87,7 +101,7 @@ public class AgentScript : NetworkBehaviour
       }
     }
   }
-    
+
   void Interact(PlayerScript p)
   {
     p.RequestCheckTicket(this);
@@ -96,11 +110,21 @@ public class AgentScript : NetworkBehaviour
   #endregion
 
   #region Methods
-
-  private void UpdateDisplays()
+  
+  private void Link()
   {
-    //booth.ticketDisplay.text = currentTicketNumber.ToString("00");
-    //booth.display.text = data.boothName;
+    foreach (var b in FindObjectsOfType<BoothBaseScript>())
+    {
+      if (b.GeneratedID == boothGeneratedID)
+      {
+        localBoothRef = b;
+
+        // Link local stuff to this agent
+        b.ticketMachine.agent = this;
+
+        break;
+      }
+    }
   }
 
   [Server]
@@ -122,17 +146,17 @@ public class AgentScript : NetworkBehaviour
   {
     lastTicketNumber += Random.Range(1, 3);
 
-    //var ticket = Instantiate(ticketPrefab, booth.ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
+    var ticket = Instantiate(ticketPrefab, Booth.ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
 
-    //TicketScript tscript = ticket.GetComponent<TicketScript>();
-    //tscript.data.booth = data.boothId;
-    //tscript.data.name = data.boothName;
-    //tscript.data.number = lastTicketNumber;
+    TicketScript tscript = ticket.GetComponent<TicketScript>();
+    tscript.data.booth = data.boothId;
+    tscript.data.name = data.boothName;
+    tscript.data.number = lastTicketNumber;
 
-    //Rigidbody rbody = ticket.GetComponent<Rigidbody>();
-    //rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
+    Rigidbody rbody = ticket.GetComponent<Rigidbody>();
+    rbody.AddForce(new Vector3(Random.Range(100f, 250f), 0, Random.Range(100f, 250f)));
 
-    //NetworkServer.Spawn(ticket);
+    NetworkServer.Spawn(ticket);
   }
 
   [Server]
@@ -144,4 +168,21 @@ public class AgentScript : NetworkBehaviour
   }
 
   #endregion
+
+  private BoothBaseScript Booth
+  {
+    get
+    {
+      if (localBoothRef == null)
+      {
+        Link();
+      }
+
+      if (localBoothRef == null)
+      {
+        Debug.LogError("Agent cannot find local booth!");
+      }
+      return localBoothRef;
+    }
+  }
 }

@@ -1071,8 +1071,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pnjLocation: {fileID: 4000011681828280}
   ticketMachine: {fileID: 114000013447846794}
-  ticketDisplay: {fileID: 114000013111654372}
-  display: {fileID: 114000011073970318}
+  ticketDisplay: {fileID: 114000011073970318}
+  display: {fileID: 114000013111654372}
+  GeneratedID: 0
+  Floor: 0
 --- !u!114 &114000011538909858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1170,7 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddff1640c725b2f41aa9e682689a72b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booth: {fileID: 0}
+  agent: {fileID: 0}
 --- !u!114 &114000013739599738
 MonoBehaviour:
   m_ObjectHideFlags: 1

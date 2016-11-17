@@ -23,5 +23,9 @@ public class BoothBaseScript : MonoBehaviour
   public Text ticketDisplay;
   public Text display;
 
+  // ID set by the level generator so we can get back the booth later
+  public int GeneratedID = 0;
+  public int Floor = 0;
+
   #endregion
 }

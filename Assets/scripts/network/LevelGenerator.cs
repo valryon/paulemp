@@ -32,7 +32,7 @@ using UnityEngine.UI;
     
         private int levelSizeX;
         private int levelSizeY;
-
+        private int generationID;
 
         private static float getRandom(float min, float max)
         {
@@ -156,10 +156,18 @@ using UnityEngine.UI;
                         
                         var r = (int)getRandom(0, rooms.Length);
                         go = Instantiate(rooms[r], v, Quaternion.identity) as GameObject;
+
+                        var b = go.GetComponent<BoothBaseScript>();
+                        if (b != null)
+                        {
+                          b.GeneratedID = generationID;
+                          generationID++;
+                          b.Floor = floor;
+                        }
                     }
                     else if (grid[y][x] < 10 && grid[y][x] % 2 == 0 )
                     {
-                        go = Instantiate(floorInst, v, Quaternion.identity) as GameObject ;
+                        go = Instantiate(floorInst, v, Quaternion.identity) as GameObject;
                     }
 
                     if(go != null)
@@ -191,6 +199,7 @@ using UnityEngine.UI;
             UnityEngine.Random.InitState(seed);
             levelSizeX = 30;
             levelSizeY = 10;
+            generationID = 0;
             int[][] grid = null;
             Vector2[] stairsPosition = null;
 

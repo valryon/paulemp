@@ -53,18 +53,8 @@ public class GameServer : NetworkBehaviour
         var agent = pnjGo.GetComponent<AgentScript>();
         NetworkServer.Spawn(pnjGo);
 
-        //// Create ticket machine
-        //var ticketMachineGo = Instantiate(ticketMachinePrefab, b.ticketMachineLocation.position, b.ticketMachineLocation.rotation) as GameObject;
-        //NetworkServer.Spawn(ticketMachineGo);
-
-        //// Create displays
-        //var ticketDisplay = Instantiate(ticketDisplayPrefab, b.ticketDisplayLocation.position, b.ticketDisplayLocation.rotation) as GameObject;
-        //NetworkServer.Spawn(ticketDisplay);
-
-        //var display = Instantiate(displayPrefab, b.displayLocation.position, b.displayLocation.rotation) as GameObject;
-        //NetworkServer.Spawn(display);
-
         // Init agents
+        agent.boothGeneratedID = b.GeneratedID;
         agent.EnableBooth(i, i == 0, i == booths.Length - 1, qtes[Random.Range(0, qtes.Length)].Type);
         i++;
       }
