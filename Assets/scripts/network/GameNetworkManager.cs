@@ -25,13 +25,18 @@ public class GameNetworkManager : NetworkManager
 
   public override void OnServerReady(NetworkConnection conn)
   {
-    Debug.Log("SERVER ready! IP " + conn.address);
     base.OnServerReady(conn);
 
-    var gameServer = FindObjectOfType<GameServer>();
-    gameServer.CreateLevelAndStuff();
+    // This shit is called every time a client connects
+    if(PlayerScript.HasGeneratedLevel == false)
+    {
+      Debug.Log("SERVER started!");
 
-    PlayerScript.HasGeneratedLevel = true;
+      var gameServer = FindObjectOfType<GameServer>();
+      gameServer.CreateLevelAndStuff();
+
+      PlayerScript.HasGeneratedLevel = true;
+    }
   }
 
   public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
