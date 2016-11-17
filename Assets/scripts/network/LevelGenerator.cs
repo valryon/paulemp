@@ -135,36 +135,44 @@ namespace Assets.scripts.network
 
         private void buildLevel(ref int[][] grid, int floor, int nbFloors)
         {
- 
+
+           GameObject level = new GameObject("Level");
+
            for (var y = 0; y < levelSizeY; ++y) {
                 for (var x = 0; x < levelSizeX; ++x) 
                 {
+                    GameObject go = null;
                     Vector3 v = new Vector3(y * blockSize.x, floor * blockSize.y + 1, x * blockSize.z);
                     if (grid[y][x] == 10) // stairCase
                     {
                         Debug.Log("Instantiate stairs at " + v);
                         if (floor == 0)
                         {
-                            Instantiate(stairCaseFirst, v, Quaternion.identity);
+                            go = Instantiate(stairCaseFirst, v, Quaternion.identity) as GameObject;
                         } 
                         else if (floor == nbFloors - 1) 
                         {
-                            Instantiate(stairCaseLast, v, Quaternion.identity);
+                            go = Instantiate(stairCaseLast, v, Quaternion.identity) as GameObject;
                         }
                         else 
                         {
-                            Instantiate(stairCase, v, Quaternion.identity);
+                            go = Instantiate(stairCase, v, Quaternion.identity) as GameObject;
                         }
                     }
                     else if (grid[y][x] == 20) //rooms
                     {
                         
                         var r = (int)getRandom(0, rooms.Length);
-                        Instantiate(rooms[r], v, Quaternion.identity);
+                        go = Instantiate(rooms[r], v, Quaternion.identity) as GameObject;
                     }
                     else if (grid[y][x] < 10 && grid[y][x] % 2 == 0 )
                     {
-                        Instantiate(floorInst, v, Quaternion.identity);
+                        go = Instantiate(floorInst, v, Quaternion.identity) as GameObject ;
+                    }
+
+                    if(go != null)
+                    {
+                      go.transform.parent = level.transform;
                     }
                 }
             }
