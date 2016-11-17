@@ -33,7 +33,7 @@ public class DebugStartMenu : MonoBehaviour
 
   private void ConfigureNetworkManager()
   {
-    networkManager.networkAddress = adress;
+    networkManager.networkAddress = "::ffff:" + adress;
     networkManager.networkPort = port;
   }
 
@@ -42,6 +42,7 @@ public class DebugStartMenu : MonoBehaviour
   /// </summary>
   public void StartHost()
   {
+    ConfigureNetworkManager();
     networkManager.StartHost();
   }
 
@@ -51,6 +52,7 @@ public class DebugStartMenu : MonoBehaviour
   /// <param name="ip"></param>
   public void StartClient()
   {
+    ConfigureNetworkManager();
     networkManager.StartClient();
   }
 
