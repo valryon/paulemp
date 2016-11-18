@@ -507,17 +507,17 @@ public class PlayerScript : NetworkBehaviour
     {
       RpcPlaySound("qte_success", this.transform.position);
       RpcPlaySound("agent_ok", this.transform.position);
-    }
 
-    // Update quests!
-    for (int i = 0; i < quests.Count; i++)
-    {
-      var q = quests[i];
-      if (q.agentID == qteBoothId)
+      // Update quests!
+      for (int i = 0; i < quests.Count; i++)
       {
-        q.completed = true;
+        var q = quests[i];
+        if (q.agentID == qteBoothId)
+        {
+          q.completed = true;
+        }
+        quests[i] = q;
       }
-      quests[i] = q;
     }
   }
 
