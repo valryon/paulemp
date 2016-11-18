@@ -14,7 +14,6 @@ public class PlayerScript : NetworkBehaviour
   public const int QUESTS_COUNT = 4;
 
   [Header("Bindings")]
-  public MeshRenderer model;
   public GameObject sprites;
   public RigidbodyFirstPersonController fpsController;
   public Camera fpsCamera;
@@ -55,8 +54,7 @@ public class PlayerScript : NetworkBehaviour
 
     if (isLocalPlayer)
     {
-      // Local player = remove model / FPS view
-      Destroy(model.gameObject);
+      // Local player = remove sprite / FPS view
       Destroy(sprites);
 
       ui.Player = this;
