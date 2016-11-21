@@ -25,6 +25,7 @@ GameObject:
   - 65: {fileID: 65000012186989754}
   - 114: {fileID: 114000012982427268}
   - 114: {fileID: 114000011246209392}
+  - 114: {fileID: 114000010147493848}
   m_Layer: 0
   m_Name: Plante1
   m_TagString: Untagged
@@ -72,6 +73,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.03, y: 1.26, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000010147493848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011913875430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef64bb80cf990e40a18c498acf15cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecorationType: 3
 --- !u!114 &114000010356879494
 MonoBehaviour:
   m_ObjectHideFlags: 1

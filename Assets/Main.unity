@@ -458,6 +458,34 @@ MonoBehaviour:
     type: 2}
   rooms:
   - {fileID: 1000010537198854, guid: fa87d01be3679f240b001db51f87a84b, type: 2}
+  propsPrefabs:
+  - {fileID: 114000011620652262, guid: 2d675926fb59d034f86b6c63bd191334, type: 2}
+  - {fileID: 114000012016624908, guid: f10865113e8b0aa43a94965743964c7e, type: 2}
+  - {fileID: 114000012848933040, guid: bb5178c1a5a7a86499484d522470cac6, type: 2}
+  - {fileID: 114000014207752186, guid: 14fa5de637326d3478c64a7db74b06d0, type: 2}
+  - {fileID: 114000011365479152, guid: da0c91e3465a4e648859067321c38117, type: 2}
+  - {fileID: 114000012318583412, guid: 67a8e631e87e1ad439ec67bc27ddd663, type: 2}
+  - {fileID: 114000010806243086, guid: 5704fdb444d10014aa1f4dc97f2835d5, type: 2}
+  - {fileID: 114000010147493848, guid: 337d22d5f5d31c04f998872f9b302559, type: 2}
+  - {fileID: 114000011722295632, guid: a393f6fd86eb3ad44a0f2d393261dda4, type: 2}
+  - {fileID: 114000011141871386, guid: 41b27104a6cbc524499bfe2dd23a9392, type: 2}
+  - {fileID: 114000010209146056, guid: efbc2fb0d2989f1458e3c21825aee064, type: 2}
+  - {fileID: 114000011615280198, guid: 38dce890889c703498392eb17bc7a36c, type: 2}
+  - {fileID: 114000013000089000, guid: 4dc4813f9a1e553488cf11c6bff4abb5, type: 2}
+  - {fileID: 114000010172212560, guid: a27ba2e0983389c498b8e09586bd26e8, type: 2}
+  - {fileID: 114000012651650176, guid: 84365afa6a8cd1345a1f80e9a9eed7b0, type: 2}
+  - {fileID: 114000010445898770, guid: be3552166e9168b4f8b58d31e477c96a, type: 2}
+  - {fileID: 114000011443143248, guid: b0576b819162e914b9126e032e93bf32, type: 2}
+  - {fileID: 114000010042469364, guid: 30597f1f7abcd0f42840605005c44168, type: 2}
+  - {fileID: 114000012373535510, guid: f644027ffe2fa274284d43bf5e189023, type: 2}
+  - {fileID: 114000010409897538, guid: 188c9813715132f43bf45966c7e1b7cc, type: 2}
+  - {fileID: 114000010409897538, guid: 372bb02db1add644d83361154f2421e1, type: 2}
+  - {fileID: 114000010409897538, guid: 6ad72a2a6ebbcca4da53c2f10355c887, type: 2}
+  - {fileID: 114000010409897538, guid: 3fd8be6d70c24474ebd148ed8abe7405, type: 2}
+  - {fileID: 114000010409897538, guid: 6971235d36b340e4daea68cc421b5dff, type: 2}
+  - {fileID: 114000010409897538, guid: 52ebafa0a4bfe074aac84d0cb129b20e, type: 2}
+  - {fileID: 114000010409897538, guid: c775825340835fe43a7ad9ac41253f97, type: 2}
+  - {fileID: 114000010409897538, guid: 5d5044ae3a0cbc24997a12c5d833d733, type: 2}
   floorsMin: 3
   floorsMax: 10
   nbMinStair: 2
@@ -927,13 +955,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seed: 1
   pnjPrefab: {fileID: 1000011313921152, guid: 18b2a4e3a5e52f94995e1b8587eda842, type: 2}
-  propsPrefabs:
-  - {fileID: 1000010237221296, guid: 67a8e631e87e1ad439ec67bc27ddd663, type: 2}
-  - {fileID: 1000011708541836, guid: b0576b819162e914b9126e032e93bf32, type: 2}
-  - {fileID: 1000010912894656, guid: 5704fdb444d10014aa1f4dc97f2835d5, type: 2}
-  - {fileID: 1000011913875430, guid: 337d22d5f5d31c04f998872f9b302559, type: 2}
-  - {fileID: 1000010742639288, guid: a393f6fd86eb3ad44a0f2d393261dda4, type: 2}
-  - {fileID: 1000011868040094, guid: 30597f1f7abcd0f42840605005c44168, type: 2}
 --- !u!114 &1685185102
 MonoBehaviour:
   m_ObjectHideFlags: 0

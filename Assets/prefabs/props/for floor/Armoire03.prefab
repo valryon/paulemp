@@ -22,6 +22,9 @@ GameObject:
   - 33: {fileID: 33000011648772208}
   - 23: {fileID: 23000012455935770}
   - 95: {fileID: 95000013825361352}
+  - 114: {fileID: 114000010209146056}
+  - 54: {fileID: 54000011385430500}
+  - 65: {fileID: 65000013805480972}
   m_Layer: 0
   m_Name: Armoire03
   m_TagString: Untagged
@@ -36,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010061549202}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.56, y: 2.51, z: -0.26427546}
+  m_LocalPosition: {x: 13.56, y: 1.85, z: -0.26427546}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -79,6 +82,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010061549202}
   m_Mesh: {fileID: 4300000, guid: 4ca1dd3f8565d404fb5e910b69224976, type: 3}
+--- !u!54 &54000011385430500
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010061549202}
+  serializedVersion: 2
+  m_Mass: 500
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65000013805480972
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010061549202}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8127422, y: 3.6254847, z: 1.0454773}
+  m_Center: {x: 0, y: -0.00000035762787, z: 0}
 --- !u!95 &95000013825361352
 Animator:
   serializedVersion: 3
@@ -96,3 +126,15 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000010209146056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010061549202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef64bb80cf990e40a18c498acf15cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecorationType: 5

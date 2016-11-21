@@ -244,6 +244,8 @@ public class PlayerScript : NetworkBehaviour
         LevelGenerator l = FindObjectOfType<LevelGenerator>();
         l.Generate(seed);
         HasGeneratedLevel = true;
+
+        l.GenerateProps(false);
       }
     }
   }

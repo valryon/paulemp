@@ -11,7 +11,6 @@ public class GameServer : NetworkBehaviour
 
   [Header("Prefabs")]
   public GameObject pnjPrefab;
-  public GameObject[] propsPrefabs;
 
   private bool boothCreated = false;
 
@@ -62,26 +61,13 @@ public class GameServer : NetworkBehaviour
         i++;
 
         agent.LookAtTicketMachine();
-
-        // Add some props!
-        int propsCount = Random.Range(0, Mathf.Min(4, b.propsSpawnLocations.Length));
-        List<Transform> propsPossiblePositions = b.propsSpawnLocations.OrderBy(t => Random.Range(0f, 1f)).ToList();
-
-        for (int p = 0; p < propsCount; p++)
-        {
-          // Random position
-          var t = propsPossiblePositions[Random.Range(0, propsPossiblePositions.Count)];
-          propsPossiblePositions.Remove(t);
-
-          // Random prop
-          var propPrefab = propsPrefabs[Random.Range(0, propsPrefabs.Length)];
-
-          // Go!
-          var propObject = Instantiate(propPrefab, t.position, t.rotation) as GameObject;
-          propObject.transform.parent = b.transform;
-          NetworkServer.Spawn(propObject);
-        }
       }
+
+      // Add some SERVER-SIDE props!
+      l.GenerateProps(true);
+
+      // And generate LOCAL props for host (server+client)
+      l.GenerateProps(false);
     }
   }
 

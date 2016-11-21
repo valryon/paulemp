@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012237068394}
   - 95: {fileID: 95000011320907112}
+  - 114: {fileID: 114000012373535510}
   m_Layer: 0
   m_Name: HautParleur
   m_TagString: Untagged
@@ -187,10 +188,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012353155894}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.76, y: 6.35, z: -0.048922654}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0.981, y: 4.002, z: 7.956}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
   - {fileID: 4000011160700998}
   m_Father: {fileID: 0}
@@ -394,3 +395,15 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000012373535510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012353155894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef64bb80cf990e40a18c498acf15cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecorationType: 4

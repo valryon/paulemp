@@ -25,6 +25,7 @@ GameObject:
   - 65: {fileID: 65000010727950516}
   - 114: {fileID: 114000010530789758}
   - 114: {fileID: 114000010768182376}
+  - 114: {fileID: 114000012318583412}
   m_Layer: 0
   m_Name: PotCrayon
   m_TagString: Untagged
@@ -135,6 +136,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6fbb563362f2e4e9fc44dce25a7351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000012318583412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010237221296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef64bb80cf990e40a18c498acf15cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecorationType: 3
 --- !u!212 &212000010122810938
 SpriteRenderer:
   m_ObjectHideFlags: 1

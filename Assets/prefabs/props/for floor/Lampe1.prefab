@@ -25,6 +25,7 @@ GameObject:
   - 65: {fileID: 65000012321131792}
   - 114: {fileID: 114000011588957018}
   - 114: {fileID: 114000010089902884}
+  - 114: {fileID: 114000010042469364}
   m_Layer: 0
   m_Name: Lampe1
   m_TagString: Untagged
@@ -72,6 +73,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 2.8, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000010042469364
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011868040094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef64bb80cf990e40a18c498acf15cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecorationType: 5
 --- !u!114 &114000010089902884
 MonoBehaviour:
   m_ObjectHideFlags: 1

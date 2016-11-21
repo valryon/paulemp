@@ -17,7 +17,6 @@ public class BoothBaseScript : MonoBehaviour
 
   [Header("Network spawns position")]
   public Transform pnjLocation;
-  public Transform[] propsSpawnLocations;
 
   [Header("Bindings")]
   public TicketMachineScript ticketMachine;
@@ -27,6 +26,20 @@ public class BoothBaseScript : MonoBehaviour
   // ID set by the level generator so we can get back the booth later
   public int GeneratedID = 0;
   public int Floor = 0;
+
+  #endregion
+
+  #region Methods
+
+  public void ClearSpawns()
+  {
+    Destroy(pnjLocation.gameObject);
+
+    foreach (var p in FindObjectsOfType<DecorationLocation>())
+    {
+      Destroy(p.gameObject);
+    }
+  }
 
   #endregion
 }
