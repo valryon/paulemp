@@ -486,6 +486,10 @@ MonoBehaviour:
   - {fileID: 114000010409897538, guid: 52ebafa0a4bfe074aac84d0cb129b20e, type: 2}
   - {fileID: 114000010409897538, guid: c775825340835fe43a7ad9ac41253f97, type: 2}
   - {fileID: 114000010409897538, guid: 5d5044ae3a0cbc24997a12c5d833d733, type: 2}
+  - {fileID: 114000010409897538, guid: 07c888af0ed4347479238a8aa903a631, type: 2}
+  - {fileID: 114000010409897538, guid: 5211847974f97d74bac15c773f4304b4, type: 2}
+  - {fileID: 114000010409897538, guid: e176968d6b6299e4eb6a98c8ece6b90b, type: 2}
+  - {fileID: 114000010409897538, guid: 990865947bbab1044a3b13cf710ed86e, type: 2}
   floorsMin: 3
   floorsMax: 10
   nbMinStair: 2

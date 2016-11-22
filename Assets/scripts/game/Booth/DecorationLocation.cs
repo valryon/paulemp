@@ -8,7 +8,8 @@ public enum DecorationType
   Chairs = 2,
   OnDesk = 3,
   OnWall = 4,
-  OnFloor = 5
+  OnFloor = 5,
+  Ceil = 6
 }
 
 public class DecorationLocation : MonoBehaviour
