@@ -23,8 +23,6 @@ GameObject:
   - 114: {fileID: 114000010264052522}
   - 54: {fileID: 54000011653758628}
   - 65: {fileID: 65000013734404802}
-  - 114: {fileID: 114000011328720934}
-  - 114: {fileID: 114000010322935696}
   - 114: {fileID: 114000010806243086}
   m_Layer: 0
   m_Name: Agrafeuse
@@ -84,26 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6fbb563362f2e4e9fc44dce25a7351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000010322935696
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010912894656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.2
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114000010806243086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,38 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DecorationType: 3
---- !u!114 &114000011328720934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010912894656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 217
-    i1: 157
-    i2: 3
-    i3: 151
-    i4: 61
-    i5: 106
-    i6: 58
-    i7: 244
-    i8: 169
-    i9: 103
-    i10: 34
-    i11: 190
-    i12: 200
-    i13: 113
-    i14: 16
-    i15: 212
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!212 &212000012066761000
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -24,8 +24,6 @@ GameObject:
   - 114: {fileID: 114000010556145478}
   - 54: {fileID: 54000011531225236}
   - 65: {fileID: 65000012290586826}
-  - 114: {fileID: 114000011401807686}
-  - 114: {fileID: 114000011664725536}
   - 114: {fileID: 114000011722295632}
   m_Layer: 0
   m_Name: Aquarium
@@ -85,58 +83,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6fbb563362f2e4e9fc44dce25a7351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000011401807686
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010742639288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 163
-    i1: 147
-    i2: 246
-    i3: 253
-    i4: 134
-    i5: 235
-    i6: 58
-    i7: 212
-    i8: 74
-    i9: 15
-    i10: 45
-    i11: 57
-    i12: 50
-    i13: 97
-    i14: 221
-    i15: 164
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114000011664725536
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010742639288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.2
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114000011722295632
 MonoBehaviour:
   m_ObjectHideFlags: 1
