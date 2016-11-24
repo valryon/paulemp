@@ -9,6 +9,7 @@ public class TicketMachineScript : MonoBehaviour
   #region Members
 
   [Header("Bindings")]
+  public Transform ticketSpawn;
   public AgentScript agent;
 
   #endregion

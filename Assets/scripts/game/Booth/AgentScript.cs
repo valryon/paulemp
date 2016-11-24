@@ -177,7 +177,7 @@ public class AgentScript : NetworkBehaviour
   {
     lastTicketNumber += Random.Range(1, 3);
 
-    var ticket = Instantiate(ticketPrefab, Booth.ticketMachine.transform.position + new Vector3(0, 1, 0), Quaternion.identity) as GameObject;
+    var ticket = Instantiate(ticketPrefab, Booth.ticketMachine.ticketSpawn.position, Booth.ticketMachine.ticketSpawn.rotation) as GameObject;
 
     TicketScript tscript = ticket.GetComponent<TicketScript>();
     tscript.data.booth = data.boothId;
