@@ -13,10 +13,10 @@ public class AgentScript : NetworkBehaviour
   public GameObject ticketPrefab;
 
   [Header("Data")]
-  [SyncVar]
+  [SyncVar(hook = "TicketNumberChanged")]
   public int lastTicketNumber;
 
-  [SyncVar]
+  [SyncVar(hook = "TicketNumberChanged")]
   public int currentTicketNumber;
 
   [SyncVar]
@@ -80,23 +80,14 @@ public class AgentScript : NetworkBehaviour
 
   void Update()
   {
-    UpdateClient();
-
     UpdateServer();
   }
 
-  [ClientCallback]
-  private void UpdateClient()
+  private void TicketNumberChanged(int v)
   {
-    rbody.isKinematic = !(PlayerScript.HasGeneratedLevel || NetworkServer.active);
-    rbody.useGravity = PlayerScript.HasGeneratedLevel || NetworkServer.active;
-
-    if (PlayerScript.HasGeneratedLevel)
-    {
-      Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
-      Booth.display.text = data.boothName;
-    }
-  }
+    Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
+    Booth.display.text = data.boothName;
+  }  
 
   [ServerCallback]
   void UpdateServer()
