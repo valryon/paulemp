@@ -10,7 +10,7 @@ public class RandomMovement : NetworkBehaviour
   private float nextRotationCooldown;
   private float collisionCooldown;
 
-  [Server]
+  [ServerCallback]
   void Start()
   {
     nextRotationCooldown = Random.Range(0, 5);
@@ -18,7 +18,7 @@ public class RandomMovement : NetworkBehaviour
     targetRotation = transform.rotation.eulerAngles.y;
   }
 
-  [Server]
+  [ServerCallback]
   void Update()
   {
     transform.position += speed * transform.forward;

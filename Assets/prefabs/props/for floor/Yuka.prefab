@@ -23,8 +23,6 @@ GameObject:
   - 114: {fileID: 114000013895925760}
   - 54: {fileID: 54000012578119534}
   - 65: {fileID: 65000011782439462}
-  - 114: {fileID: 114000012037279190}
-  - 114: {fileID: 114000013549162740}
   - 114: {fileID: 114000011443143248}
   m_Layer: 0
   m_Name: Yuka
@@ -85,58 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DecorationType: 5
---- !u!114 &114000012037279190
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011708541836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 176
-    i1: 87
-    i2: 107
-    i3: 129
-    i4: 145
-    i5: 98
-    i6: 233
-    i7: 20
-    i8: 185
-    i9: 18
-    i10: 110
-    i11: 3
-    i12: 46
-    i13: 147
-    i14: 191
-    i15: 50
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114000013549162740
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011708541836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.2
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114000013895925760
 MonoBehaviour:
   m_ObjectHideFlags: 1

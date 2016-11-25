@@ -57,8 +57,6 @@ GameObject:
   - 114: {fileID: 114000011365479152}
   - 54: {fileID: 54000013156580550}
   - 65: {fileID: 65000011627666058}
-  - 114: {fileID: 114000010384245956}
-  - 114: {fileID: 114000010894248270}
   m_Layer: 0
   m_Name: PC
   m_TagString: Untagged
@@ -225,58 +223,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0385789, y: 0.8231939, z: 0.2798944}
   m_Center: {x: -0.019289434, y: -0.0017544627, z: 0.008127689}
---- !u!114 &114000010384245956
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012412397532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 218
-    i1: 12
-    i2: 145
-    i3: 227
-    i4: 70
-    i5: 90
-    i6: 78
-    i7: 100
-    i8: 136
-    i9: 89
-    i10: 6
-    i11: 115
-    i12: 33
-    i13: 195
-    i14: 129
-    i15: 23
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114000010894248270
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012412397532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114000011365479152
 MonoBehaviour:
   m_ObjectHideFlags: 1

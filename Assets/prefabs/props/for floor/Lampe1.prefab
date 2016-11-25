@@ -23,8 +23,6 @@ GameObject:
   - 114: {fileID: 114000010560805506}
   - 54: {fileID: 54000013093052342}
   - 65: {fileID: 65000012321131792}
-  - 114: {fileID: 114000011588957018}
-  - 114: {fileID: 114000010089902884}
   - 114: {fileID: 114000010042469364}
   m_Layer: 0
   m_Name: Lampe1
@@ -85,26 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DecorationType: 5
---- !u!114 &114000010089902884
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011868040094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.2
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114000010560805506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,38 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6fbb563362f2e4e9fc44dce25a7351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000011588957018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011868040094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 48
-    i1: 89
-    i2: 127
-    i3: 31
-    i4: 122
-    i5: 188
-    i6: 208
-    i7: 244
-    i8: 40
-    i9: 64
-    i10: 96
-    i11: 80
-    i12: 5
-    i13: 196
-    i14: 65
-    i15: 104
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!212 &212000010680941138
 SpriteRenderer:
   m_ObjectHideFlags: 1
