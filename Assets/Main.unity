@@ -968,7 +968,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 1
-  pnjPrefab: {fileID: 1000011313921152, guid: 18b2a4e3a5e52f94995e1b8587eda842, type: 2}
+  agentPrefab: {fileID: 1000011313921152, guid: 18b2a4e3a5e52f94995e1b8587eda842,
+    type: 2}
+  pnjsPrefab:
+  - {fileID: 1000013712283922, guid: f6ea4a1cc65c7b44fbb2079bd6501c1a, type: 2}
 --- !u!114 &1685185102
 MonoBehaviour:
   m_ObjectHideFlags: 0

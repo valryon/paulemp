@@ -10,7 +10,8 @@ public class GameServer : NetworkBehaviour
   public int seed = 1;
 
   [Header("Prefabs")]
-  public GameObject pnjPrefab;
+  public GameObject agentPrefab;
+  public GameObject[] pnjsPrefab;
 
   private bool boothCreated = false;
 
@@ -51,7 +52,7 @@ public class GameServer : NetworkBehaviour
       foreach (var b in booths)
       {
         // Create PNJ
-        var pnjGo = Instantiate(pnjPrefab, b.pnjLocation.position, b.pnjLocation.rotation) as GameObject;
+        var pnjGo = Instantiate(agentPrefab, b.pnjLocation.position, b.pnjLocation.rotation) as GameObject;
         var agent = pnjGo.GetComponent<AgentScript>();
         NetworkServer.Spawn(pnjGo);
 
@@ -68,6 +69,15 @@ public class GameServer : NetworkBehaviour
 
       // And generate LOCAL props for host (server+client)
       l.GenerateProps(false);
+
+      // Add PNJ by server
+      foreach(var p in l.PNJPositions)
+      {
+        var prefab = pnjsPrefab[Random.Range(0, pnjsPrefab.Length)];
+
+        var pnj = Instantiate(prefab, p, prefab.transform.rotation) as GameObject;
+        NetworkServer.Spawn(pnj);
+      }
     }
   }
 

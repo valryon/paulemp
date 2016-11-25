@@ -168,6 +168,10 @@ class LevelGenerator : MonoBehaviour
             generationID++;
             b.Floor = floor;
           }
+
+          {
+            PNJPositions.Add(v);
+          }
         }
         else if (grid[y][x] < 10 && grid[y][x] % 2 == 0)
         {
@@ -206,6 +210,8 @@ class LevelGenerator : MonoBehaviour
     generationID = 0;
     int[][] grid = null;
     Vector2[] stairsPosition = null;
+    
+    PNJPositions = new List<Vector3>();
 
     // Warmup
     initGrid(ref grid, levelSizeX, levelSizeY, ref stairsPosition);
@@ -286,6 +292,13 @@ class LevelGenerator : MonoBehaviour
 
       b.ClearSpawns();
     }
+
+  }
+
+  public List<Vector3> PNJPositions
+  {
+    get;
+    private set;
   }
 
 }

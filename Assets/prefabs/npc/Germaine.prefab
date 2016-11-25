@@ -104,6 +104,7 @@ GameObject:
   - 114: {fileID: 114000013625566434}
   - 114: {fileID: 114000012430399384}
   - 136: {fileID: 136000010361476140}
+  - 54: {fileID: 54000014144291556}
   m_Layer: 0
   m_Name: Germaine
   m_TagString: Player
@@ -230,6 +231,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012908591510}
   m_Mesh: {fileID: 0}
+--- !u!54 &54000014144291556
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013712283922}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!60 &60000012427606820
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -400,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed835b4d92d72346af456b1f18e336c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.035
 --- !u!114 &114000013625566434
 MonoBehaviour:
   m_ObjectHideFlags: 1
