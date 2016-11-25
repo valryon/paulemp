@@ -169,6 +169,7 @@ class LevelGenerator : MonoBehaviour
             b.Floor = floor;
           }
 
+          if (getRandom(0, 10) > 6.5f)
           {
             PNJPositions.Add(v);
           }
