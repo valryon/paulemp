@@ -260,7 +260,7 @@ class LevelGenerator : MonoBehaviour
         }
 
         // Random prop of the given type
-        var possibilities = propsPrefabs.Where(prop => prop.DecorationType == t.DecorationType).ToArray();
+        var possibilities = propsPrefabs.Where(prop => prop != null && prop.DecorationType == t.DecorationType).ToArray();
         if (possibilities.Length > 0)
         {
           var propPrefab = possibilities[UnityEngine.Random.Range(0, possibilities.Length)];
