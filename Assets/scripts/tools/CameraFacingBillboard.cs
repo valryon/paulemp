@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraFacingBillboard : MonoBehaviour
 {
   private SpriteRenderer sprite;
+  private Camera cam;
 
   void Start()
   {
@@ -16,11 +17,18 @@ public class CameraFacingBillboard : MonoBehaviour
 
   private void FacePlayer()
   {
-    if (Camera.main != null && sprite != null && sprite.isVisible)
+    if (cam == null)
     {
-      transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
-          Camera.main.transform.rotation * Vector3.up);
-      transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+      cam = Camera.main;
+    }
+    if (cam != null)
+    {
+      if (sprite != null && sprite.IsVisibleFrom(cam))
+      {
+        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward,
+            cam.transform.rotation * Vector3.up);
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+      }
     }
   }
 }

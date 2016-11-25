@@ -36,7 +36,6 @@ public class AgentScript : NetworkBehaviour
 
   // NON-NETWORKED reference to a CLIENT obejct
   private BoothBaseScript localBoothRef;
-  private Rigidbody rbody;
 
   #endregion
 
@@ -45,8 +44,6 @@ public class AgentScript : NetworkBehaviour
   [ClientCallback]
   void Start()
   {
-    rbody = GetComponent<Rigidbody>();
-
     Link();
   }
 

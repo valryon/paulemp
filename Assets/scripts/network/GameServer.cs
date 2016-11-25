@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameServer : NetworkBehaviour
 {
+  private static PlayerScript[] players;
+
   [Header("Settings")]
   public int seed = 1;
 
@@ -15,16 +17,23 @@ public class GameServer : NetworkBehaviour
 
   private bool boothCreated = false;
 
+
   void Awake()
   {
     // seed = Random.Range(0, 600000);
     seed = 42;
+    players = new PlayerScript[0];
   }
 
   [ServerCallback]
   void Start()
   {
+    InvokeRepeating("UpdatePlayerList", 1f, 1f);
+  }
 
+  private void UpdatePlayerList()
+  {
+    players = FindObjectsOfType<PlayerScript>();
   }
 
   [Server]
@@ -90,25 +99,34 @@ public class GameServer : NetworkBehaviour
   public void RequestLevelCreation()
   {
     // Ask ALL players to create the level (do it for each new connection)
-    foreach (var p in FindObjectsOfType<PlayerScript>())
+    foreach (var p in players)
     {
-      p.RpcGenerateLevel(seed);
+      if (p != null)
+      {
+        p.RpcGenerateLevel(seed);
+      }
     }
   }
 
   public static void PlayEffect(string effect, Vector3 position)
   {
-    foreach (var p in FindObjectsOfType<PlayerScript>())
+    foreach (var p in players)
     {
-      p.RpcPlayEffect(effect, position);
+      if (p != null)
+      {
+        p.RpcPlayEffect(effect, position);
+      }
     }
   }
 
   public static void PlaySound(string sound, Vector3 position)
   {
-    foreach (var p in FindObjectsOfType<PlayerScript>())
+    foreach (var p in players)
     {
-      p.RpcPlaySound(sound, position);
+      if (p != null)
+      {
+        p.RpcPlaySound(sound, position);
+      }
     }
   }
 }
