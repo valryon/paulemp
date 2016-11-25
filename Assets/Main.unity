@@ -458,6 +458,11 @@ MonoBehaviour:
     type: 2}
   rooms:
   - {fileID: 1000010537198854, guid: fa87d01be3679f240b001db51f87a84b, type: 2}
+  - {fileID: 1000010513961286, guid: 3408bc98643dc7348953bdd8a9a39cf7, type: 2}
+  - {fileID: 1000012271890778, guid: 2c35e53b768521741a52678be3f09a0b, type: 2}
+  - {fileID: 1000012271890778, guid: 09bb2ad6b8f37844a8d2ece0d087af77, type: 2}
+  - {fileID: 1000011184337350, guid: 893a5d8328071844dbf44ed75219d2ad, type: 2}
+  - {fileID: 1000012271890778, guid: 2fc4037ceb28e804c9e038b3db87fbdd, type: 2}
   propsPrefabs:
   - {fileID: 114000011620652262, guid: 2d675926fb59d034f86b6c63bd191334, type: 2}
   - {fileID: 114000010672316452, guid: 14fa5de637326d3478c64a7db74b06d0, type: 2}
