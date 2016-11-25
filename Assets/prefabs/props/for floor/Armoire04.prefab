@@ -23,7 +23,6 @@ GameObject:
   - 23: {fileID: 23000011916234072}
   - 95: {fileID: 95000012409085562}
   - 114: {fileID: 114000011141871386}
-  - 54: {fileID: 54000012085819516}
   - 65: {fileID: 65000011887560966}
   m_Layer: 0
   m_Name: Armoire04
@@ -82,21 +81,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011104701524}
   m_Mesh: {fileID: 4300000, guid: c4257f8d326de9248b61e57058a66c15, type: 3}
---- !u!54 &54000012085819516
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011104701524}
-  serializedVersion: 2
-  m_Mass: 500
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &65000011887560966
 BoxCollider:
   m_ObjectHideFlags: 1
