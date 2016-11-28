@@ -31,7 +31,7 @@ public class GameServer : NetworkBehaviour
     InvokeRepeating("UpdatePlayerList", 1f, 1f);
   }
 
-  private void UpdatePlayerList()
+  private static void UpdatePlayerList()
   {
     players = FindObjectsOfType<PlayerScript>();
   }
@@ -98,6 +98,9 @@ public class GameServer : NetworkBehaviour
   [Server]
   public void RequestLevelCreation()
   {
+    if (players == null) UpdatePlayerList();
+    if (players == null) return;
+
     // Ask ALL players to create the level (do it for each new connection)
     foreach (var p in players)
     {
@@ -110,6 +113,9 @@ public class GameServer : NetworkBehaviour
 
   public static void PlayEffect(string effect, Vector3 position)
   {
+    if (players == null) UpdatePlayerList();
+    if (players == null) return;
+
     foreach (var p in players)
     {
       if (p != null)
@@ -121,6 +127,9 @@ public class GameServer : NetworkBehaviour
 
   public static void PlaySound(string sound, Vector3 position)
   {
+    if (players == null) UpdatePlayerList();
+    if (players == null) return;
+
     foreach (var p in players)
     {
       if (p != null)
