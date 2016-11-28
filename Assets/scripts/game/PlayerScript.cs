@@ -177,6 +177,11 @@ public class PlayerScript : NetworkBehaviour
 
           }
         }
+
+        if(Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Return))
+        {
+          ui.ZoomArm();
+        }
       }
 
 #if !UNITY_EDITOR

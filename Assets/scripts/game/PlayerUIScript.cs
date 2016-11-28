@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class PlayerUIScript : MonoBehaviour
 {
+  private const float ARM_MIN_SCALE = 0.75f;
+  private const float ARM_MAX_SCALE = 1.75f;
+
   #region Members
 
   public static PlayerUIScript Instance;
@@ -14,10 +17,15 @@ public class PlayerUIScript : MonoBehaviour
   public Text tickets;
   public Image crosshair;
   public Text elapsedTime;
+  public GameObject arm;
 
   [Header("Game Over")]
   public GameObject gameOverPanel;
   public Text elapsedTimeFinal;
+  
+  private bool zoomed;
+  private float zoom;
+  private float zoomTarget;
 
   #endregion
 
@@ -28,6 +36,9 @@ public class PlayerUIScript : MonoBehaviour
     Instance = this;
     hudPanel.SetActive(false);
     gameOverPanel.SetActive(false);
+    
+    zoom = ARM_MIN_SCALE;
+    zoomTarget = zoom;
   }
 
   void Start()
@@ -51,6 +62,9 @@ public class PlayerUIScript : MonoBehaviour
                       t.Minutes,
                       t.Seconds);
       elapsedTime.text = time;
+
+      zoom = Mathf.Lerp(zoom, zoomTarget, Time.deltaTime);
+      arm.transform.localScale = Vector3.one * zoom;
     }
   }
 
@@ -66,6 +80,20 @@ public class PlayerUIScript : MonoBehaviour
   public void SetCrosshairColor(Color c)
   {
     crosshair.color = c;
+  }
+
+  public void ZoomArm()
+  {
+    if (zoomed)
+    {
+      zoomed = false;
+      zoomTarget = ARM_MIN_SCALE;
+    }
+    else
+    {
+      zoomed = true;
+      zoomTarget = ARM_MAX_SCALE;
+    }
   }
 
   #endregion
