@@ -976,6 +976,9 @@ MonoBehaviour:
     type: 2}
   pnjsPrefab:
   - {fileID: 1000013712283922, guid: f6ea4a1cc65c7b44fbb2079bd6501c1a, type: 2}
+  - {fileID: 1000013712283922, guid: cab96cb26293b2a4ea86b31805f52fac, type: 2}
+  - {fileID: 1000013712283922, guid: 2c6002a585a93ee44b3d1caab0194e7d, type: 2}
+  - {fileID: 1000013712283922, guid: 3aac9ce04919e904e9eb8d753269210f, type: 2}
 --- !u!114 &1685185102
 MonoBehaviour:
   m_ObjectHideFlags: 0
