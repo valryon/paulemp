@@ -12,14 +12,18 @@ public class DebugStartMenu : MonoBehaviour
 
   void Start()
   {
+    // From Menu?
+#if !UNITY_EDITOR
+     Destroy(this);
+#else
     networkManager = FindObjectOfType<GameNetworkManager>();
 
-    // From Menu?
     if (networkManager.launchedFromMenu)
     {
       Destroy(this);
       return;
     }
+#endif
 
     // Default values
     adress = DEFAULT_ADRESS;
