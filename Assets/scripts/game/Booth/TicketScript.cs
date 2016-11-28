@@ -9,7 +9,6 @@ public struct TicketData
   public string name;
   public int booth;
   public int number;
-  public System.DateTime printDate;
 }
 
 public class TicketList : SyncListStruct<TicketData>
