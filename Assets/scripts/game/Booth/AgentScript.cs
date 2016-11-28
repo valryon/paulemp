@@ -120,8 +120,23 @@ public class AgentScript : NetworkBehaviour
         // Link local stuff to this agent
         b.ticketMachine.agent = this;
 
+        // Local update of sprite
+        SetHSV();
+
         break;
       }
+    }
+  }
+
+  private void SetHSV()
+  {
+    System.Random r = new System.Random(data.boothId);
+
+    float hue = r.Next(-100, 100);
+
+    foreach(var s in GetComponentsInChildren<SpriteRenderer>())
+    {
+      s.material.SetFloat("_HueShift", hue);
     }
   }
 

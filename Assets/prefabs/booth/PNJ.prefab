@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afe425bbc2b548409f76a458e12ec78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extrudeColor: {r: 1, g: 1, b: 0.20000002, a: 1}
+  extrudeColor: {r: 0.9411765, g: 0.8666667, b: 0.654902, a: 1}
   frontDistance: -0.249
   backDistance: 0.249
 --- !u!114 &114000013524044294
@@ -415,7 +415,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fdaf9f0d3b5e2bf43bfe9cfcb83004e9, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -448,7 +448,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fdaf9f0d3b5e2bf43bfe9cfcb83004e9, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
