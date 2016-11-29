@@ -10,6 +10,8 @@ using UnityEngine.UI;
 class LevelGenerator : MonoBehaviour
 {
 
+  [Header("materials")]
+  public Material walls;
 
   [Header("Floor")]
   public GameObject floorInst;
@@ -36,6 +38,9 @@ class LevelGenerator : MonoBehaviour
   private int levelSizeX;
   private int levelSizeY;
   private int generationID;
+ 
+
+
 
   private static float getRandom(float min, float max)
   {
@@ -66,16 +71,63 @@ class LevelGenerator : MonoBehaviour
       {
         if (j < 0 || j >= offY || i < 0 || i >= offX)
         {
-          grid[j + y][i + x] = 2; // it s a margin
+          grid[j + y][i + x] = (type == 0) ? 0: 2; // it s a margin
         }
         else
         {
-          grid[j + y][i + x] = type + p;
+          if (type == 0)
+          {
+            grid[j + y][i + x] = gridTrack[j + y][i + x] = 0;
+          }
+          else
+          {
+            grid[j + y][i + x] = type + p;
+            gridTrack[j + y][i + x] = 1;
+          }
         }
         if (i == 0 && j == 0) p = 1; //upper left corner parent, others are child => lower bit set to 1
       }
     }
 
+  }
+
+  private int[][] gridTrack = null;
+
+
+  private int walkGrid(int x, int y)
+  {
+    if (x < 0 || x >= levelSizeX) return 0;
+    if (y < 0 || y >= levelSizeY) return 0;
+    if (gridTrack[y][x] != 0) return 0; //not a corridor or already counted
+    gridTrack[y][x] = 1;
+    var cpt = 1;
+    cpt += walkGrid(x - 1, y);
+    cpt += walkGrid(x, y - 1);
+    cpt += walkGrid(x + 1, y);
+    cpt += walkGrid( x, y + 1);
+    return cpt;
+  }
+
+
+
+  private bool checkLevelIntegrity(ref int [][] grid) {
+    int free = 0;
+    for (var y = 0; y < levelSizeY; ++y)
+    {
+      for (var x = 0; x < levelSizeX; ++x)
+      {
+
+        if (grid[y][x] == 0 || grid[y][x] == 2)
+        {
+          gridTrack[y][x] = 0;
+          ++free;
+        } else {
+          gridTrack[y][x] = 1;
+        } 
+      }
+    }
+    var count = walkGrid(levelSizeX-1, levelSizeY-1);
+    return count == free;
   }
 
 
@@ -90,6 +142,11 @@ class LevelGenerator : MonoBehaviour
         if (p > 80) continue;
         if (!isFree(ref grid, x, y, 2, 2, 0, 0, 0, 1)) continue;
         fillGrid(ref grid, x, y, 2, 2, 0, 0, 0, 1, 20);
+        if (!checkLevelIntegrity(ref grid))
+        {
+          // rollback
+          fillGrid(ref grid, x, y, 2, 2, 0, 0, 0, 1, 0);
+        }
       }
     }
   }
@@ -98,12 +155,15 @@ class LevelGenerator : MonoBehaviour
   private void initGrid(ref int[][] grid, int sizeX, int sizeY, ref Vector2[] stairs)
   {
     if (grid == null) grid = new int[sizeY][];
+    if (gridTrack == null) gridTrack = new int[sizeY][];
     for (var y = 0; y < sizeY; ++y)
     {
       if (grid[y] == null) grid[y] = new int[sizeX];
+      if (gridTrack[y] == null) gridTrack[y] = new int[sizeX];
       for (var x = 0; x < sizeX; ++x)
       {
         grid[y][x] = 0;
+        gridTrack[y][x] = 0;
         if (stairs != null)
         {
           if (stairs.Contains(new Vector2(x, y)))
@@ -133,12 +193,18 @@ class LevelGenerator : MonoBehaviour
 
   private void buildLevel(ref int[][] grid, int floor, int nbFloors)
   {
+    Vector3 offset = new Vector3(
+      levelSizeY * blockSize.x / 2.0f,
+      0,
+      levelSizeX * blockSize.z / 2.0f
+    );
+
     for (var y = 0; y < levelSizeY; ++y)
     {
       for (var x = 0; x < levelSizeX; ++x)
       {
         GameObject go = null;
-        Vector3 v = new Vector3(y * blockSize.x, floor * blockSize.y + 1, x * blockSize.z);
+        Vector3 v = new Vector3(y * blockSize.x, floor * blockSize.y + 1, x * blockSize.z) - offset;
         if (grid[y][x] == 10) // stairCase
         {
           Debug.Log("Instantiate stairs at " + v);
@@ -202,6 +268,70 @@ class LevelGenerator : MonoBehaviour
     Debug.Log("====================================================================");
   }
 
+  private void generateWall(int nbFloors)
+  {
+    Vector3 offset = new Vector3(
+      (levelSizeY) * blockSize.x / 2.0f + blockSize.x / 2.0f,
+      nbFloors * blockSize.y / 2.0f + 0.625f,
+      levelSizeX * blockSize.z / 2.0f + blockSize.z / 2.0f
+    );
+    float wallDepth = 0.5f;
+    Vector3 scale, position;
+
+    for (var i = 0; i < 4; ++i)
+    {
+
+      var wall = GameObject.CreatePrimitive(PrimitiveType.Cube) as GameObject;
+      wall.isStatic = true;
+
+      wall.transform.parent = this.transform;
+      var side = (i > 1) ? -1 : 1;
+      // FUCK MATHS !!!!! 
+      if (i == 0)
+      {
+        // sides
+        scale = new Vector3(blockSize.x * levelSizeY, nbFloors * blockSize.y, wallDepth);
+        position = new Vector3(-8.75f, offset.y, -offset.z - wallDepth);
+      }
+      else if (i == 1)
+      {
+        // side
+        scale = new Vector3(blockSize.x * levelSizeY, nbFloors * blockSize.y, wallDepth);
+        position = new Vector3(-8.75f, offset.y, offset.z - wallDepth - 5);
+      }
+      else if (i == 2)
+      {
+        // d back
+        scale = new Vector3(wallDepth, nbFloors * blockSize.y, blockSize.z * levelSizeX + 2 * wallDepth);
+        position = new Vector3(-offset.x - blockSize.x - wallDepth + 1.25f, offset.y, -3f);
+      }
+      else
+      {
+        // front
+        scale = new Vector3(wallDepth, nbFloors * blockSize.y, blockSize.z * levelSizeX + 2 * wallDepth);
+        position = new Vector3(offset.x - blockSize.x - wallDepth - 4.75f, offset.y, -3f);
+      }
+      wall.transform.localScale = scale;
+      wall.transform.localPosition = position;
+      var mats = wall.GetComponent<Renderer>().materials;
+      mats[0] = walls;
+      wall.GetComponent<Renderer>().materials = mats;
+
+
+    }
+    //generate roof 
+    var roof = GameObject.CreatePrimitive(PrimitiveType.Cube) as GameObject;
+    roof.isStatic = true;
+
+    roof.transform.parent = this.transform;
+    scale = new Vector3(blockSize.x * levelSizeY + 2 * wallDepth, wallDepth, blockSize.z * levelSizeX + 2 * wallDepth);
+    position = new Vector3(-blockSize.x -2.75f, blockSize.y * nbFloors + wallDepth + 0.25f, -blockSize.z  + 3);
+    roof.transform.localScale = scale;
+    roof.transform.localPosition = position;
+
+
+  }
+
   public void Generate(int seed)
   {
     Debug.Log("Start procedural level generation");
@@ -211,7 +341,7 @@ class LevelGenerator : MonoBehaviour
     generationID = 0;
     int[][] grid = null;
     Vector2[] stairsPosition = null;
-    
+
     PNJPositions = new List<Vector3>();
 
     // Warmup
@@ -242,8 +372,10 @@ class LevelGenerator : MonoBehaviour
       setRooms(ref grid);
       //last step, build level floor
       buildLevel(ref grid, f, nbFloors);
-      dumpFloor(ref grid, f);
+
+      //dumpFloor(ref grid, f);
     }
+    generateWall(nbFloors);
   }
 
 
@@ -261,7 +393,7 @@ class LevelGenerator : MonoBehaviour
         var t = propsLoc[p];
 
         // Optionnal prop?
-        if(t.Mandatory == false && UnityEngine.Random.Range(0, 10) > 4)
+        if (t.Mandatory == false && UnityEngine.Random.Range(0, 10) > 4)
         {
           continue;
         }
