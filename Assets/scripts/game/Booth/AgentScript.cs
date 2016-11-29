@@ -13,10 +13,8 @@ public class AgentScript : NetworkBehaviour
   public GameObject ticketPrefab;
 
   [Header("Data")]
-  [SyncVar(hook = "TicketNumberChanged")]
   public int lastTicketNumber;
-
-  [SyncVar(hook = "TicketNumberChanged")]
+  
   public int currentTicketNumber;
 
   [SyncVar]
@@ -36,6 +34,7 @@ public class AgentScript : NetworkBehaviour
 
   // NON-NETWORKED reference to a CLIENT obejct
   private BoothBaseScript localBoothRef;
+  private int localTicket;
 
   #endregion
 
@@ -80,10 +79,15 @@ public class AgentScript : NetworkBehaviour
     UpdateServer();
   }
 
-  private void TicketNumberChanged(int v)
+  private void UpdateTicketNumber()
   {
-    Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
-    Booth.display.text = data.boothName;
+    if (localTicket != currentTicketNumber && Booth != null)
+    {
+      localTicket = currentTicketNumber;
+
+      Booth.ticketDisplay.text = currentTicketNumber.ToString("00");
+      Booth.display.text = data.boothName;
+    }
   }  
 
   [ServerCallback]
@@ -122,6 +126,8 @@ public class AgentScript : NetworkBehaviour
 
         // Local update of sprite
         SetHSV();
+
+        InvokeRepeating("UpdateTicketNumber", 0f, 0.5f);
 
         break;
       }
