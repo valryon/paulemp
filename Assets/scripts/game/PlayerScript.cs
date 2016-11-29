@@ -411,6 +411,8 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcPlayEffect(string effectName, Vector3 effectPosition)
   {
+    if (effects == null) return;
+
     foreach (var e in effects)
     {
       if (e.name.Equals(effectName, System.StringComparison.InvariantCultureIgnoreCase))
@@ -430,6 +432,8 @@ public class PlayerScript : NetworkBehaviour
   [ClientRpc]
   public void RpcPlaySound(string sound, Vector3 position)
   {
+    if (sounds == null) return;
+
     // Find all clips starting with the given name
     List<AudioClip> clips = new List<AudioClip>();
     foreach (var s in sounds)
