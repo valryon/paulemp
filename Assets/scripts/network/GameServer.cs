@@ -100,6 +100,8 @@ public class GameServer : NetworkBehaviour
   [Server]
   public void RequestLevelCreation()
   {
+    if (instance == null) instance = this;
+
     instance.UpdatePlayerList();
     if (players == null) return;
 
@@ -116,7 +118,6 @@ public class GameServer : NetworkBehaviour
   [Server]
   public static void PlayEffect(string effect, Vector3 position)
   {
-    instance.UpdatePlayerList();
     if (players == null) return;
 
     foreach (var p in players)
@@ -131,7 +132,6 @@ public class GameServer : NetworkBehaviour
   [Server]
   public static void PlaySound(string sound, Vector3 position)
   {
-    instance.UpdatePlayerList();
     if (players == null) return;
 
     foreach (var p in players)
