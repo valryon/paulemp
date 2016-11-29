@@ -459,6 +459,11 @@ MonoBehaviour:
   - {fileID: 114000010806243086, guid: d5e93c2c9cdbce4499cea2bef1de7fe0, type: 2}
   - {fileID: 114000010806243086, guid: e3b06151776d91c40ba2ff3ce2a617de, type: 2}
   - {fileID: 114000010806243086, guid: 0eac61be4e2a75149af3a874c190aeaf, type: 2}
+  pnjsPrefab:
+  - {fileID: 1000013712283922, guid: cab96cb26293b2a4ea86b31805f52fac, type: 2}
+  - {fileID: 1000013712283922, guid: 2c6002a585a93ee44b3d1caab0194e7d, type: 2}
+  - {fileID: 1000013712283922, guid: f6ea4a1cc65c7b44fbb2079bd6501c1a, type: 2}
+  - {fileID: 1000013712283922, guid: 3aac9ce04919e904e9eb8d753269210f, type: 2}
   floorsMin: 3
   floorsMax: 10
   nbMinStair: 2
@@ -976,11 +981,6 @@ MonoBehaviour:
   seed: 1
   agentPrefab: {fileID: 1000011313921152, guid: 18b2a4e3a5e52f94995e1b8587eda842,
     type: 2}
-  pnjsPrefab:
-  - {fileID: 1000013712283922, guid: f6ea4a1cc65c7b44fbb2079bd6501c1a, type: 2}
-  - {fileID: 1000013712283922, guid: cab96cb26293b2a4ea86b31805f52fac, type: 2}
-  - {fileID: 1000013712283922, guid: 2c6002a585a93ee44b3d1caab0194e7d, type: 2}
-  - {fileID: 1000013712283922, guid: 3aac9ce04919e904e9eb8d753269210f, type: 2}
 --- !u!114 &1685185102
 MonoBehaviour:
   m_ObjectHideFlags: 0

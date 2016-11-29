@@ -62,8 +62,6 @@ public class AgentScript : NetworkBehaviour
     data.isFirst = first;
     data.isLast = last;
 
-    this.name = "Agent " + data.boothName;
-
     // Set random ticket number
     lastTicketNumber = Random.Range(10, 99);
 
@@ -115,6 +113,8 @@ public class AgentScript : NetworkBehaviour
 
   private void Link()
   {
+    this.name = "Agent " + data.boothName;
+
     foreach (var b in FindObjectsOfType<BoothBaseScript>())
     {
       if (b.GeneratedID == boothGeneratedID)

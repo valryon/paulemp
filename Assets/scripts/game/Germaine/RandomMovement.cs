@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class RandomMovement : NetworkBehaviour
+public class RandomMovement : MonoBehaviour
 {
   public float speed = 0.035f;
 
@@ -10,16 +10,16 @@ public class RandomMovement : NetworkBehaviour
   private float nextRotationCooldown;
   private float collisionCooldown;
 
-  [ServerCallback]
   void Start()
   {
     nextRotationCooldown = Random.Range(0, 5);
 
     targetRotation = transform.rotation.eulerAngles.y;
-  }
 
-  [ServerCallback]
-  void Update()
+    name = name.Replace("(Clone)", "");
+  }
+  
+  void FixedUpdate()
   {
     transform.position += speed * transform.forward;
 

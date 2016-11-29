@@ -251,6 +251,7 @@ public class PlayerScript : NetworkBehaviour
         HasGeneratedLevel = true;
 
         l.GenerateProps(false);
+        l.GeneratePNJs();
       }
     }
   }

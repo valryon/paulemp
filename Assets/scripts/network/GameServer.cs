@@ -14,7 +14,6 @@ public class GameServer : NetworkBehaviour
 
   [Header("Prefabs")]
   public GameObject agentPrefab;
-  public GameObject[] pnjsPrefab;
 
   private bool boothCreated = false;
 
@@ -82,18 +81,7 @@ public class GameServer : NetworkBehaviour
       l.GenerateProps(false);
 
       // Add PNJ by server
-      if (l.PNJPositions.Count > 0)
-      {
-        const int maxPNJS = 50;
-        for (int c = 0; c < maxPNJS; c++)
-        {
-          var p = l.PNJPositions[Random.Range(0, l.PNJPositions.Count)];
-          var prefab = pnjsPrefab[Random.Range(0, pnjsPrefab.Length)];
-
-          var pnj = Instantiate(prefab, p, prefab.transform.rotation) as GameObject;
-          NetworkServer.Spawn(pnj);
-        }
-      }
+      l.GeneratePNJs();
     }
   }
 

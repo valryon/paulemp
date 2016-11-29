@@ -21,8 +21,9 @@ public class LevelGenerator : MonoBehaviour
   [Header("Rooms")]
   public GameObject[] rooms;
 
-  [Header("Props")]
+  [Header("Prefabs")]
   public DecorationScript[] propsPrefabs;
+  public GameObject[] pnjsPrefab;
 
   public int floorsMin = 1;
   public int floorsMax = 1;
@@ -423,6 +424,21 @@ public class LevelGenerator : MonoBehaviour
       b.ClearSpawns();
     }
 
+  }
+
+  public void GeneratePNJs()
+  {
+    if (PNJPositions.Count > 0)
+    {
+      const int maxPNJS = 50;
+      for (int c = 0; c < maxPNJS; c++)
+      {
+        var p = PNJPositions[UnityEngine.Random.Range(0, PNJPositions.Count)];
+        var prefab = pnjsPrefab[UnityEngine.Random.Range(0, pnjsPrefab.Length)];
+        
+        Instantiate(prefab, p, prefab.transform.rotation);
+      }
+    }
   }
 
   public List<Vector3> PNJPositions
