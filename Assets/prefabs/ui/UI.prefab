@@ -805,7 +805,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 12
+    m_FontSize: 8
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -1055,7 +1055,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 198.29993, y: -135.20001}
+  m_AnchoredPosition: {x: 199, y: -135.20001}
   m_SizeDelta: {x: 180.1, y: 213.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000011254576602
@@ -1075,7 +1075,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -220, y: 211}
+  m_AnchoredPosition: {x: -172, y: 96}
   m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000011510005758
@@ -1192,7 +1192,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -361.1, y: -16.8}
+  m_AnchoredPosition: {x: -362.9, y: -16.8}
   m_SizeDelta: {x: 111.099976, y: 19.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000012884915646

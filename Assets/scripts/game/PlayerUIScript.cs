@@ -7,6 +7,9 @@ public class PlayerUIScript : MonoBehaviour
   private const float ARM_MIN_SCALE = 0.75f;
   private const float ARM_MAX_SCALE = 1.75f;
 
+  private const float ARM_MIN_OFFSET = -100;
+  private const float ARM_MAX_OFFSET = -20;
+
   #region Members
 
   public static PlayerUIScript Instance;
@@ -27,6 +30,11 @@ public class PlayerUIScript : MonoBehaviour
   private float zoom;
   private float zoomTarget;
 
+  private float offset;
+  private float offsetTarget;
+
+  private Vector3 originalArmPos;
+
   #endregion
 
   #region Timeline
@@ -39,6 +47,11 @@ public class PlayerUIScript : MonoBehaviour
     
     zoom = ARM_MIN_SCALE;
     zoomTarget = zoom;
+    offset = ARM_MIN_OFFSET;
+    offsetTarget = ARM_MAX_OFFSET;
+
+    originalArmPos = arm.transform.localPosition;
+    
   }
 
   void Start()
@@ -52,19 +65,28 @@ public class PlayerUIScript : MonoBehaviour
 
     if (hudPanel.activeInHierarchy)
     {
-      objectives.text = Player.quests.ToReadableString();
+        objectives.text = Player.quests.ToReadableString();
 
-      tickets.text = Player.tickets.ToReadableString();
+        tickets.text = Player.tickets.ToReadableString();
 
-      var t = System.TimeSpan.FromSeconds(Player.elapsedTime);
-      string time = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
-                      t.Hours,
-                      t.Minutes,
-                      t.Seconds);
-      elapsedTime.text = time;
+        var t = System.TimeSpan.FromSeconds(Player.elapsedTime);
+        string time = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
+                        t.Hours,
+                        t.Minutes,
+                        t.Seconds);
+        elapsedTime.text = time;
 
-      zoom = Mathf.Lerp(zoom, zoomTarget, Time.deltaTime);
-      arm.transform.localScale = Vector3.one * zoom;
+        zoom = Mathf.Lerp(zoom, zoomTarget, Time.deltaTime);
+        arm.transform.localScale = Vector3.one * zoom;
+        
+
+        offset = Mathf.Lerp(offset, offsetTarget, Time.deltaTime * 8);
+        if (Mathf.Abs(offset - ARM_MAX_OFFSET) < 0.1) offsetTarget = ARM_MIN_OFFSET;
+        if (Mathf.Abs(offset - ARM_MIN_OFFSET) < 0.1) offsetTarget = ARM_MAX_OFFSET;
+        if (!zoomed)
+        {
+            arm.transform.localPosition = originalArmPos + offset * Vector3.right;
+        }
     }
   }
 
