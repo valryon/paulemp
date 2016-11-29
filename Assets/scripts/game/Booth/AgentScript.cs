@@ -34,7 +34,7 @@ public class AgentScript : NetworkBehaviour
 
   // NON-NETWORKED reference to a CLIENT obejct
   private BoothBaseScript localBoothRef;
-  private int localTicket;
+  private int localTicket = -1;
 
   #endregion
 
