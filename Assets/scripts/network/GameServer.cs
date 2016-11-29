@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class GameServer : NetworkBehaviour
 {
   private static PlayerScript[] players;
+  private static GameServer instance;
 
   [Header("Settings")]
   public int seed = 1;
@@ -22,6 +23,7 @@ public class GameServer : NetworkBehaviour
   {
     // seed = Random.Range(0, 600000);
     seed = 42;
+    instance = this;
     players = new PlayerScript[0];
   }
 
@@ -31,7 +33,7 @@ public class GameServer : NetworkBehaviour
     InvokeRepeating("UpdatePlayerList", 1f, 1f);
   }
 
-  private static void UpdatePlayerList()
+  private void UpdatePlayerList()
   {
     players = FindObjectsOfType<PlayerScript>();
   }
@@ -98,7 +100,7 @@ public class GameServer : NetworkBehaviour
   [Server]
   public void RequestLevelCreation()
   {
-    if (players == null) UpdatePlayerList();
+    instance.UpdatePlayerList();
     if (players == null) return;
 
     // Ask ALL players to create the level (do it for each new connection)
@@ -111,9 +113,10 @@ public class GameServer : NetworkBehaviour
     }
   }
 
+  [Server]
   public static void PlayEffect(string effect, Vector3 position)
   {
-    if (players == null) UpdatePlayerList();
+    instance.UpdatePlayerList();
     if (players == null) return;
 
     foreach (var p in players)
@@ -125,9 +128,10 @@ public class GameServer : NetworkBehaviour
     }
   }
 
+  [Server]
   public static void PlaySound(string sound, Vector3 position)
   {
-    if (players == null) UpdatePlayerList();
+    instance.UpdatePlayerList();
     if (players == null) return;
 
     foreach (var p in players)
