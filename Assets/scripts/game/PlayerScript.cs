@@ -42,6 +42,8 @@ public class PlayerScript : NetworkBehaviour
   private bool wasJumping;
   private bool isGameOver;
 
+  public bool isMoving = false;
+
   #endregion
 
   #region Timeline
@@ -134,6 +136,8 @@ public class PlayerScript : NetworkBehaviour
 
     if (isLocalPlayer)
     {
+      var velo = fpsController.Velocity;
+      isMoving = (velo.x != 0 || velo.y != 0 || velo.z != 0);
       if (wasJumping == false && fpsController.Jumping)
       {
         CmdPlaySound("jump", transform.position);

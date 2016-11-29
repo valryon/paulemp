@@ -83,9 +83,10 @@ public class PlayerUIScript : MonoBehaviour
         offset = Mathf.Lerp(offset, offsetTarget, Time.deltaTime * 8);
         if (Mathf.Abs(offset - ARM_MAX_OFFSET) < 0.1) offsetTarget = ARM_MIN_OFFSET;
         if (Mathf.Abs(offset - ARM_MIN_OFFSET) < 0.1) offsetTarget = ARM_MAX_OFFSET;
-        if (!zoomed)
+        // YOLO 
+        if (Player.isMoving)
         {
-            arm.transform.localPosition = originalArmPos + offset * Vector3.right;
+                    arm.transform.localPosition = originalArmPos + offset * Vector3.right;
         }
     }
   }
