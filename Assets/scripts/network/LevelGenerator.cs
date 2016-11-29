@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
-
-class LevelGenerator : MonoBehaviour
+public class LevelGenerator : MonoBehaviour
 {
 
   [Header("materials")]
@@ -285,7 +282,7 @@ class LevelGenerator : MonoBehaviour
       wall.isStatic = true;
 
       wall.transform.parent = this.transform;
-      var side = (i > 1) ? -1 : 1;
+
       // FUCK MATHS !!!!! 
       if (i == 0)
       {
