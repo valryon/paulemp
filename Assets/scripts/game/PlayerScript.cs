@@ -24,7 +24,6 @@ public class PlayerScript : NetworkBehaviour
   public List<GameObject> effects;
 
   [Header("Data")]
-  [SyncVar]
   public TicketList tickets = new TicketList();
 
   [SyncVar]
@@ -46,7 +45,7 @@ public class PlayerScript : NetworkBehaviour
   public bool isMoving = false;
 
   private int currentTicket = -1;
-  
+
 
   #endregion
 
@@ -189,15 +188,14 @@ public class PlayerScript : NetworkBehaviour
           }
         }
 
-        if(Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Return))
         {
           ui.ZoomArm();
         }
         var delta = Input.mouseScrollDelta;
-          Debug.Log(delta);
         if (delta.y != 0)
         {
-            changeCurrentTicket((int)delta.y);
+          ChangeCurrentTicket((int)delta.y);
         }
       }
 
@@ -245,28 +243,49 @@ public class PlayerScript : NetworkBehaviour
 
   #region Methods
 
-    public void  changeCurrentTicket(int delta) {
-        if (currentTicket == -1) return;
-        var c = currentTicket + Mathf.Sign(delta);
-        if (c < 0) c = tickets.Count - 1;
-        if (c >= tickets.Count) c = 0;
-        currentTicket = (int)c;
-    }
-
-
-  public bool hasTicket()
+  public void ChangeCurrentTicket(int delta)
   {
-      return tickets.Count > 0;
+    if (currentTicket == -1) return;
+    var c = currentTicket + Mathf.Sign(delta);
+    if (c < 0) c = tickets.Count - 1;
+    if (c >= tickets.Count) c = 0;
+    currentTicket = (int)c;
   }
 
-  public TicketData getCurrentTicket()
+
+  public bool HasTicket()
   {
-      return tickets.GetItem(currentTicket);
+    return tickets.Count > 0;
   }
+
+  public TicketData GetCurrentTicket()
+  {
+    currentTicket = Mathf.Clamp(currentTicket, 0, tickets.Count - 1);
+    return tickets.GetItem(currentTicket);
+  }
+
 
   #endregion
 
   #region RPC
+
+  [ClientRpc]
+  private void RpcTicketPicked()
+  {
+    if (HasTicket())
+    {
+      currentTicket = tickets.Count - 1;
+    }
+  }
+
+  [ClientRpc]
+  private void RpcTicketUsed()
+  {
+    if (HasTicket())
+    {
+      ChangeCurrentTicket(-1);
+    }
+  }
 
   [ClientRpc]
   public void RpcGenerateLevel(int seed)
@@ -379,8 +398,8 @@ public class PlayerScript : NetworkBehaviour
           ticket.Destroy();
         }
 
-        currentTicket = tickets.Count - 1;
         RpcPlaySound("ticket_picked", this.transform.position);
+        RpcTicketPicked();
       }
     }
   }
@@ -415,7 +434,7 @@ public class PlayerScript : NetworkBehaviour
           RpcPlaySound("agent_ticket_ok", this.transform.position);
 
           tickets.RemoveFor(agent.data.boothId);
-          currentTicket = tickets.Count - 1;
+          RpcTicketUsed();
 
           // Quest dependencies satisfied?
           if (quests.CanBeCompleted(agent))

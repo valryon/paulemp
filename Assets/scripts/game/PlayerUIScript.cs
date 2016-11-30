@@ -28,7 +28,7 @@ public class PlayerUIScript : MonoBehaviour
   [Header("Game Over")]
   public GameObject gameOverPanel;
   public Text elapsedTimeFinal;
-  
+
   private bool zoomed;
   private float zoom;
   private float zoomTarget;
@@ -53,7 +53,7 @@ public class PlayerUIScript : MonoBehaviour
     Instance = this;
     hudPanel.SetActive(false);
     gameOverPanel.SetActive(false);
-    
+
     zoom = ARM_MIN_SCALE;
     zoomTarget = zoom;
     offset = ARM_MIN_OFFSET;
@@ -62,7 +62,7 @@ public class PlayerUIScript : MonoBehaviour
     originalArmPos = arm.transform.localPosition;
     originalLeftArmPos = armLeft.transform.localPosition;
     originalLeftArmGlobalPos = armLeft.transform.position;
-    
+
   }
 
   void Start()
@@ -76,41 +76,42 @@ public class PlayerUIScript : MonoBehaviour
 
     if (hudPanel.activeInHierarchy)
     {
-        objectives.text = Player.quests.ToReadableString();
-        if (Player.hasTicket()) {
-         var ti = Player.getCurrentTicket();
-         ticketName.text = ti.name;
-         ticketNumber.text = ti.number.ToString();
-         armLeft.transform.position = originalLeftArmGlobalPos;
-        }
-        else
-        {
-            ticketName.text = ticketNumber.text = "";
-            armLeft.transform.position = Vector3.one * 999999;
-        }
+      objectives.text = Player.quests.ToReadableString();
+      if (Player.HasTicket())
+      {
+        var ti = Player.GetCurrentTicket();
+        ticketName.text = ti.name;
+        ticketNumber.text = ti.number.ToString();
+        armLeft.transform.position = originalLeftArmGlobalPos;
+      }
+      else
+      {
+        ticketName.text = ticketNumber.text = "";
+        armLeft.transform.position = Vector3.one * 999999;
+      }
 
 
-        var t = System.TimeSpan.FromSeconds(Player.elapsedTime);
-        string time = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
-                        t.Hours,
-                        t.Minutes,
-                        t.Seconds);
-        elapsedTime.text = time;
+      var t = System.TimeSpan.FromSeconds(Player.elapsedTime);
+      string time = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
+                      t.Hours,
+                      t.Minutes,
+                      t.Seconds);
+      elapsedTime.text = time;
 
-        zoom = Mathf.Lerp(zoom, zoomTarget, Time.deltaTime);
-        arm.transform.localScale = Vector3.one * zoom;
-        
+      zoom = Mathf.Lerp(zoom, zoomTarget, Time.deltaTime);
+      arm.transform.localScale = Vector3.one * zoom;
 
-        offset = Mathf.Lerp(offset, offsetTarget, Time.deltaTime * 8);
-        if (Mathf.Abs(offset - ARM_MAX_OFFSET) < 0.1) offsetTarget = ARM_MIN_OFFSET;
-        if (Mathf.Abs(offset - ARM_MIN_OFFSET) < 0.1) offsetTarget = ARM_MAX_OFFSET;
-        // YOLO 
-        if (Player.isMoving)
-        {
-           arm.transform.localPosition = originalArmPos + offset * Vector3.right;
-           if (Player.hasTicket())
-            armLeft.transform.localPosition = originalLeftArmPos + offset * Vector3.right;
-        }
+
+      offset = Mathf.Lerp(offset, offsetTarget, Time.deltaTime * 8);
+      if (Mathf.Abs(offset - ARM_MAX_OFFSET) < 0.1) offsetTarget = ARM_MIN_OFFSET;
+      if (Mathf.Abs(offset - ARM_MIN_OFFSET) < 0.1) offsetTarget = ARM_MAX_OFFSET;
+      // YOLO 
+      if (Player.isMoving)
+      {
+        arm.transform.localPosition = originalArmPos + offset * Vector3.right;
+        if (Player.HasTicket())
+          armLeft.transform.localPosition = originalLeftArmPos + offset * Vector3.right;
+      }
     }
   }
 
@@ -171,7 +172,7 @@ public class PlayerUIScript : MonoBehaviour
     }
 
     GameNetworkManager network = FindObjectOfType<GameNetworkManager>();
-    
+
     network.StopClient();
     network.StopHost();
   }
