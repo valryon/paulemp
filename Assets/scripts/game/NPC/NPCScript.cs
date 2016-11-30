@@ -12,6 +12,7 @@ public class NPCScript : MonoBehaviour
   private float nextRotationCooldown;
   private float collisionCooldown;
 
+  private AudioSource source;
   private float randomSoundCooldown;
 
   #endregion
@@ -20,6 +21,8 @@ public class NPCScript : MonoBehaviour
 
   void Start()
   {
+    source = GetComponent<AudioSource>();
+
     nextRotationCooldown = Random.Range(0, 5);
     randomSoundCooldown = Random.Range(5, 15);
 
@@ -44,14 +47,18 @@ public class NPCScript : MonoBehaviour
 
     transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Lerp(transform.rotation.eulerAngles.y, targetRotation, Time.deltaTime), transform.rotation.eulerAngles.z);
 
-    randomSoundCooldown -= Time.deltaTime;
-    if (randomSoundCooldown < 0)
+    if (PlayerScript.LocalPlayer != null && Vector3.Distance(this.transform.position, PlayerScript.LocalPlayer.transform.position) < 5)
     {
-      randomSoundCooldown = Random.Range(2, 15);
-      if (randomSounds.Length > 0)
+      randomSoundCooldown -= Time.deltaTime;
+      if (randomSoundCooldown < 0)
       {
-        var s = randomSounds[Random.Range(0, randomSounds.Length)];
-        AudioSource.PlayClipAtPoint(s, transform.position);
+        randomSoundCooldown = Random.Range(8, 20);
+        if (randomSounds.Length > 0)
+        {
+          var s = randomSounds[Random.Range(0, randomSounds.Length)];
+          source.clip = s;
+          source.Play();
+        }
       }
     }
   }
@@ -68,10 +75,17 @@ public class NPCScript : MonoBehaviour
 
   void Interact(PlayerScript p)
   {
+    transform.LookAt(p.transform);
+    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
+    targetRotation = transform.eulerAngles.y;
+    nextRotationCooldown = 5;
+
     if (interactSounds.Length > 0)
     {
       var s = interactSounds[Random.Range(0, interactSounds.Length)];
-      AudioSource.PlayClipAtPoint(s, transform.position);
+      source.clip = s;
+      source.Play();
     }
   }
 

@@ -7,6 +7,7 @@ using System.Collections;
 
 public class PlayerScript : NetworkBehaviour
 {
+  public static PlayerScript LocalPlayer;
   public static bool HasGeneratedLevel;
 
   #region Members
@@ -56,6 +57,8 @@ public class PlayerScript : NetworkBehaviour
 
     if (isLocalPlayer)
     {
+      LocalPlayer = this;
+
       // Local player = remove sprite / FPS view
       Destroy(sprites);
 
