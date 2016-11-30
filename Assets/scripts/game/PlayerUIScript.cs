@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PlayerUIScript : MonoBehaviour
 {
   private const float ARM_MIN_SCALE = 0.75f;
-  private const float ARM_MAX_SCALE = 1.75f;
+  private const float ARM_MAX_SCALE = 2f;
 
   private const float ARM_MIN_OFFSET = -100;
   private const float ARM_MAX_OFFSET = -20;
