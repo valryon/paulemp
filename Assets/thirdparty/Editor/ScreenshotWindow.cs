@@ -23,13 +23,9 @@ namespace Pixelnest.Steredenn
     }
 
     #endregion
-
-    private bool firstFrameIngame = false;
-    private bool enableScreenshoter = true;
-
+    
     void OnEnable()
     {
-      firstFrameIngame = true;
     }
 
     void OnGUI()
@@ -37,12 +33,6 @@ namespace Pixelnest.Steredenn
       this.titleContent = new GUIContent("Screenshoter");
 
       EditorGUILayout.LabelField("Screenshoter", EditorStyles.boldLabel);
-
-      bool screenshoterEnabler = EditorGUILayout.ToggleLeft("Enabled", enableScreenshoter);
-      if (enableScreenshoter != screenshoterEnabler)
-      {
-        enableScreenshoter = screenshoterEnabler;
-      }
 
       EditorGUI.indentLevel++;
 
