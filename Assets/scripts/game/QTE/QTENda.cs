@@ -7,6 +7,8 @@ public class QTENda : QTEScript
 {
   #region Members
 
+  public Scrollbar scroll;
+
   #endregion
 
   #region Timeline
@@ -21,6 +23,7 @@ public class QTENda : QTEScript
 
   protected override void Init()
   {
+    scroll.value = 1f;
   }
 
   public void Validate()
