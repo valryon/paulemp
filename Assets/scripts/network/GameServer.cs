@@ -20,8 +20,8 @@ public class GameServer : NetworkBehaviour
 
   void Awake()
   {
-    // seed = Random.Range(0, 600000);
-    seed = 42;
+    seed = Random.Range(0, 600000);
+    //seed = 42;
     instance = this;
     players = new PlayerScript[0];
   }

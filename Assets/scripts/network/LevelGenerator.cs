@@ -49,10 +49,10 @@ public class LevelGenerator : MonoBehaviour
   {
     for (var j = y - marginTop; j < y + sizeY + marginBottom; ++j)
     {
-      if (j >= grid.Length) return false;
-      for (var i = x + marginLeft; i < x + sizeX + marginRigth; ++i)
+      if (j < 0 || j >= grid.Length) return false;
+      for (var i = x - marginLeft; i < x + sizeX + marginRigth; ++i)
       {
-        if (i >= grid[y].Length) return false;
+        if (i < 0 || i >= grid[y].Length) return false;
         if (grid[j][i] != 0) return false;
       }
     }
