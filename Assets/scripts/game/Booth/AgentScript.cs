@@ -14,7 +14,8 @@ public class AgentScript : NetworkBehaviour
 
   [Header("Data")]
   public int lastTicketNumber;
-  
+
+  [SyncVar]
   public int currentTicketNumber;
 
   [SyncVar]
