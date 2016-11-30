@@ -10,6 +10,7 @@ public class PlayerUIScript : MonoBehaviour
   private const float ARM_MIN_OFFSET = -100;
   private const float ARM_MAX_OFFSET = -20;
 
+
   #region Members
 
   public static PlayerUIScript Instance;
@@ -17,10 +18,12 @@ public class PlayerUIScript : MonoBehaviour
   [Header("HUD")]
   public GameObject hudPanel;
   public Text objectives;
-  public Text tickets;
+  public Text ticketName;
+  public Text ticketNumber;
   public Image crosshair;
   public Text elapsedTime;
   public GameObject arm;
+  public GameObject armLeft;
 
   [Header("Game Over")]
   public GameObject gameOverPanel;
@@ -34,6 +37,12 @@ public class PlayerUIScript : MonoBehaviour
   private float offsetTarget;
 
   private Vector3 originalArmPos;
+
+
+  private Vector3 originalLeftArmPos;
+  private Vector3 originalLeftArmGlobalPos;
+  private float offsetLeft;
+  private float offsetTargetLeft;
 
   #endregion
 
@@ -51,6 +60,8 @@ public class PlayerUIScript : MonoBehaviour
     offsetTarget = ARM_MAX_OFFSET;
 
     originalArmPos = arm.transform.localPosition;
+    originalLeftArmPos = armLeft.transform.localPosition;
+    originalLeftArmGlobalPos = armLeft.transform.position;
     
   }
 
@@ -66,8 +77,18 @@ public class PlayerUIScript : MonoBehaviour
     if (hudPanel.activeInHierarchy)
     {
         objectives.text = Player.quests.ToReadableString();
+        if (Player.hasTicket()) {
+         var ti = Player.getCurrentTicket();
+         ticketName.text = ti.name;
+         ticketNumber.text = ti.number.ToString();
+         armLeft.transform.position = originalLeftArmGlobalPos;
+        }
+        else
+        {
+            ticketName.text = ticketNumber.text = "";
+            armLeft.transform.position = Vector3.one * 999999;
+        }
 
-        tickets.text = Player.tickets.ToReadableString();
 
         var t = System.TimeSpan.FromSeconds(Player.elapsedTime);
         string time = string.Format("{0:D2}h:{1:D2}m:{2:D2}s",
@@ -86,7 +107,9 @@ public class PlayerUIScript : MonoBehaviour
         // YOLO 
         if (Player.isMoving)
         {
-                    arm.transform.localPosition = originalArmPos + offset * Vector3.right;
+           arm.transform.localPosition = originalArmPos + offset * Vector3.right;
+           if (Player.hasTicket())
+            armLeft.transform.localPosition = originalLeftArmPos + offset * Vector3.right;
         }
     }
   }

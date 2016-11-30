@@ -45,6 +45,9 @@ public class PlayerScript : NetworkBehaviour
 
   public bool isMoving = false;
 
+  private int currentTicket = -1;
+  
+
   #endregion
 
   #region Timeline
@@ -130,6 +133,7 @@ public class PlayerScript : NetworkBehaviour
   {
     UpdateClient();
     UpdateServer();
+
   }
 
   [ClientCallback]
@@ -189,6 +193,12 @@ public class PlayerScript : NetworkBehaviour
         {
           ui.ZoomArm();
         }
+        var delta = Input.mouseScrollDelta;
+          Debug.Log(delta);
+        if (delta.y != 0)
+        {
+            changeCurrentTicket((int)delta.y);
+        }
       }
 
 #if !UNITY_EDITOR
@@ -234,6 +244,25 @@ public class PlayerScript : NetworkBehaviour
   #endregion
 
   #region Methods
+
+    public void  changeCurrentTicket(int delta) {
+        if (currentTicket == -1) return;
+        var c = currentTicket + Mathf.Sign(delta);
+        if (c < 0) c = tickets.Count - 1;
+        if (c >= tickets.Count) c = 0;
+        currentTicket = (int)c;
+    }
+
+
+  public bool hasTicket()
+  {
+      return tickets.Count > 0;
+  }
+
+  public TicketData getCurrentTicket()
+  {
+      return tickets.GetItem(currentTicket);
+  }
 
   #endregion
 
@@ -350,6 +379,7 @@ public class PlayerScript : NetworkBehaviour
           ticket.Destroy();
         }
 
+        currentTicket = tickets.Count - 1;
         RpcPlaySound("ticket_picked", this.transform.position);
       }
     }
@@ -385,6 +415,7 @@ public class PlayerScript : NetworkBehaviour
           RpcPlaySound("agent_ticket_ok", this.transform.position);
 
           tickets.RemoveFor(agent.data.boothId);
+          currentTicket = tickets.Count - 1;
 
           // Quest dependencies satisfied?
           if (quests.CanBeCompleted(agent))
