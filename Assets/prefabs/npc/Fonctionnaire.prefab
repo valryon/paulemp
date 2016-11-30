@@ -359,6 +359,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.035
+  randomSounds:
+  - {fileID: 8300000, guid: 0b29df8aa556b2b42986eddc17e76efb, type: 3}
+  interactSounds:
+  - {fileID: 8300000, guid: 0b29df8aa556b2b42986eddc17e76efb, type: 3}
 --- !u!136 &136000010361476140
 CapsuleCollider:
   m_ObjectHideFlags: 1
